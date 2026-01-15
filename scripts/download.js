@@ -3,22 +3,23 @@ import path from 'path';
 import fetch from 'node-fetch';
 
 const BASE_URL =
-	'https://bunny-wp-pullzone-ncfzohx2s9.b-cdn.net/app/themes/drinkzoi/resources/assets/images/frames/';
-//   "https://www.drinkzoi.co/app/themes/drinkzoi/resources/assets/frames/";
+	'https://ethicallifeworld.com/wp-content/themes/ethical-life/img/scrub-footer-8/webp/';
 
 const OUTPUT_DIR = path.resolve('frames');
-const TOTAL_FRAMES = 192;
+const TOTAL_FRAMES = 470;
 
 // ensure output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
 	fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
-
+// S1_00419.webp
 async function downloadFrames() {
-	for (let i = 1; i <= TOTAL_FRAMES; i++) {
-		const filename = `frame_${String(i).padStart(4, '0')}.webp`;
+	for (let i = 49; i <= TOTAL_FRAMES; i++) {
+		const filename = `S2_${String(i).padStart(5, '0')}.webp`;
 		const url = BASE_URL + filename;
 		const filepath = path.join(OUTPUT_DIR, filename);
+
+		// console.log(url, 'filepath');
 
 		try {
 			const res = await fetch(url);

@@ -5,6 +5,7 @@ import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { useEffect, useRef, useState } from 'react';
 import { loadImagesAndDrawFirstFrame } from '../utils/loadImagesAndDrawFirstFrame';
 import { updateCanvasImage } from '../utils/updateCanvasImage';
+import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ImageSequenceSection = () => {
@@ -85,7 +86,8 @@ const ImageSequenceSection = () => {
 				id: 'image-sequence',
 				trigger: header.current,
 				start: 'top top', // ✨ Start when the section hits the top
-				end: '+=2000', // ✨ Duration of the animation
+				end: '+=300',
+				// end: 'bottom 20%', // ✨ Duration of the animation
 				pin: true, // ✨ Pin the entire section
 				invalidateOnRefresh: true, // ✨ 这个配置让 ScrollTrigger 自动处理 resize
 				onUpdate: ({ progress }) => {
@@ -146,12 +148,8 @@ export const ImageSequencePage = () => {
 			{/* 背景亮光 */}
 			<div className='radial-gradient pointer-events-none fixed inset-0 z-0 flex items-center justify-center'></div>
 			{/* 标题 */}
-			<div className='z-10 container mt-24 flex flex-col items-center px-4'>
-				<img
-					src='/images/assets/ethical-life-title.svg'
-					alt='ethical-life'
-					className='h-auto w-full'
-				/>
+			<div className='z-10 container mt-28 flex flex-col items-center px-4'>
+				<AnimatedEthicalLifeLogo className='w-full' />
 			</div>
 			{/* 动画瓶子 */}
 			<div className='absolute inset-0 top-0 z-10 w-full max-w-360'>

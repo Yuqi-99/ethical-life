@@ -1,44 +1,33 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+:root {
+	--blue-main: #3f69e2;
+	--yellow-main: #dcf343;
+	--yellow-main-rgb: 220, 243, 67; /* RGB 值 */
+	--bg-light: #fbfbfd;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@theme inline {
+	--color-blue-main: var(--blue-main);
+	--color-yellow-main: var(--yellow-main);
+	--color-yellow-main-rgb: var(--yellow-main-rgb);
+	--color-bg-light: var(--bg-light);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+/* #root {
+	max-width: 1440px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+} */
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.radial-gradient {
+	background: radial-gradient(
+		circle at center,
+		var(--yellow-main) 0%,
+		rgba(var(--yellow-main-rgb), 0.8) 7%,
+		rgba(var(--yellow-main-rgb), 0.4) 20%,
+		rgba(var(--yellow-main-rgb), 0) 40%
+	);
 }

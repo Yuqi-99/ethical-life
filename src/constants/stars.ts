@@ -13,6 +13,13 @@ export type StarConfig = {
 	isLeft: boolean;
 };
 
+export type StarResponsive = {
+	size: number;
+	depth: number;
+	scroll: number;
+	blur: number;
+};
+
 export const STARS: StarConfig[] = [
 	{
 		id: 1,
@@ -93,3 +100,24 @@ export const STARS: StarConfig[] = [
 		isLeft: false,
 	},
 ];
+
+export const STAR_RESPONSIVE: Record<'mobile' | 'tablet' | 'desktop', StarResponsive> = {
+	mobile: {
+		size: 0.5,
+		depth: 0.5,
+		scroll: 0.7,
+		blur: 1.2,
+	},
+	tablet: {
+		size: 0.7,
+		depth: 0.75,
+		scroll: 0.85,
+		blur: 1,
+	},
+	desktop: {
+		size: 1,
+		depth: 1,
+		scroll: 1,
+		blur: 1,
+	},
+};

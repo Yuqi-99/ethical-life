@@ -3,10 +3,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../FloatingStars.css';
 import { STARS } from '../constants/stars';
+import { useStarResponsive } from '../utils/useStarResponsive';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const FloatingStars = () => {
+	const responsive = useStarResponsive();
+
 	const starRefs = useRef<HTMLDivElement[]>([]);
 	const xSetters = useRef<gsap.QuickToFunc[]>([]);
 	const ySetters = useRef<gsap.QuickToFunc[]>([]);
@@ -24,8 +27,8 @@ export const FloatingStars = () => {
 			const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
 			starRefs.current.forEach((_, i) => {
-				xSetters.current[i](x * STARS[i].depth);
-				ySetters.current[i](y * STARS[i].depth);
+				xSetters.current[i](x * STARS[i].depth * responsive.depth);
+				ySetters.current[i](y * STARS[i].depth * responsive.depth);
 			});
 		};
 
@@ -57,7 +60,8 @@ export const FloatingStars = () => {
 			const { rotation } = STARS[i];
 
 			gsap.to(el, {
-				y: '-450',
+				// y: '-450',
+				y: `-${450 * responsive.scroll}`,
 				rotation: rotation,
 				// opacity: 0,
 				ease: 'none',
@@ -98,7 +102,7 @@ export const FloatingStars = () => {
 							top: star.top,
 							left: star.left,
 							right: star.right,
-							width: star.size,
+							width: star.size * responsive.size,
 							transform: `rotate(${star.rotation * 0.4}deg)`,
 						}}
 					>

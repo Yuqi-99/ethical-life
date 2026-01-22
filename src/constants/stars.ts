@@ -42,7 +42,7 @@ export const STARS: StarConfig[] = [
 		left: 180,
 		depth: 8,
 		scrollSpeed: 0.4,
-		rotation: 380,
+		rotation: 100,
 		scrollY: 380,
 		idleOffset: 6,
 		isLeft: true,

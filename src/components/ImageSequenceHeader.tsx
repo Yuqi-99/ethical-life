@@ -87,10 +87,11 @@ const ImageSequenceSection = () => {
 				id: 'image-sequence',
 				trigger: header.current,
 				start: 'top top', // ✨ Start when the section hits the top
-				end: '+=300',
+				end: '+=350',
 				// end: 'bottom 20%', // ✨ Duration of the animation
 				pin: true, // ✨ Pin the entire section
 				invalidateOnRefresh: true, // ✨ 这个配置让 ScrollTrigger 自动处理 resize
+				scrub: true,
 				onUpdate: ({ progress }) => {
 					const nextFrame = Math.floor(progress * loadedImages.length);
 					const nextImage = loadedImages[nextFrame];

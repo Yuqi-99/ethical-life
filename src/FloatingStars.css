@@ -1,0 +1,23 @@
+.parallax-stars {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.star {
+	position: absolute;
+	will-change: transform, filter;
+}
+
+.star img {
+	width: 100%;
+	display: block;
+	filter: blur(0px);
+	transition: filter 0.6s ease;
+}
+
+/* 靠近边缘更糊（额外层次） */
+.star.edge {
+	filter: blur(3px);
+	opacity: 1;
+}

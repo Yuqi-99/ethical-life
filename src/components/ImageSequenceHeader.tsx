@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { loadImagesAndDrawFirstFrame } from '../utils/loadImagesAndDrawFirstFrame';
 import { updateCanvasImage } from '../utils/updateCanvasImage';
 import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
+import { FloatingStars } from './FloatingStars';
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ImageSequenceSection = () => {
@@ -104,6 +105,20 @@ const ImageSequenceSection = () => {
 		}
 	);
 
+	// ✨ Subtitle timeline 动画
+	const exp = gsap.timeline();
+	exp.to('.subtitle', {
+		scale: 0.4, // 缩小到 40%
+		opacity: 0, // 完全透明
+		y: 0,
+		ease: 'power2.inOut',
+		scrollTrigger: {
+			start: 'top top',
+			end: '+=200', // 在前 200px 滚动内完成
+			scrub: 1.5, // 平滑跟随滚动
+		},
+	});
+
 	useDidUpdate(() => {
 		const handleViewportResize = () => {
 			if (viewportSize.width === 0 || viewportSize.height === 0 || !loadedImages) return;
@@ -144,7 +159,7 @@ const ImageSequenceSection = () => {
 
 export const ImageSequencePage = () => {
 	return (
-		<div className='relative flex w-full flex-col items-center'>
+		<div className='relative flex min-h-screen w-full flex-col items-center'>
 			{/* 背景亮光 */}
 			<div className='radial-gradient pointer-events-none fixed inset-0 z-0 flex items-center justify-center'></div>
 			{/* 标题 */}
@@ -155,6 +170,14 @@ export const ImageSequencePage = () => {
 			<div className='absolute inset-0 top-0 z-10 w-full max-w-360'>
 				<ImageSequenceSection />
 			</div>
+
+			{/* Subtitle */}
+			<div className='subtitle fixed bottom-8 text-center text-3xl font-semibold'>
+				<p>Pharmacist and Nutritionist</p>
+				<p>Formulated.</p>
+			</div>
+
+			<FloatingStars />
 		</div>
 	);
 };

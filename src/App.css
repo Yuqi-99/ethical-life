@@ -12,6 +12,7 @@ body,
 	--yellow-main: #dcf343;
 	--yellow-main-rgb: 220, 243, 67; /* RGB 值 */
 	--bg-light: #fbfbfd;
+	--bg-drawer: #f0f4fc;
 }
 
 @theme inline {
@@ -19,6 +20,7 @@ body,
 	--color-yellow-main: var(--yellow-main);
 	--color-yellow-main-rgb: var(--yellow-main-rgb);
 	--color-bg-light: var(--bg-light);
+	--color-bg-drawer: var(--bg-drawer);
 }
 
 /* #root {
@@ -37,4 +39,27 @@ body,
 		rgba(var(--yellow-main-rgb), 0.4) 20%,
 		rgba(var(--yellow-main-rgb), 0) 40%
 	);
+}
+
+.menu-opener {
+	position: relative;
+	width: 32px;
+	height: 24px;
+}
+
+.line {
+	position: absolute;
+	left: 0;
+	width: 70%;
+	height: 2px;
+	background: black;
+	transform-origin: center;
+}
+
+.line-top {
+	top: 8px;
+}
+
+.line-bottom {
+	bottom: 8px;
 }

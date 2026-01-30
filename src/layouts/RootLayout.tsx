@@ -10,6 +10,13 @@ export const RootLayout = () => {
 			>
 				<Header />
 				<Outlet />
+
+				{/* <iframe
+					src='https://cashgo88.com/'
+					height={window.innerHeight}
+					width={window.innerWidth}
+					className='w-full bg-white'
+				/> */}
 			</div>
 		</main>
 	);

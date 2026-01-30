@@ -86,6 +86,10 @@ export const FloatingStars = () => {
 		});
 	}, []);
 
+	useEffect(() => {
+		ScrollTrigger.refresh();
+	}, [responsive]);
+
 	return (
 		<div className='parallax-stars'>
 			{STARS.map((star, i) => {

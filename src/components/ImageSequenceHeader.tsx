@@ -14,6 +14,8 @@ const ImageSequenceSection = () => {
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const viewportSize = useViewportSize();
 	const [loadedImages, setLoadedImages] = useState<HTMLImageElement[]>();
+	const isMobile = viewportSize.width < 768;
+	const currentScale = isMobile ? 0.9 : 1;
 
 	useEffect(() => {
 		if (!canvas.current) {
@@ -96,7 +98,7 @@ const ImageSequenceSection = () => {
 					const nextFrame = Math.floor(progress * loadedImages.length);
 					const nextImage = loadedImages[nextFrame];
 					if (!nextImage) return;
-					updateCanvasImage(context, canvas.current!, nextImage);
+					updateCanvasImage(context, canvas.current!, nextImage, currentScale);
 				},
 			});
 		},
@@ -141,7 +143,7 @@ const ImageSequenceSection = () => {
 			const nextImage = loadedImages[nextFrame];
 			if (!nextImage) return;
 
-			updateCanvasImage(context, canvas.current, nextImage);
+			updateCanvasImage(context, canvas.current, nextImage, currentScale);
 
 			// ✨ Refresh ScrollTrigger for new positions
 			ScrollTrigger.refresh();
@@ -173,7 +175,7 @@ export const ImageSequencePage = () => {
 			</div>
 
 			{/* Subtitle */}
-			<div className='subtitle fixed bottom-8 text-center text-3xl font-semibold'>
+			<div className='subtitle fixed bottom-8 text-center text-xl font-semibold sm:text-3xl'>
 				<p>Pharmacist and Nutritionist</p>
 				<p>Formulated.</p>
 			</div>

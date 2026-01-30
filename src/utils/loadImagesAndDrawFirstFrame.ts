@@ -9,6 +9,9 @@ export const loadImagesAndDrawFirstFrame = async ({
 }): Promise<HTMLImageElement[]> => {
 	const images: HTMLImageElement[] = [];
 	let loadedCount = 0;
+	const isMobile = screen.width < 768;
+	// 桌面端通常瓶子不需要占满全屏，可以设小一点；移动端可以设大一点
+	const currentScale = isMobile ? 0.9 : 1;
 
 	return new Promise<HTMLImageElement[]>((resolve, reject) => {
 		const onImageLoad = (index: number, img: HTMLImageElement) => {
@@ -16,7 +19,7 @@ export const loadImagesAndDrawFirstFrame = async ({
 			if (index === 0) {
 				const context = canvas.getContext('2d', { alpha: true });
 				if (!context) return;
-				updateCanvasImage(context, canvas, img);
+				updateCanvasImage(context, canvas, img, currentScale);
 			}
 			loadedCount++;
 			const hasLoadedAll = loadedCount === imageSrcs.length - 1;

@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { AnimatedNav } from './AnimatedNav';
 import { useEffect, useRef, useState } from 'react';
+import { MobileMenuItem } from './components/MobileMenuItems';
 
 const desktopMenu = ['about', 'shop', 'blog'];
 const mobileMenu = ['About', 'Shop', 'Blog', 'FAQ'];
@@ -70,16 +71,6 @@ export const Header = () => {
 		setOpen(!open);
 	};
 
-	// useEffect(() => {
-	// 	const drawer = drawerRef.current;
-	// 	if (!drawer) return;
-
-	// 	if (open) {
-	// 		gsap.fromTo(drawer, { x: '-100%' }, { x: '0%', duration: 0.5, ease: 'power3.out' });
-	// 	} else {
-	// 		gsap.fromTo(drawer, { x: '0%' }, { x: '-100%', duration: 0.5, ease: 'power3.out' });
-	// 	}
-	// }, [open]);
 	useEffect(() => {
 		const drawer = drawerRef.current;
 		if (!drawer) return;
@@ -92,6 +83,18 @@ export const Header = () => {
 
 		if (open) {
 			gsap.fromTo(drawer, { x: '-100%' }, { x: '0%', duration: 0.5, ease: 'power3.out' });
+
+			gsap.fromTo(
+				'.mobile-menu-item',
+				{ y: 40, opacity: 0 },
+				{ y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.2 }
+			);
+
+			gsap.fromTo(
+				'.social-link',
+				{ opacity: 0 },
+				{ opacity: 1, duration: 0.5, stagger: 0.05, delay: 0.6 }
+			);
 		} else {
 			gsap.fromTo(drawer, { x: '0%' }, { x: '-100%', duration: 0.5, ease: 'power3.out' });
 		}
@@ -105,25 +108,16 @@ export const Header = () => {
 				className='drawer bg-bg-drawer fixed top-0 left-0 z-50 h-full w-full px-6'
 				style={{ transform: 'translateX(-100%)' }}
 			>
-				<div className='mt-[30%] flex w-full flex-col items-start justify-center'>
+				<div className='mt-[30%] flex w-full flex-col items-start px-4'>
 					{mobileMenu.map((item) => (
-						<div key={item} className='flex h-12 items-center justify-center text-2xl font-normal'>
-							{item}
-						</div>
+						<MobileMenuItem key={item} label={item} />
 					))}
 				</div>
 
-				<div className='mt-14 flex w-full flex-col items-start justify-center'>
-					<p className='mb-4 text-xs'>Socials</p>
+				<div className='mt-14 flex w-full flex-col items-start justify-center px-4'>
+					<p className='mb-2 text-xs'>Socials</p>
 					{socials.map((item) => (
-						<a
-							target='_blank'
-							href={item.link}
-							key={item.label}
-							className='flex h-6 items-center justify-center text-sm font-semibold'
-						>
-							{item.label}
-						</a>
+						<MobileMenuItem key={item.label} label={item.label} link={item.link} isSocial />
 					))}
 				</div>
 			</div>

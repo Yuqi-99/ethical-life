@@ -20,13 +20,15 @@ export type StarResponsive = {
 	blur: number;
 };
 
+const isMobile = screen.width < 768;
+
 export const STARS: StarConfig[] = [
 	{
 		id: 1,
 		src: '/images/gummy-4-big.webp',
 		size: 150,
-		top: 220,
-		left: 10,
+		top: isMobile ? 200 : 220,
+		left: isMobile ? 10 : 10,
 		depth: 28,
 		scrollSpeed: 10,
 		rotation: 380,
@@ -39,7 +41,7 @@ export const STARS: StarConfig[] = [
 		src: '/images/gummy-1-big.webp',
 		size: 180,
 		top: 600,
-		left: 180,
+		left: isMobile ? 30 : 180,
 		depth: 8,
 		scrollSpeed: 0.4,
 		rotation: 100,
@@ -51,8 +53,8 @@ export const STARS: StarConfig[] = [
 		id: 3,
 		src: '/images/gummy-3-big.webp',
 		size: 80,
-		top: 480,
-		left: 320,
+		top: isMobile ? 400 : 480,
+		left: isMobile ? 40 : 330,
 		depth: 14,
 		scrollSpeed: 0.6,
 		rotation: 380,
@@ -63,9 +65,9 @@ export const STARS: StarConfig[] = [
 	{
 		id: 4,
 		src: '/images/gummy-4-big.webp',
-		size: 140,
-		top: 360,
-		right: 56,
+		size: 160,
+		top: isMobile ? 300 : 360,
+		right: isMobile ? 10 : 56,
 		depth: 20,
 		scrollSpeed: 0.8,
 		rotation: 12,
@@ -78,7 +80,7 @@ export const STARS: StarConfig[] = [
 		src: '/images/gummy-2-big.webp',
 		size: 120,
 		top: 600,
-		right: 150,
+		right: isMobile ? 25 : 200,
 		depth: 20,
 		scrollSpeed: 0.8,
 		rotation: 180,
@@ -90,8 +92,9 @@ export const STARS: StarConfig[] = [
 		id: 6,
 		src: '/images/gummy-2-big.webp',
 		size: 80,
-		top: 400,
-		right: 320,
+		top: 430,
+		right: isMobile ? 0 : 340,
+		// left: isMobile ? 30 : 0,
 		depth: 20,
 		scrollSpeed: 0.8,
 		rotation: 380,

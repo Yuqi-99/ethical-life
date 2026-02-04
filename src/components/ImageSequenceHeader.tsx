@@ -93,7 +93,7 @@ const ImageSequenceSection = () => {
 				// end: 'bottom 20%', // ✨ Duration of the animation
 				pin: true, // ✨ Pin the entire section
 				invalidateOnRefresh: true, // ✨ 这个配置让 ScrollTrigger 自动处理 resize
-				scrub: true,
+				scrub: 2,
 				onUpdate: ({ progress }) => {
 					const nextFrame = Math.floor(progress * loadedImages.length);
 					const nextImage = loadedImages[nextFrame];
@@ -114,11 +114,11 @@ const ImageSequenceSection = () => {
 		scale: 0.4, // 缩小到 40%
 		opacity: 0, // 完全透明
 		y: 0,
-		ease: 'power2.inOut',
+		ease: 'expo.inOut',
 		scrollTrigger: {
 			start: 'top top',
 			end: '+=200', // 在前 200px 滚动内完成
-			scrub: 1.5, // 平滑跟随滚动
+			scrub: 2, // 平滑跟随滚动
 		},
 	});
 

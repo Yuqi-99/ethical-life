@@ -45,7 +45,7 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 					start: 'top 12%',
 					// end: 'bottom 20%',
 					end: '+=300',
-					scrub: 1,
+					scrub: 1.5,
 				},
 			});
 

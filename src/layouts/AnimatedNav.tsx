@@ -62,7 +62,7 @@ export const AnimatedNav = ({ items, itemWidth = 'w-20', left = false }: Animate
 		<div
 			ref={navRef}
 			className={cn(
-				'relative flex h-fit justify-between rounded-full border border-solid border-gray-100 bg-white p-3 px-2 uppercase',
+				'relative flex h-fit justify-between rounded-full border border-solid border-gray-100 bg-white p-2 uppercase',
 				left ? 'justify-self-start' : 'justify-self-end'
 			)}
 		>

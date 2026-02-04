@@ -44,8 +44,8 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 					trigger: containerRef.current,
 					start: 'top 12%',
 					// end: 'bottom 20%',
-					end: '+=300',
-					scrub: 1.5,
+					end: '+=650',
+					scrub: true,
 				},
 			});
 
@@ -54,12 +54,12 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 				tl.to(
 					[orderedGroups[i], orderedGroups[i + 1]].filter(Boolean),
 					{
-						y: -250,
+						y: -400,
 						opacity: 0.2,
 						duration: 2, // 增加duration让动画更长
 						ease: 'power2.out',
 					},
-					i === 0 ? 0 : '-=1.5' // 第一个从0开始，后面的重叠1.5秒（关键！）
+					i === 0 ? 0 : '-=1.8' // 第一个从0开始，后面的重叠1.8秒（关键！）
 				);
 			}
 		},

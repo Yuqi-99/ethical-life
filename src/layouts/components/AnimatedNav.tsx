@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { cn } from '../utils/cn';
+import { cn } from '../../utils/cn';
 
 interface AnimatedNavProps {
 	items: React.ReactNode[];

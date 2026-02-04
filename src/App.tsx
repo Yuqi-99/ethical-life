@@ -7,13 +7,13 @@ import {
 import './App.css';
 import { NotFoundPage } from './layouts/NotFoundPage';
 import { RootLayout } from './layouts/RootLayout';
-import { ImageSequencePage } from './components/ImageSequenceHeader';
+import { HomePage } from './module/HomePage';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route errorElement={<NotFoundPage />}>
 			<Route path='/' element={<RootLayout />}>
-				<Route path='/' element={<ImageSequencePage />} />
+				<Route path='/' element={<HomePage />} />
 			</Route>
 		</Route>
 	),

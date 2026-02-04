@@ -1,7 +1,7 @@
 import gsap from 'gsap';
-import { AnimatedNav } from './AnimatedNav';
 import { useEffect, useRef, useState } from 'react';
 import { MobileMenuItem } from './components/MobileMenuItems';
+import { AnimatedNav } from './components/AnimatedNav';
 
 const desktopMenu = ['about', 'shop', 'blog'];
 const mobileMenu = ['About', 'Shop', 'Blog', 'FAQ'];

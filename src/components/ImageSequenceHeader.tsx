@@ -7,6 +7,7 @@ import { loadImagesAndDrawFirstFrame } from '../utils/loadImagesAndDrawFirstFram
 import { updateCanvasImage } from '../utils/updateCanvasImage';
 import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
 import { FloatingStars } from './FloatingStars';
+
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ImageSequenceSection = () => {
@@ -84,53 +85,109 @@ const ImageSequenceSection = () => {
 
 			console.log('✅ Setting up GSAP animations...');
 
-			// ScrollTrigger for updating image sequence frames
-			ScrollTrigger.create({
-				id: 'image-sequence',
-				trigger: header.current,
-				start: 'top top', // ✨ Start when the section hits the top
-				end: '+=350',
-				// end: 'bottom 20%', // ✨ Duration of the animation
-				pin: true, // ✨ Pin the entire section
-				invalidateOnRefresh: true, // ✨ 这个配置让 ScrollTrigger 自动处理 resize
-				scrub: 2,
-				onUpdate: ({ progress }) => {
-					const nextFrame = Math.floor(progress * loadedImages.length);
-					const nextImage = loadedImages[nextFrame];
-					if (!nextImage) return;
-					updateCanvasImage(context, canvas.current!, nextImage, currentScale);
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					id: 'image-sequence',
+					trigger: header.current,
+					start: 'top top', // ✨ Start when the section hits the top
+					end: '+=800', // ✨ Duration of the animation // ✨ Extended duration for sequence + shrink + text
+					pin: true, // ✨ Pin the entire section
+					invalidateOnRefresh: true, // ✨ 这个配置让 ScrollTrigger 自动处理 resize
+					scrub: 1.5,
 				},
 			});
+
+			// 0. 先处理 Subtitle 的消失 (在序列帧开始的同时或之前)
+			tl.to('.subtitle', {
+				scale: 0.4, // 缩小到 40%
+				opacity: 0, // 完全透明
+				y: 0,
+				ease: 'expo.inOut',
+				scrollTrigger: {
+					start: 'top top',
+					end: '+=200', // 在前 200px 滚动内完成
+					scrub: 1, // 平滑跟随滚动
+				},
+			});
+
+			// 1. Image sequence animation
+			const frameProxy = { frame: 0 };
+			tl.to(
+				frameProxy,
+				{
+					frame: loadedImages.length - 1,
+					duration: 2,
+					ease: 'none',
+					onUpdate: () => {
+						const nextFrame = Math.floor(frameProxy.frame);
+						const nextImage = loadedImages[nextFrame];
+						if (nextImage) {
+							updateCanvasImage(context, canvas.current!, nextImage, currentScale);
+						}
+					},
+				},
+				0 // 0 表示和 subtitle 同时开始
+			);
+
+			// 2. Shrink + Opacity + Background Color
+			// 我们创建一个 'shrink' 标签来对齐多个动作
+			tl.add('shrink');
+
+			// 2. Shrink sequence and change background color
+			tl.to(
+				'#animation-wrapper',
+				{
+					scale: 0.7,
+					opacity: 0.4,
+					y: 0,
+					duration: 1,
+					// ease: 'power2.inOut',
+				},
+				'shrink'
+			);
+
+			tl.to(
+				header.current,
+				{
+					keyframes: {
+						'0%': { backgroundColor: '#FEFCE8', opacity: 0.2 }, // tailwind yellow-50 (淡黄)
+						'100%': { backgroundColor: '#DDF244', opacity: 1 }, // 你的目标亮黄
+					},
+					duration: 1,
+					ease: 'none',
+				},
+				'shrink'
+			);
+
+			// 3. Reveal text
+			tl.fromTo(
+				'.text-reveal-section',
+				{ opacity: 0, y: 100 },
+				{ opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+				'shrink'
+			);
+
+			// Sequential text reveal for better effect
+			tl.fromTo(
+				'.text-reveal-content p',
+				{ opacity: 0, y: 20 },
+				{ opacity: 1, y: 0, stagger: 0.3, duration: 0.8 },
+				'shrink+=0.2'
+			);
 		},
 		{
 			dependencies: [loadedImages],
-			scope: header,
+			// scope: header,
 		}
 	);
-
-	// ✨ Subtitle timeline 动画
-	const exp = gsap.timeline();
-	exp.to('.subtitle', {
-		scale: 0.4, // 缩小到 40%
-		opacity: 0, // 完全透明
-		y: 0,
-		ease: 'expo.inOut',
-		scrollTrigger: {
-			start: 'top top',
-			end: '+=200', // 在前 200px 滚动内完成
-			scrub: 2, // 平滑跟随滚动
-		},
-	});
 
 	useDidUpdate(() => {
 		const handleViewportResize = () => {
 			if (viewportSize.width === 0 || viewportSize.height === 0 || !loadedImages) return;
 			if (!canvas.current || !header.current) return;
-
 			// ✨ Get the latest container dimensions
 			const containerWidth = header.current.clientWidth;
 			const containerHeight = header.current.clientHeight;
-
 			// ✨ Update canvas resolution instantly to match its size
 			canvas.current.width = containerWidth;
 			canvas.current.height = containerHeight;
@@ -138,35 +195,57 @@ const ImageSequenceSection = () => {
 			const context = canvas.current.getContext('2d', { alpha: true });
 			if (!context) return;
 
-			const progress = ScrollTrigger.getById('image-sequence')?.progress ?? 0;
-			const nextFrame = Math.floor(progress * loadedImages.length);
-			const nextImage = loadedImages[nextFrame];
-			if (!nextImage) return;
-
-			updateCanvasImage(context, canvas.current, nextImage, currentScale);
-
-			// ✨ Refresh ScrollTrigger for new positions
-			ScrollTrigger.refresh();
+			const st = ScrollTrigger.getById('image-sequence');
+			if (st) {
+				// Refresh ScrollTrigger and GSAP timelines
+				ScrollTrigger.refresh();
+			}
 		};
 		handleViewportResize();
 	}, [viewportSize]);
 
 	return (
 		<section ref={header} className='relative h-screen w-full overflow-hidden'>
-			<div id='animation-wrapper' className='absolute inset-0 z-10'>
+			{/* Canvas Container */}
+			<div
+				id='animation-wrapper'
+				className='absolute inset-0 z-10 flex items-center justify-center'
+			>
 				<canvas ref={canvas} className='block h-full w-full' />
+			</div>
+
+			{/* Text Reveal Section */}
+			<div className='text-reveal-section pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center opacity-0'>
+				<div className='text-reveal-content flex max-w-4xl flex-col items-center gap-6'>
+					<h2 className='text-4xl font-bold text-gray-900 sm:text-7xl'>Ethical Life</h2>
+					<div className='space-y-4 text-lg font-medium text-gray-800 sm:text-2xl'>
+						<p>
+							We believe in total transparency. Every ingredient is carefully selected for its
+							purity and efficacy.
+						</p>
+						<p>
+							Born from a vision to revolutionize wellness, we bridge the gap between science and
+							nature.
+						</p>
+						<p>
+							Our commitment to ethics drives everything we do, from sustainable sourcing to
+							clinical validation.
+						</p>
+						<p className='text-3xl font-bold sm:text-5xl'>Pure. Potent. Ethical.</p>
+					</div>
+				</div>
 			</div>
 		</section>
 	);
 };
 
-export const ImageSequencePage = () => {
+export const HomeSection = () => {
 	return (
-		<div className='relative flex min-h-screen w-full flex-col items-center'>
+		<>
 			{/* 背景亮光 */}
 			<div className='radial-gradient pointer-events-none fixed inset-0 z-0 flex items-center justify-center'></div>
 			{/* 标题 */}
-			<div className='z-10 container mt-28 flex flex-col items-center px-4'>
+			<div className='fixed z-10 container mt-28 flex flex-col items-center px-4'>
 				<AnimatedEthicalLifeLogo className='w-full' />
 			</div>
 			{/* 动画瓶子 */}
@@ -181,6 +260,6 @@ export const ImageSequencePage = () => {
 			</div>
 
 			<FloatingStars />
-		</div>
+		</>
 	);
 };

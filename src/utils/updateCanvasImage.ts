@@ -27,7 +27,7 @@ export const updateCanvasImage = (
 	renderingContext: CanvasRenderingContext2D,
 	canvas: HTMLCanvasElement,
 	image: HTMLImageElement,
-	scaleFactor: number = 1 // ✨ 新增参数，默认 1 (即原本大小)
+	scaleFactor: number = 1 // ✨默认 1 (即原本大小)
 ) => {
 	if (!renderingContext || !canvas || !image) throw new Error('Unable to update canvas');
 

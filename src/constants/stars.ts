@@ -20,9 +20,7 @@ export type StarResponsive = {
 	blur: number;
 };
 
-const isMobile = screen.width < 768;
-
-export const STARS: StarConfig[] = [
+export const getStartsConfig = (isMobile: boolean): StarConfig[] => [
 	{
 		id: 1,
 		src: '/images/gummy-4-big.webp',
@@ -106,13 +104,13 @@ export const STARS: StarConfig[] = [
 
 export const STAR_RESPONSIVE: Record<'mobile' | 'tablet' | 'desktop', StarResponsive> = {
 	mobile: {
-		size: 0.5,
+		size: 0.6,
 		depth: 0.5,
 		scroll: 0.7,
 		blur: 1.2,
 	},
 	tablet: {
-		size: 0.7,
+		size: 0.8,
 		depth: 0.75,
 		scroll: 0.85,
 		blur: 1,

@@ -7,16 +7,19 @@ import { loadImagesAndDrawFirstFrame } from '../utils/loadImagesAndDrawFirstFram
 import { updateCanvasImage } from '../utils/updateCanvasImage';
 import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
 import { FloatingStars } from './FloatingStars';
+import { useMediaQuery } from '../utils/useMediaQuery';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ImageSequenceSection = () => {
+	const isMobile = useMediaQuery('(max-width: 768px)');
 	const header = useRef<HTMLElement>(null);
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const viewportSize = useViewportSize();
 	const [loadedImages, setLoadedImages] = useState<HTMLImageElement[]>();
-	const isMobile = viewportSize.width < 768;
 	const currentScale = isMobile ? 0.9 : 1;
+	// ✨ Use a ref to track the current frame index across re-renders and resize events
+	const frameProxy = useRef({ frame: 0 });
 
 	useEffect(() => {
 		if (!canvas.current) {
@@ -39,13 +42,10 @@ const ImageSequenceSection = () => {
 		const intialSetup = async () => {
 			console.log('🚀 Starting image load...');
 
-			// ✨ Target the container's dimensions instead of the full viewport
-			// This prevents the canvas from overflowing the max-width layout
-			const containerWidth = header.current?.clientWidth ?? viewportSize.width;
-			const containerHeight = header.current?.clientHeight ?? viewportSize.height;
-
-			canvas.current!.width = containerWidth;
-			canvas.current!.height = containerHeight;
+			// ✨ Set a fixed internal resolution to match the source images
+			// This prevents distortion during window resizing, as CSS handles the scaling via object-fit
+			canvas.current!.width = 1920;
+			canvas.current!.height = 1080;
 
 			// 🎯 Frames start
 			const startFrame = 160;
@@ -62,6 +62,7 @@ const ImageSequenceSection = () => {
 			const images = await loadImagesAndDrawFirstFrame({
 				canvas: canvas.current!,
 				imageSrcs: imageSrcs,
+				isMobile: isMobile,
 			});
 
 			setLoadedImages(images);
@@ -111,15 +112,14 @@ const ImageSequenceSection = () => {
 			});
 
 			// 1. Image sequence animation
-			const frameProxy = { frame: 0 };
 			tl.to(
-				frameProxy,
+				frameProxy.current,
 				{
 					frame: loadedImages.length - 1,
 					duration: 2,
 					ease: 'none',
 					onUpdate: () => {
-						const nextFrame = Math.floor(frameProxy.frame);
+						const nextFrame = Math.floor(frameProxy.current.frame);
 						const nextImage = loadedImages[nextFrame];
 						if (nextImage) {
 							updateCanvasImage(context, canvas.current!, nextImage, currentScale);
@@ -185,12 +185,6 @@ const ImageSequenceSection = () => {
 		const handleViewportResize = () => {
 			if (viewportSize.width === 0 || viewportSize.height === 0 || !loadedImages) return;
 			if (!canvas.current || !header.current) return;
-			// ✨ Get the latest container dimensions
-			const containerWidth = header.current.clientWidth;
-			const containerHeight = header.current.clientHeight;
-			// ✨ Update canvas resolution instantly to match its size
-			canvas.current.width = containerWidth;
-			canvas.current.height = containerHeight;
 
 			const context = canvas.current.getContext('2d', { alpha: true });
 			if (!context) return;
@@ -199,6 +193,13 @@ const ImageSequenceSection = () => {
 			if (st) {
 				// Refresh ScrollTrigger and GSAP timelines
 				ScrollTrigger.refresh();
+			}
+
+			// ✨ Immediately redraw the current frame to prevent flickering after canvas clear
+			const currentFrame = Math.floor(frameProxy.current.frame);
+			const currentImage = loadedImages[currentFrame];
+			if (currentImage) {
+				updateCanvasImage(context, canvas.current, currentImage, currentScale);
 			}
 		};
 		handleViewportResize();
@@ -211,7 +212,12 @@ const ImageSequenceSection = () => {
 				id='animation-wrapper'
 				className='absolute inset-0 z-10 flex items-center justify-center'
 			>
-				<canvas ref={canvas} className='block h-full w-full' />
+				{/* <canvas ref={canvas} className='flex h-full w-full' style={{ objectFit: 'cover' }} /> */}
+				<canvas 
+  ref={canvas} 
+  className='h-full w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' 
+  style={{ objectFit: 'cover' }} 
+/>
 			</div>
 
 			{/* Text Reveal Section */}

@@ -3,13 +3,14 @@ import { updateCanvasImage } from './updateCanvasImage';
 export const loadImagesAndDrawFirstFrame = async ({
 	canvas,
 	imageSrcs,
+	isMobile,
 }: {
 	canvas: HTMLCanvasElement;
 	imageSrcs: string[];
+	isMobile: boolean;
 }): Promise<HTMLImageElement[]> => {
 	const images: HTMLImageElement[] = [];
 	let loadedCount = 0;
-	const isMobile = screen.width < 768;
 	// 桌面端通常瓶子不需要占满全屏，可以设小一点；移动端可以设大一点
 	const currentScale = isMobile ? 0.9 : 1;
 

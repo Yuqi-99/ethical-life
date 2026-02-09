@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../FloatingStars.css';
-import { STARS } from '../constants/stars';
+import { getStartsConfig } from '../constants/stars';
 import { useStarResponsive } from '../utils/useStarResponsive';
+import { useMediaQuery } from '../utils/useMediaQuery';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +15,9 @@ export const FloatingStars = () => {
 	const xSetters = useRef<gsap.QuickToFunc[]>([]);
 	const ySetters = useRef<gsap.QuickToFunc[]>([]);
 	const idleTweens = useRef<gsap.core.Tween[]>([]);
+
+	const isMobile = useMediaQuery('(max-width: 768px)');
+	const STARS = getStartsConfig(isMobile);
 
 	/* ---------- Mouse Parallax ---------- */
 	useEffect(() => {

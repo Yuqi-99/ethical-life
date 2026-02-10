@@ -16,8 +16,18 @@ export const FloatingStars = () => {
 	const ySetters = useRef<gsap.QuickToFunc[]>([]);
 	const idleTweens = useRef<gsap.core.Tween[]>([]);
 
-	const isMobile = useMediaQuery('(max-width: 768px)');
-	const STARS = getStartsConfig(isMobile);
+	const isMobile = useMediaQuery('(max-width: 425px)');
+	const isTablet = useMediaQuery('(max-width: 930px)');
+	const STARS_CONFIG = getStartsConfig(isMobile || isTablet);
+	const STARS = () => {
+		if (isMobile) {
+			return [STARS_CONFIG[0], STARS_CONFIG[1], STARS_CONFIG[4], STARS_CONFIG[5]];
+		} else if (isTablet) {
+			return STARS_CONFIG;
+		} else {
+			return STARS_CONFIG;
+		}
+	};
 
 	/* ---------- Mouse Parallax ---------- */
 	useEffect(() => {
@@ -31,8 +41,8 @@ export const FloatingStars = () => {
 			const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
 			starRefs.current.forEach((_, i) => {
-				xSetters.current[i](x * STARS[i].depth * responsive.depth);
-				ySetters.current[i](y * STARS[i].depth * responsive.depth);
+				xSetters.current[i](x * STARS()[i].depth * responsive.depth);
+				ySetters.current[i](y * STARS()[i].depth * responsive.depth);
 			});
 		};
 
@@ -46,7 +56,7 @@ export const FloatingStars = () => {
 
 		starRefs.current.forEach((el, i) => {
 			const tween = gsap.to(el, {
-				y: `+=${STARS[i].idleOffset}`,
+				y: `+=${STARS()[i].idleOffset}`,
 				duration: 3 + i * 0.6,
 				repeat: -1,
 				yoyo: true,
@@ -61,7 +71,7 @@ export const FloatingStars = () => {
 	/* ---------- Scroll Motion（飘走 + 翻滚） ---------- */
 	useEffect(() => {
 		starRefs.current.forEach((el, i) => {
-			const { rotation } = STARS[i];
+			const { rotation } = STARS()[i];
 
 			gsap.to(el, {
 				// y: '-450',
@@ -96,7 +106,7 @@ export const FloatingStars = () => {
 
 	return (
 		<div className='parallax-stars'>
-			{STARS.map((star, i) => {
+			{STARS().map((star, i) => {
 				return (
 					<div
 						key={star.id}

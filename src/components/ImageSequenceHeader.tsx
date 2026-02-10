@@ -1,5 +1,4 @@
 import { useGSAP } from '@gsap/react';
-import { useDidUpdate, useViewportSize } from '@mantine/hooks';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { useEffect, useRef, useState } from 'react';
@@ -11,90 +10,60 @@ import { useMediaQuery } from '../utils/useMediaQuery';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const ImageSequenceSection = () => {
+export const ImageSequenceSection = () => {
 	const isMobile = useMediaQuery('(max-width: 768px)');
-	const header = useRef<HTMLElement>(null);
-	const canvas = useRef<HTMLCanvasElement>(null);
-	const viewportSize = useViewportSize();
+	const containerRef = useRef<HTMLElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [loadedImages, setLoadedImages] = useState<HTMLImageElement[]>();
 	const currentScale = isMobile ? 0.9 : 1;
+
 	// ✨ Use a ref to track the current frame index across re-renders and resize events
 	const frameProxy = useRef({ frame: 0 });
 
+	// 1. 初始化加载图片
 	useEffect(() => {
-		if (!canvas.current) {
-			console.log('❌ No canvas');
-			return;
-		}
+		if (!canvasRef.current || loadedImages) return;
 
-		if (viewportSize.width === 0 || viewportSize.height === 0) {
-			console.log('❌ Viewport size is 0');
-			return;
-		}
+		const initialSetup = async () => {
+			// 设置 Canvas 原始分辨率 (16:9)
+			canvasRef.current!.width = 1920;
+			canvasRef.current!.height = 1080;
 
-		if (loadedImages) {
-			console.log('⚠️ Images already loaded');
-			return;
-		}
-
-		console.log('✨ All conditions passed, starting setup...');
-
-		const intialSetup = async () => {
-			console.log('🚀 Starting image load...');
-
-			// ✨ Set a fixed internal resolution to match the source images
-			// This prevents distortion during window resizing, as CSS handles the scaling via object-fit
-			canvas.current!.width = 1920;
-			canvas.current!.height = 1080;
-
-			// 🎯 Frames start
 			const startFrame = 160;
-			// 🎯 Total frames include
 			const totalFrames = 259;
-			// 🎯 数字位数 (5位数)
-			const digitCount = 5;
-
-			const imageSrcs: string[] = Array.from({ length: totalFrames }, (_, i) => {
-				const frameNumber = (startFrame + i).toString().padStart(digitCount, '0');
+			const imageSrcs = Array.from({ length: totalFrames }, (_, i) => {
+				const frameNumber = (startFrame + i).toString().padStart(5, '0');
 				return `/images/s1_frames/S1_${frameNumber}.webp`;
 			});
 
 			const images = await loadImagesAndDrawFirstFrame({
-				canvas: canvas.current!,
-				imageSrcs: imageSrcs,
+				canvas: canvasRef.current!,
+				imageSrcs,
 				isMobile: isMobile,
 			});
-
 			setLoadedImages(images);
 		};
 
-		intialSetup();
-	}, [viewportSize, loadedImages]);
+		initialSetup();
+	}, [loadedImages]);
 
+	// 2. GSAP 核心动画
 	useGSAP(
 		() => {
-			if (!canvas.current || !loadedImages) {
-				console.log('❌ Missing canvas or images for GSAP');
-				return;
-			}
+			if (!loadedImages || !containerRef.current || !canvasRef.current) return;
 
-			const context = canvas.current.getContext('2d', { alpha: true });
-			if (!context) {
-				console.log('❌ No canvas context');
-				return;
-			}
+			const context = canvasRef.current.getContext('2d', { alpha: true });
+			if (!context) return;
 
-			console.log('✅ Setting up GSAP animations...');
-
+			// 创建主时间轴
 			const tl = gsap.timeline({
 				scrollTrigger: {
 					id: 'image-sequence',
-					trigger: header.current,
-					start: 'top top', // ✨ Start when the section hits the top
-					end: '+=800', // ✨ Duration of the animation // ✨ Extended duration for sequence + shrink + text
-					pin: true, // ✨ Pin the entire section
-					invalidateOnRefresh: true, // ✨ 这个配置让 ScrollTrigger 自动处理 resize
+					trigger: containerRef.current, // 以整个长容器为触发器
+					start: 'top top',
+					end: 'bottom bottom', // 滚到容器底部才结束
 					scrub: 1.5,
+					invalidateOnRefresh: true,
 				},
 			});
 
@@ -122,18 +91,19 @@ const ImageSequenceSection = () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);
 						const nextImage = loadedImages[nextFrame];
 						if (nextImage) {
-							updateCanvasImage(context, canvas.current!, nextImage, currentScale);
+							updateCanvasImage(context, canvasRef.current!, nextImage, currentScale);
 						}
 					},
 				},
-				0 // 0 表示和 subtitle 同时开始
+				0
 			);
 
 			// 2. Shrink + Opacity + Background Color
 			// 我们创建一个 'shrink' 标签来对齐多个动作
 			tl.add('shrink');
 
-			// 2. Shrink sequence and change background color
+			// --- 动画步骤 2: 瓶子缩小并变淡 (当文字出现时) ---
+			// 使用 'label' 或者相对位置，比如在序列帧播放到 60% 的时候开始缩小
 			tl.to(
 				'#animation-wrapper',
 				{
@@ -141,13 +111,13 @@ const ImageSequenceSection = () => {
 					opacity: 0.4,
 					y: 0,
 					duration: 1,
-					// ease: 'power2.inOut',
 				},
 				'shrink'
 			);
 
+			// --- 动画步骤 3: 背景色切换 ---
 			tl.to(
-				header.current,
+				containerRef.current,
 				{
 					keyframes: {
 						'0%': { backgroundColor: '#FEFCE8', opacity: 0.2 }, // tailwind yellow-50 (淡黄)
@@ -175,69 +145,57 @@ const ImageSequenceSection = () => {
 				'shrink+=0.2'
 			);
 		},
-		{
-			dependencies: [loadedImages],
-			// scope: header,
-		}
+		{ dependencies: [loadedImages] }
 	);
 
-	useDidUpdate(() => {
-		const handleViewportResize = () => {
-			if (viewportSize.width === 0 || viewportSize.height === 0 || !loadedImages) return;
-			if (!canvas.current || !header.current) return;
-
-			const context = canvas.current.getContext('2d', { alpha: true });
-			if (!context) return;
-
-			const st = ScrollTrigger.getById('image-sequence');
-			if (st) {
-				// Refresh ScrollTrigger and GSAP timelines
-				ScrollTrigger.refresh();
-			}
-
-			// ✨ Immediately redraw the current frame to prevent flickering after canvas clear
-			const currentFrame = Math.floor(frameProxy.current.frame);
-			const currentImage = loadedImages[currentFrame];
-			if (currentImage) {
-				updateCanvasImage(context, canvas.current, currentImage, currentScale);
-			}
-		};
-		handleViewportResize();
-	}, [viewportSize]);
-
 	return (
-		<section ref={header} className='relative h-screen w-full overflow-hidden'>
-			{/* Canvas Container */}
-			<div
-				id='animation-wrapper'
-				className='absolute inset-0 z-10 flex items-center justify-center'
-			>
-				{/* <canvas ref={canvas} className='flex h-full w-full' style={{ objectFit: 'cover' }} /> */}
-				<canvas 
-  ref={canvas} 
-  className='h-full w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' 
-  style={{ objectFit: 'cover' }} 
-/>
+		<section ref={containerRef} className='relative w-full'>
+			{/* ✨ 粘性层 (Sticky Layer)
+         它会固定在视口，不随页面滚动，直到父容器被滚完。
+      */}
+			<div className='pointer-events-none sticky top-0 z-10 h-screen w-full overflow-hidden'>
+				<div
+					id='animation-wrapper'
+					className='flex h-full w-full items-center justify-center transition-transform'
+				>
+					<canvas ref={canvasRef} className='h-full w-full object-cover' />
+				</div>
 			</div>
 
-			{/* Text Reveal Section */}
-			<div className='text-reveal-section pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center opacity-0'>
-				<div className='text-reveal-content flex max-w-4xl flex-col items-center gap-6'>
-					<h2 className='text-4xl font-bold text-gray-900 sm:text-7xl'>Ethical Life</h2>
-					<div className='space-y-4 text-lg font-medium text-gray-800 sm:text-2xl'>
-						<p>
-							We believe in total transparency. Every ingredient is carefully selected for its
-							purity and efficacy.
-						</p>
-						<p>
-							Born from a vision to revolutionize wellness, we bridge the gap between science and
-							nature.
-						</p>
-						<p>
-							Our commitment to ethics drives everything we do, from sustainable sourcing to
-							clinical validation.
-						</p>
-						<p className='text-3xl font-bold sm:text-5xl'>Pure. Potent. Ethical.</p>
+			{/* ✨ 内容层 (Content Layer)
+         这里是真正撑开高度的地方。
+      */}
+			<div className='relative z-20 w-full'>
+				{/* 第一屏留白：让用户先看序列帧动画 */}
+				<div className='h-screen w-full' />
+
+				{/* 文字内容：这部分会向上滚动，盖在或伴随 Canvas 出现 */}
+				<div className='flex flex-col items-center px-6 text-center'>
+					<div className='max-w-4xl space-y-24'>
+						{/* Text Reveal Section */}
+						<div className='text-reveal-section pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center opacity-0'>
+							<div className='text-reveal-content flex max-w-4xl flex-col items-center gap-6'>
+								<h2 className='text-4xl font-bold text-gray-900 sm:text-7xl'>Ethical Life</h2>
+								<div className='space-y-4 text-lg font-medium text-gray-800 sm:text-2xl'>
+									<p>
+										We believe in total transparency. Every ingredient is carefully selected for its
+										purity and efficacy.
+									</p>
+									<p>
+										Born from a vision to revolutionize wellness, we bridge the gap between science
+										and nature.
+									</p>
+									<p>
+										Our commitment to ethics drives everything we do, from sustainable sourcing to
+										clinical validation.
+									</p>
+									<p className='text-3xl font-bold sm:text-5xl'>Pure. Potent. Ethical.</p>
+								</div>
+							</div>
+
+							{/* 底部留白，确保动画能完整执行完 */}
+							{/* <div className='h-[20vh]' /> */}
+						</div>
 					</div>
 				</div>
 			</div>

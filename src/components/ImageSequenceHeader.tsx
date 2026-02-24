@@ -61,7 +61,8 @@ export const ImageSequenceSection = () => {
 					id: 'image-sequence',
 					trigger: containerRef.current, // 以整个长容器为触发器
 					start: 'top top',
-					end: 'bottom bottom', // 滚到容器底部才结束
+					end: '+=1200',
+					// end: 'bottom bottom', // 滚到容器底部才结束
 					scrub: 1.5,
 					invalidateOnRefresh: true,
 				},
@@ -108,9 +109,9 @@ export const ImageSequenceSection = () => {
 				'#animation-wrapper',
 				{
 					scale: 0.7,
-					opacity: 0.4,
+					opacity: 0.3,
 					y: 0,
-					duration: 1,
+					duration: 0.3,
 				},
 				'shrink'
 			);
@@ -120,30 +121,37 @@ export const ImageSequenceSection = () => {
 				containerRef.current,
 				{
 					keyframes: {
-						'0%': { backgroundColor: '#FEFCE8', opacity: 0.2 }, // tailwind yellow-50 (淡黄)
-						'100%': { backgroundColor: '#DDF244', opacity: 1 }, // 你的目标亮黄
+						'0%': { backgroundColor: '#FEFCE8', opacity: 0.2 },
+						'100%': { backgroundColor: '#DDF244', opacity: 1 },
 					},
-					duration: 1,
+					duration: 3,
 					ease: 'none',
 				},
 				'shrink'
 			);
 
 			// 3. Reveal text
-			tl.fromTo(
-				'.text-reveal-section',
-				{ opacity: 0, y: 100 },
-				{ opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
-				'shrink'
-			);
+			// 在 useGSAP 中修改文字动画逻辑：
+			const lines = gsap.utils.toArray<HTMLElement>('.highlight-line');
 
-			// Sequential text reveal for better effect
-			tl.fromTo(
-				'.text-reveal-content p',
-				{ opacity: 0, y: 20 },
-				{ opacity: 1, y: 0, stagger: 0.3, duration: 0.8 },
-				'shrink+=0.2'
-			);
+			lines.forEach((line) => {
+				const words = line.querySelectorAll('span');
+
+				tl.fromTo(
+					words,
+					{ opacity: 0 }, // 初始：完全透明
+					{
+						opacity: 1, // 终止：完全不透明
+						stagger: {
+							each: 0.1, // 每个词的间隔，调小一点更流畅
+							from: 'start', // 从左到右
+						},
+						duration: 1,
+						ease: 'none',
+					},
+					'shrink' // ✨ 和瓶子缩小同一时间开始
+				);
+			});
 		},
 		{ dependencies: [loadedImages] }
 	);
@@ -166,37 +174,24 @@ export const ImageSequenceSection = () => {
          这里是真正撑开高度的地方。
       */}
 			<div className='relative z-20 w-full'>
-				{/* 第一屏留白：让用户先看序列帧动画 */}
 				<div className='h-screen w-full' />
 
-				{/* 文字内容：这部分会向上滚动，盖在或伴随 Canvas 出现 */}
-				<div className='flex flex-col items-center px-6 text-center'>
-					<div className='max-w-4xl space-y-24'>
-						{/* Text Reveal Section */}
-						<div className='text-reveal-section pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center opacity-0'>
-							<div className='text-reveal-content flex max-w-4xl flex-col items-center gap-6'>
-								<h2 className='text-4xl font-bold text-gray-900 sm:text-7xl'>Ethical Life</h2>
-								<div className='space-y-4 text-lg font-medium text-gray-800 sm:text-2xl'>
-									<p>
-										We believe in total transparency. Every ingredient is carefully selected for its
-										purity and efficacy.
-									</p>
-									<p>
-										Born from a vision to revolutionize wellness, we bridge the gap between science
-										and nature.
-									</p>
-									<p>
-										Our commitment to ethics drives everything we do, from sustainable sourcing to
-										clinical validation.
-									</p>
-									<p className='text-3xl font-bold sm:text-5xl'>Pure. Potent. Ethical.</p>
-								</div>
-							</div>
+				{/* ✨ 占位撑高，控制整体滚动距离 */}
+				<div className='h-screen w-full' />
+			</div>
 
-							{/* 底部留白，确保动画能完整执行完 */}
-							{/* <div className='h-[20vh]' /> */}
-						</div>
-					</div>
+			{/* ✨ 文字层：fixed 固定在屏幕中间，初始不可见 */}
+			<div className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6 text-center'>
+				<div className='max-w-4xl'>
+					<p className='highlight-line text-2xl font-bold md:text-5xl'>
+						{'Our gummy supplements are Pharmacist formulated, 100& vegan, cruelty-free, gelatin-free, and pectin-based, non-GMO , free from any artificial colors or flavors, manufactured in a GMP & FDA registered facility in US, packaged in recycled bottles.'
+							.split(' ')
+							.map((word, i) => (
+								<span key={i} className='mr-3 inline-block opacity-0'>
+									{word}
+								</span>
+							))}
+					</p>
 				</div>
 			</div>
 		</section>

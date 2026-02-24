@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { useRef } from 'react';
+import { Fragment, useRef } from 'react';
 
 type TMobilemenuItem = {
 	label: string;
@@ -55,7 +55,7 @@ export const MobileMenuItem = ({ label, link, isSocial = false }: TMobilemenuIte
 		>
 			<div className='flex'>
 				{label.split('').map((char, i) => (
-					<>
+					<Fragment key={i}> 
 						{!isSocial && (
 							<span key={i} className='char-wrapper relative block h-10 overflow-hidden'>
 								{/* 第一排文字 */}
@@ -88,7 +88,7 @@ export const MobileMenuItem = ({ label, link, isSocial = false }: TMobilemenuIte
 								</span>
 							</a>
 						)}
-					</>
+					</Fragment>
 				))}
 			</div>
 		</div>

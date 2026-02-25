@@ -152,6 +152,29 @@ export const ImageSequenceSection = () => {
 					'shrink' // ✨ 和瓶子缩小同一时间开始
 				);
 			});
+
+			// 4. 图片展开动画
+			const cards = gsap.utils.toArray<HTMLElement>('.card-image');
+
+			cards.forEach((card) => {
+				tl.fromTo(
+					card,
+					{
+						width: 0,
+						opacity: 0,
+					},
+					{
+						width: 150,
+						opacity: 1,
+						// 让图片可以靠近字一点
+						marginLeft: '-18px',
+						marginRight: '-18px',
+						duration: 0.4,
+						ease: 'power2.out',
+					},
+					`shrink+=5` // 等所有的字都出现后在跑这个图片animation
+				);
+			});
 		},
 		{ dependencies: [loadedImages] }
 	);
@@ -180,14 +203,73 @@ export const ImageSequenceSection = () => {
 				<div className='h-screen w-full' />
 			</div>
 
-			{/* ✨ 文字层：fixed 固定在屏幕中间，初始不可见 */}
+			{/* ✨ 文字层：fixed 固定在屏幕中间 */}
 			<div className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6 text-center'>
-				<div className='max-w-4xl'>
-					<p className='highlight-line text-2xl font-bold md:text-5xl'>
-						{'Our gummy supplements are Pharmacist formulated, 100& vegan, cruelty-free, gelatin-free, and pectin-based, non-GMO , free from any artificial colors or flavors, manufactured in a GMP & FDA registered facility in US, packaged in recycled bottles.'
+				<div className='max-w-5xl'>
+					<p className='highlight-line inline text-2xl font-bold md:text-3xl lg:text-5xl'>
+						{/* 第一段 */}
+						{'Our gummy supplements'.split(' ').map((word, i) => (
+							<span key={`a-${i}`} className='mr-3 inline-block opacity-0'>
+								{word}
+							</span>
+						))}
+
+						{/* ✨ 图片1：人物图，插在 supplements 后面 */}
+						<span
+							className='card-image hidden overflow-hidden rounded-2xl align-middle md:inline-block'
+							style={{
+								marginTop: '-18px',
+								marginBottom: '-18px',
+								height: '85px',
+								width: '0px',
+								opacity: 0,
+								verticalAlign: 'middle',
+								position: 'relative',
+								zIndex: -1,
+							}}
+						>
+							<img
+								src='/images/text-im-1-300x179.jpg'
+								className='h-full w-full object-cover'
+								alt=''
+							/>
+						</span>
+
+						{/* 第二段 */}
+						{'are Pharmacist/Nutritionist formulated, 100% vegan, cruelty free, gelatin free, pectin based, non GMO,'
 							.split(' ')
 							.map((word, i) => (
-								<span key={i} className='mr-3 inline-block opacity-0'>
+								<span key={`b-${i}`} className='mr-3 inline-block opacity-0'>
+									{word}
+								</span>
+							))}
+
+						{/* ✨ 图片2：风景图，插在 non GMO, 后面 */}
+						<span
+							className='card-image hidden overflow-hidden rounded-2xl align-middle md:inline-block'
+							style={{
+								marginTop: '-18px',
+								marginBottom: '-18px',
+								height: '85px',
+								width: '0px',
+								opacity: 0,
+								verticalAlign: 'middle',
+								position: 'relative',
+								zIndex: -1,
+							}}
+						>
+							<img
+								src='/images/text-im-2-300x172.png'
+								className='h-full w-full object-cover'
+								alt=''
+							/>
+						</span>
+
+						{/* 第三段*/}
+						{'free from any artificial colors or flavors, manufactured in a GMP & FDA registered facility in US, packaged in recycled bottles.'
+							.split(' ')
+							.map((word, i) => (
+								<span key={`c-${i}`} className='mr-3 inline-block opacity-0'>
 									{word}
 								</span>
 							))}

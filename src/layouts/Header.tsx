@@ -101,7 +101,7 @@ export const Header = () => {
 	}, [open]);
 
 	return (
-		<div className='fixed top-0 left-0 z-50 w-full px-6'>
+		<div className='fixed top-0 left-0 z-50 w-full max-w-[inherit] px-6'>
 			{/* mobile drawer */}
 			<div
 				ref={drawerRef}

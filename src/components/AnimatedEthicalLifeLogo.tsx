@@ -48,13 +48,18 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 					// end: 'bottom 20%',
 					end: '+=650',
 					scrub: true,
+					invalidateOnRefresh: true, // ✨ 确保刷新时重新计算坐标
 				},
 			});
 
 			// 关键改变：使用更小的延迟，让动画重叠
 			for (let i = 0; i < orderedGroups.length; i += 2) {
-				tl.to(
+				tl.fromTo(
 					[orderedGroups[i], orderedGroups[i + 1]].filter(Boolean),
+					{
+						y: 0,
+						opacity: 1,
+					},
 					{
 						y: isMobile ? -800 : -500,
 						opacity: 0.2,

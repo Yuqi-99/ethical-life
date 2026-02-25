@@ -69,21 +69,28 @@ export const ImageSequenceSection = () => {
 			});
 
 			// 0. 先处理 Subtitle 的消失 (在序列帧开始的同时或之前)
-			tl.to('.subtitle', {
-				scale: 0.4, // 缩小到 40%
-				opacity: 0, // 完全透明
-				y: 0,
-				ease: 'expo.inOut',
-				scrollTrigger: {
-					start: 'top top',
-					end: '+=200', // 在前 200px 滚动内完成
-					scrub: 1, // 平滑跟随滚动
-				},
-			});
+			gsap.fromTo(
+				'.subtitle',
+				{ scale: 1, opacity: 1 },
+				{
+					scale: 0.4, // 缩小到 40%
+					opacity: 0, // 完全透明
+					y: 0,
+					ease: 'expo.inOut',
+					scrollTrigger: {
+						trigger: containerRef.current,
+						start: 'top top',
+						end: '+=200', // 在前 200px 滚动内完成
+						scrub: 1, // 平滑跟随滚动
+						invalidateOnRefresh: true,
+					},
+				}
+			);
 
 			// 1. Image sequence animation
-			tl.to(
+			tl.fromTo(
 				frameProxy.current,
+				{ frame: 0 },
 				{
 					frame: loadedImages.length - 1,
 					duration: 2,
@@ -105,8 +112,9 @@ export const ImageSequenceSection = () => {
 
 			// --- 动画步骤 2: 瓶子缩小并变淡 (当文字出现时) ---
 			// 使用 'label' 或者相对位置，比如在序列帧播放到 60% 的时候开始缩小
-			tl.to(
+			tl.fromTo(
 				'#animation-wrapper',
+				{ scale: 1, opacity: 1 },
 				{
 					scale: 0.7,
 					opacity: 0.3,
@@ -117,13 +125,11 @@ export const ImageSequenceSection = () => {
 			);
 
 			// --- 动画步骤 3: 背景色切换 ---
-			tl.to(
+			tl.fromTo(
 				containerRef.current,
+				{ backgroundColor: 'transparent' },
 				{
-					keyframes: {
-						'0%': { backgroundColor: '#FEFCE8', opacity: 0.2 },
-						'100%': { backgroundColor: '#DDF244', opacity: 1 },
-					},
+					backgroundColor: '#DDF244',
 					duration: 3,
 					ease: 'none',
 				},
@@ -175,6 +181,24 @@ export const ImageSequenceSection = () => {
 					`shrink+=5` // 等所有的字都出现后在跑这个图片animation
 				);
 			});
+
+			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
+			const syncInitialFrame = () => {
+				if (tl.scrollTrigger) {
+					tl.scrollTrigger.refresh(); // 强制重新计算进度
+					const currentProgress = tl.scrollTrigger.progress;
+					// 即使 progress 为 0 也同步，确保状态一致
+					frameProxy.current.frame = currentProgress * (loadedImages.length - 1);
+					const syncFrame = Math.floor(frameProxy.current.frame);
+					const syncImage = loadedImages[syncFrame];
+					if (syncImage) {
+						updateCanvasImage(context, canvasRef.current!, syncImage, currentScale);
+					}
+				}
+			};
+
+			// 1. 立即同步
+			syncInitialFrame();
 		},
 		{ dependencies: [loadedImages] }
 	);

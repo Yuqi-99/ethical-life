@@ -73,6 +73,12 @@ export const FloatingStars = () => {
 		starRefs.current.forEach((el, i) => {
 			const { rotation } = STARS()[i];
 
+			// ✨ 明确设置初始状态，防止刷新时位置偏移
+			gsap.set(el, {
+				y: 0,
+				rotation: rotation * 0.4, // 对应 style 中的 transform
+			});
+
 			gsap.to(el, {
 				// y: '-450',
 				y: `-${450 * responsive.scroll}`,
@@ -83,6 +89,7 @@ export const FloatingStars = () => {
 					start: 'top top',
 					end: '+=550', // 在前 600px 滚动内完成
 					scrub: 1.5,
+					invalidateOnRefresh: true, // ✨ 刷新时重新计算
 				},
 
 				onLeave: () => {
@@ -98,7 +105,7 @@ export const FloatingStars = () => {
 				},
 			});
 		});
-	}, []);
+	}, [responsive]);
 
 	useEffect(() => {
 		ScrollTrigger.refresh();

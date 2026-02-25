@@ -124,7 +124,7 @@ export const ImageSequenceSection = () => {
 				'shrink'
 			);
 
-			// --- 动画步骤 3: 背景色切换 ---
+			// --- 动画步骤 3: 背景色切换（浅到深） ---
 			tl.fromTo(
 				containerRef.current,
 				{ backgroundColor: 'transparent' },
@@ -178,9 +178,43 @@ export const ImageSequenceSection = () => {
 						duration: 0.4,
 						ease: 'power2.out',
 					},
-					`shrink+=5` // 等所有的字都出现后在跑这个图片animation
+					`shrink+=4.5` // 等所有的字都出现后在跑这个图片animation
 				);
 			});
+
+			// 5. 瓶子, 文字和图片缩小动画
+			tl.to(
+				'#animation-wrapper',
+				{
+					scale: 0,
+					opacity: 0,
+					// duration: 0.2,
+				},
+				'shrink+=5.5'
+			);
+
+			tl.fromTo(
+				'#text-animation-wrapper',
+				{ scale: 1, opacity: 1 },
+				{
+					scale: 0,
+					opacity: 0,
+					y: 0,
+					duration: 0.7,
+				},
+				'shrink+=5.5'
+			);
+
+			// 6. 背景再次变换（深到浅）
+			tl.to(
+				containerRef.current,
+				{
+					backgroundColor: 'transparent',
+					duration: 3,
+					ease: 'none',
+				},
+				'shrink+=5.5'
+			);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -228,7 +262,10 @@ export const ImageSequenceSection = () => {
 			</div>
 
 			{/* ✨ 文字层：fixed 固定在屏幕中间 */}
-			<div className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6 text-center'>
+			<div
+				id='text-animation-wrapper'
+				className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6 text-center'
+			>
 				<div className='max-w-5xl'>
 					<p className='highlight-line inline text-2xl font-bold md:text-3xl lg:text-5xl'>
 						{/* 第一段 */}

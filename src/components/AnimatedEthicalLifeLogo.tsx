@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { useRef } from 'react';
+import { useMediaQuery } from '../utils/useMediaQuery';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -11,6 +12,7 @@ interface AnimatedEthicalLifeLogoProps {
 
 export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
+	const isMobile = useMediaQuery('(max-width: 768px)');
 
 	function centerOutOrder<T>(arr: T[]) {
 		const center = Math.floor(arr.length / 2);
@@ -54,7 +56,7 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 				tl.to(
 					[orderedGroups[i], orderedGroups[i + 1]].filter(Boolean),
 					{
-						y: -400,
+						y: isMobile ? -800 : -500,
 						opacity: 0.2,
 						duration: 2, // 增加duration让动画更长
 						ease: 'power2.out',

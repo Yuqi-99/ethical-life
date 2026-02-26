@@ -1,4 +1,4 @@
-import { HomeSection } from '../components/ImageSequenceHeader';
+import { HomeSection } from '../components/AnimationSequenceSection';
 
 export const HomePage = () => {
 	return (

@@ -1,16 +1,23 @@
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { loadImagesAndDrawFirstFrame } from '../utils/loadImagesAndDrawFirstFrame';
 import { updateCanvasImage } from '../utils/updateCanvasImage';
-import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
-import { FloatingStars } from './FloatingStars';
 import { useMediaQuery } from '../utils/useMediaQuery';
+import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
+import { addCardImageAnimation } from './animations/addCardImageAnimation';
+import { addExitAnimation } from './animations/addExitAnimation';
+import { addTextRevealAnimation } from './animations/addTextRevealAnimation';
+import { initVoicesAnimation } from './animations/initVoicesAnimation';
+import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatingStarsAnimation';
+import { DescriptionSection } from './DescriptionSection';
+import { FloatingStars } from './FloatingStars';
+import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export const ImageSequenceSection = () => {
+export const AnimationequenceSection = () => {
 	const isMobile = useMediaQuery('(max-width: 768px)');
 	const containerRef = useRef<HTMLElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -138,83 +145,19 @@ export const ImageSequenceSection = () => {
 
 			// 3. Reveal text
 			// 在 useGSAP 中修改文字动画逻辑：
-			const lines = gsap.utils.toArray<HTMLElement>('.highlight-line');
-
-			lines.forEach((line) => {
-				const words = line.querySelectorAll('span');
-
-				tl.fromTo(
-					words,
-					{ opacity: 0 }, // 初始：完全透明
-					{
-						opacity: 1, // 终止：完全不透明
-						stagger: {
-							each: 0.1, // 每个词的间隔，调小一点更流畅
-							from: 'start', // 从左到右
-						},
-						duration: 1,
-						ease: 'none',
-					},
-					'shrink' // ✨ 和瓶子缩小同一时间开始
-				);
-			});
+			addTextRevealAnimation(tl);
 
 			// 4. 图片展开动画
-			const cards = gsap.utils.toArray<HTMLElement>('.card-image');
-
-			cards.forEach((card) => {
-				tl.fromTo(
-					card,
-					{
-						width: 0,
-						opacity: 0,
-					},
-					{
-						width: 150,
-						opacity: 1,
-						// 让图片可以靠近字一点
-						marginLeft: '-18px',
-						marginRight: '-18px',
-						duration: 0.4,
-						ease: 'power2.out',
-					},
-					`shrink+=4.5` // 等所有的字都出现后在跑这个图片animation
-				);
-			});
+			addCardImageAnimation(tl);
 
 			// 5. 瓶子, 文字和图片缩小动画
-			tl.to(
-				'#animation-wrapper',
-				{
-					scale: 0,
-					opacity: 0,
-					// duration: 0.2,
-				},
-				'shrink+=5.5'
-			);
-
-			tl.fromTo(
-				'#text-animation-wrapper',
-				{ scale: 1, opacity: 1 },
-				{
-					scale: 0,
-					opacity: 0,
-					y: 0,
-					duration: 0.7,
-				},
-				'shrink+=5.5'
-			);
-
 			// 6. 背景再次变换（深到浅）
-			tl.to(
-				containerRef.current,
-				{
-					backgroundColor: 'transparent',
-					duration: 3,
-					ease: 'none',
-				},
-				'shrink+=5.5'
-			);
+			addExitAnimation(tl, containerRef as RefObject<HTMLElement>);
+
+			// 7. 产品评论（voices section）
+			initVoicesAnimation(tl);
+			// 8. 产品评论（voices section）星星飘起
+			initVoicesFloatingStarsAnimation(tl);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -239,6 +182,7 @@ export const ImageSequenceSection = () => {
 
 	return (
 		<section ref={containerRef} className='relative w-full'>
+			{/* 第一个section（瓶子） */}
 			{/* ✨ 粘性层 (Sticky Layer)
          它会固定在视口，不随页面滚动，直到父容器被滚完。
       */}
@@ -251,91 +195,16 @@ export const ImageSequenceSection = () => {
 				</div>
 			</div>
 
-			{/* ✨ 内容层 (Content Layer)
-         这里是真正撑开高度的地方。
-      */}
+			{/* 第二个section （文字） */}
+			{/* ✨ 文字层：fixed 固定在屏幕中间 */}
+			<DescriptionSection />
+
+			{/* 第三个section（产品评论） */}
+			<VoiceOfEthicalLife />
+
+			{/* ✨ 扩产for scroll */}
 			<div className='relative z-20 w-full'>
 				<div className='h-screen w-full' />
-
-				{/* ✨ 占位撑高，控制整体滚动距离 */}
-				<div className='h-screen w-full' />
-			</div>
-
-			{/* ✨ 文字层：fixed 固定在屏幕中间 */}
-			<div
-				id='text-animation-wrapper'
-				className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6 text-center'
-			>
-				<div className='max-w-5xl'>
-					<p className='highlight-line inline text-2xl font-bold md:text-3xl lg:text-5xl'>
-						{/* 第一段 */}
-						{'Our gummy supplements'.split(' ').map((word, i) => (
-							<span key={`a-${i}`} className='mr-3 inline-block opacity-0'>
-								{word}
-							</span>
-						))}
-
-						{/* ✨ 图片1：人物图，插在 supplements 后面 */}
-						<span
-							className='card-image hidden overflow-hidden rounded-2xl align-middle md:inline-block'
-							style={{
-								marginTop: '-18px',
-								marginBottom: '-18px',
-								height: '85px',
-								width: '0px',
-								opacity: 0,
-								verticalAlign: 'middle',
-								position: 'relative',
-								zIndex: -1,
-							}}
-						>
-							<img
-								src='/images/text-im-1-300x179.jpg'
-								className='h-full w-full object-cover'
-								alt=''
-							/>
-						</span>
-
-						{/* 第二段 */}
-						{'are Pharmacist/Nutritionist formulated, 100% vegan, cruelty free, gelatin free, pectin based, non GMO,'
-							.split(' ')
-							.map((word, i) => (
-								<span key={`b-${i}`} className='mr-3 inline-block opacity-0'>
-									{word}
-								</span>
-							))}
-
-						{/* ✨ 图片2：风景图，插在 non GMO, 后面 */}
-						<span
-							className='card-image hidden overflow-hidden rounded-2xl align-middle md:inline-block'
-							style={{
-								marginTop: '-18px',
-								marginBottom: '-18px',
-								height: '85px',
-								width: '0px',
-								opacity: 0,
-								verticalAlign: 'middle',
-								position: 'relative',
-								zIndex: -1,
-							}}
-						>
-							<img
-								src='/images/text-im-2-300x172.png'
-								className='h-full w-full object-cover'
-								alt=''
-							/>
-						</span>
-
-						{/* 第三段*/}
-						{'free from any artificial colors or flavors, manufactured in a GMP & FDA registered facility in US, packaged in recycled bottles.'
-							.split(' ')
-							.map((word, i) => (
-								<span key={`c-${i}`} className='mr-3 inline-block opacity-0'>
-									{word}
-								</span>
-							))}
-					</p>
-				</div>
 			</div>
 		</section>
 	);
@@ -352,7 +221,7 @@ export const HomeSection = () => {
 			</div>
 			{/* 动画瓶子 */}
 			<div className='absolute inset-0 top-0 z-10 w-full max-w-360'>
-				<ImageSequenceSection />
+				<AnimationequenceSection />
 			</div>
 
 			{/* Subtitle */}

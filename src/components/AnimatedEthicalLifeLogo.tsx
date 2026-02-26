@@ -46,7 +46,7 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 					trigger: containerRef.current,
 					start: 'top 12%',
 					// end: 'bottom 20%',
-					end: '+=650',
+					end: '+=450',
 					scrub: true,
 					invalidateOnRefresh: true, // ✨ 确保刷新时重新计算坐标
 				},

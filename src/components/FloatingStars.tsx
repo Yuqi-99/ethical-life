@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef } from 'react';
+import { getStarConfig } from '../constants/stars';
 import '../FloatingStars.css';
-import { getStartsConfig } from '../constants/stars';
-import { useStarResponsive } from '../utils/useStarResponsive';
 import { useMediaQuery } from '../utils/useMediaQuery';
+import { useStarResponsive } from '../utils/useStarResponsive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,7 +18,7 @@ export const FloatingStars = () => {
 
 	const isMobile = useMediaQuery('(max-width: 425px)');
 	const isTablet = useMediaQuery('(max-width: 930px)');
-	const STARS_CONFIG = getStartsConfig(isMobile || isTablet);
+	const STARS_CONFIG = getStarConfig(isMobile || isTablet);
 	const STARS = () => {
 		if (isMobile) {
 			return [STARS_CONFIG[0], STARS_CONFIG[1], STARS_CONFIG[4], STARS_CONFIG[5]];
@@ -87,7 +87,7 @@ export const FloatingStars = () => {
 				ease: 'none',
 				scrollTrigger: {
 					start: 'top top',
-					end: '+=550', // 在前 600px 滚动内完成
+					end: '+=150', // 在前 600px 滚动内完成
 					scrub: 1.5,
 					invalidateOnRefresh: true, // ✨ 刷新时重新计算
 				},

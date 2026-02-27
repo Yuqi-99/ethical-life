@@ -1,4 +1,5 @@
 import { VoicesFloatingStars } from './VoicesFloatingStars';
+import { VoicesReviewCards } from './VoicesReviewCards';
 
 export const VoiceOfEthicalLife = () => {
 	return (
@@ -23,6 +24,7 @@ export const VoiceOfEthicalLife = () => {
 					</div>
 				</div>
 				<VoicesFloatingStars />
+				<VoicesReviewCards />
 			</div>
 		</>
 	);

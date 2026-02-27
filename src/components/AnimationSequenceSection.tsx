@@ -10,6 +10,7 @@ import { addCardImageAnimation } from './animations/addCardImageAnimation';
 import { addExitAnimation } from './animations/addExitAnimation';
 import { addTextRevealAnimation } from './animations/addTextRevealAnimation';
 import { initVoicesAnimation } from './animations/initVoicesAnimation';
+import { initVoicesCardsAnimation } from './animations/initVoicesCardsAnimation';
 import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatingStarsAnimation';
 import { DescriptionSection } from './DescriptionSection';
 import { FloatingStars } from './FloatingStars';
@@ -157,7 +158,9 @@ export const AnimationequenceSection = () => {
 			// 7. 产品评论（voices section）
 			initVoicesAnimation(tl);
 			// 8. 产品评论（voices section）星星飘起
-			initVoicesFloatingStarsAnimation(tl);
+			initVoicesFloatingStarsAnimation(tl, isMobile);
+			// 9. 产品评论（voices section）卡片弧线出现
+			initVoicesCardsAnimation(tl);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -204,6 +207,7 @@ export const AnimationequenceSection = () => {
 
 			{/* ✨ 扩产for scroll */}
 			<div className='relative z-20 w-full'>
+				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />
 			</div>
 		</section>

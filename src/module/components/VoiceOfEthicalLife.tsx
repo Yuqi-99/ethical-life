@@ -4,10 +4,7 @@ import { VoicesReviewCards } from './VoicesReviewCards';
 export const VoiceOfEthicalLife = () => {
 	return (
 		<>
-			<div
-				id='voices-section'
-				className='sticky top-0 flex h-screen items-center justify-center overflow-hidden'
-			>
+			<div className='sticky top-0 flex h-screen items-center justify-center overflow-hidden'>
 				<div className='perspective-1000 text-center leading-none'>
 					<div
 						id='voices-line1'
@@ -23,6 +20,7 @@ export const VoiceOfEthicalLife = () => {
 						ETHICAL LIFE
 					</div>
 				</div>
+
 				<VoicesFloatingStars />
 				<VoicesReviewCards />
 			</div>

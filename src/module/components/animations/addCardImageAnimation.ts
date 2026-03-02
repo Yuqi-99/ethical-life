@@ -12,7 +12,7 @@ export const addCardImageAnimation = (tl: gsap.core.Timeline) => {
 				opacity: 1,
 				marginLeft: '-18px',
 				marginRight: '-18px',
-				duration: 0.4,
+				duration: 0.5,
 				ease: 'power2.out',
 			},
 			'shrink+=4.5'

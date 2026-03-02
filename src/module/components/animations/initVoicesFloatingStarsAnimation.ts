@@ -20,4 +20,21 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 		},
 		isMobile ? 'shrink+=8.5' : 'shrink+=9'
 	);
+
+	tl.fromTo(
+		'#voices-stars .star',
+		{
+			opacity: 1,
+			y: 500,
+			rotation: (i) => (starsConfig[i]?.rotation || 0) * 0.4,
+		},
+		{
+			opacity: 1,
+			y: -800,
+			rotation: (i) => starsConfig[i]?.rotation || 0,
+			duration: 1.5,
+			ease: 'none',
+		},
+		'shrink+=11'
+	);
 };

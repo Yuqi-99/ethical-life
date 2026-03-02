@@ -15,6 +15,8 @@ import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatin
 import { DescriptionSection } from './DescriptionSection';
 import { FloatingStars } from './FloatingStars';
 import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
+import { initHashtagAnimation } from './animations/initHashtagAnimation';
+import { HashtagSection } from './HashtagSection';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -164,6 +166,9 @@ export const AnimationequenceSection = () => {
 			// 10. 产品评论（voices section）文字逐渐消失
 			exitVoicesAnimation(tl);
 
+			// 11. Hashtag section
+			initHashtagAnimation(tl);
+
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
 				if (tl.scrollTrigger) {
@@ -206,6 +211,9 @@ export const AnimationequenceSection = () => {
 
 			{/* 第三个section（产品评论） */}
 			<VoiceOfEthicalLife />
+
+			{/* 第四个section(Hashtag) */}
+			<HashtagSection />
 
 			{/* ✨ 扩产for scroll */}
 			<div className='relative z-20 w-full'>

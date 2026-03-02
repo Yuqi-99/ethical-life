@@ -1,12 +1,11 @@
-
 export const DescriptionSection = () => {
 	return (
 		<div
 			id='text-animation-wrapper'
-			className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6 text-center'
+			className='pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-16 text-center lg:px-6'
 		>
-			<div className='max-w-5xl'>
-				<p className='highlight-line inline text-2xl font-bold md:text-3xl lg:text-5xl'>
+			<div className='max-w-5xl px-4'>
+				<p className='highlight-line inline text-3xl font-semibold md:text-4xl lg:text-5xl'>
 					{/* 第一段 */}
 					{'Our gummy supplements'.split(' ').map((word, i) => (
 						<span key={`a-${i}`} className='mr-3 inline-block opacity-0'>

@@ -16,6 +16,7 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 			rotation: (i) => starsConfig[i]?.rotation || 0,
 			duration: isMobile ? 3 : 1.5,
 			ease: 'none',
+			scrub: 1.5,
 			// stagger: 0.1,
 		},
 		isMobile ? 'shrink+=8.5' : 'shrink+=9'
@@ -34,6 +35,7 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 			rotation: (i) => starsConfig[i]?.rotation || 0,
 			duration: 1.5,
 			ease: 'none',
+			scrub: 1.5,
 		},
 		'shrink+=11'
 	);

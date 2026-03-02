@@ -15,7 +15,11 @@ import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatin
 import { DescriptionSection } from './DescriptionSection';
 import { FloatingStars } from './FloatingStars';
 import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
-import { initHashtagAnimation } from './animations/initHashtagAnimation';
+import {
+	addExitBackgroundAnimation,
+	exitHashtagAnimation,
+	initHashtagAnimation,
+} from './animations/initHashtagAnimation';
 import { HashtagSection } from './HashtagSection';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -103,7 +107,7 @@ export const AnimationequenceSection = () => {
 				{ frame: 0 },
 				{
 					frame: loadedImages.length - 1,
-					duration: 2,
+					duration: 4, // Increased from 2 to 4 for smoother image transitions
 					ease: 'none',
 					onUpdate: () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);
@@ -168,6 +172,8 @@ export const AnimationequenceSection = () => {
 
 			// 11. Hashtag section
 			initHashtagAnimation(tl);
+			exitHashtagAnimation(tl);
+			addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {

@@ -1,4 +1,3 @@
-
 export const HashtagSection = () => {
 	return (
 		<>
@@ -20,7 +19,6 @@ export const HashtagSection = () => {
 					))}
 				</p>
 			</div>
-			{/* <VoicesFloatingStars /> */}
 		</>
 	);
 };

@@ -16,8 +16,10 @@ export const REVIEW_LISTS = [
 		code: 'SS',
 		name: 'Sierra S.',
 		city: 'San Jose, CA',
-		review:
-			'"Tastes like a candy I used to enjoy as a kid, but it is a vitamin. It tastes amazing!"',
+		// review:
+		// '"Tastes like a candy I used to enjoy as a kid, but it is a vitamin. It tastes amazing!"',
+		video: 'https://ethicallifeworld.com/wp-content/uploads/2025/06/vide_for_ethical_life_2.mp4',
+		img: '/images/videoframe_0.jpg',
 	},
 	{
 		code: 'TD',
@@ -30,8 +32,10 @@ export const REVIEW_LISTS = [
 		code: 'JA',
 		name: 'Jennifer A.',
 		city: 'Bloomington, Indiana',
-		review:
-			'"I love that I can trust this brand and its supplements. Ethical, clean and effective."',
+		// review:
+		// 	'"I love that I can trust this brand and its supplements. Ethical, clean and effective."',
+		video: 'https://ethicallifeworld.com/wp-content/uploads/2025/06/ShortvideoforEthicalLife.mp4',
+		img: '/images/videoframe_1031.jpg',
 	},
 	{
 		code: 'MK',

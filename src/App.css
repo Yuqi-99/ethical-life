@@ -21,6 +21,10 @@ body,
 	--color-yellow-main-rgb: var(--yellow-main-rgb);
 	--color-bg-light: var(--bg-light);
 	--color-bg-drawer: var(--bg-drawer);
+
+	--z-index-modal-overlay: 100;
+	--z-index-modal: 200;
+	--z-index-modal-content: 300;
 }
 
 /* #root {

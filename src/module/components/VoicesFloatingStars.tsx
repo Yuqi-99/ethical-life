@@ -1,10 +1,10 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
-import '../FloatingStars.css';
-import { getStarDecoConfig } from '../constants/voicesStarsDeco';
-import { useMediaQuery } from '../utils/useMediaQuery';
-import { useStarResponsive } from '../utils/useStarResponsive';
+import '../../FloatingStars.css';
+import { getStarDecoConfig } from '../../constants/voicesStarsDeco';
+import { useMediaQuery } from '../../utils/useMediaQuery';
+import { useStarResponsive } from '../../utils/useStarResponsive';
 
 gsap.registerPlugin(ScrollTrigger);
 

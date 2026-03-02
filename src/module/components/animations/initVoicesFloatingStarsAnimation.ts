@@ -1,4 +1,4 @@
-import { getStarDecoConfig } from '../../constants/voicesStarsDeco';
+import { getStarDecoConfig } from '../../../constants/voicesStarsDeco';
 
 export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobile: boolean) => {
 	const starsConfig = getStarDecoConfig(false); // We can pass a default or handle responsive inside if needed

@@ -2,14 +2,14 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { useEffect, useRef, useState, type RefObject } from 'react';
-import { loadImagesAndDrawFirstFrame } from '../utils/loadImagesAndDrawFirstFrame';
-import { updateCanvasImage } from '../utils/updateCanvasImage';
-import { useMediaQuery } from '../utils/useMediaQuery';
+import { loadImagesAndDrawFirstFrame } from '../../utils/loadImagesAndDrawFirstFrame';
+import { updateCanvasImage } from '../../utils/updateCanvasImage';
+import { useMediaQuery } from '../../utils/useMediaQuery';
 import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
 import { addCardImageAnimation } from './animations/addCardImageAnimation';
 import { addExitAnimation } from './animations/addExitAnimation';
 import { addTextRevealAnimation } from './animations/addTextRevealAnimation';
-import { initVoicesAnimation } from './animations/initVoicesAnimation';
+import { exitVoicesAnimation, initVoicesAnimation } from './animations/initVoicesAnimation';
 import { initVoicesCardsAnimation } from './animations/initVoicesCardsAnimation';
 import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatingStarsAnimation';
 import { DescriptionSection } from './DescriptionSection';
@@ -161,6 +161,8 @@ export const AnimationequenceSection = () => {
 			initVoicesFloatingStarsAnimation(tl, isMobile);
 			// 9. 产品评论（voices section）卡片弧线出现
 			initVoicesCardsAnimation(tl);
+			// 10. 产品评论（voices section）文字逐渐消失
+			exitVoicesAnimation(tl);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {

@@ -3,8 +3,8 @@ import gsap from 'gsap';
 export const initVoicesCardsAnimation = (tl: gsap.core.Timeline) => {
 	const cards = gsap.utils.toArray<HTMLElement>('.voice-card');
 
-	const SLOT = 0.2;
-	const DURATION = 3;
+	const SLOT = 0.3;
+	const DURATION = 4;
 
 	gsap.set(cards, {
 		opacity: 1,
@@ -36,7 +36,7 @@ export const initVoicesCardsAnimation = (tl: gsap.core.Timeline) => {
 	};
 
 	cards.forEach((card, index) => {
-		const start = `shrink+=${8.5 + index * SLOT}`;
+		const start = `shrink+=${8 + index * SLOT}`;
 
 		tl.fromTo(
 			card,

@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 
-export const initVoicesAnimation = (tl: gsap.core.Timeline,) => {
+export const initVoicesAnimation = (tl: gsap.core.Timeline) => {
 	gsap.set(['#voices-line1', '#voices-line2'], { opacity: 0 });
 
 	tl.fromTo(
@@ -45,9 +45,15 @@ export const initVoicesAnimation = (tl: gsap.core.Timeline,) => {
 				scale: 1,
 				y: 0,
 				rotateX: 0, // 立起来
-				duration: 2,
+				duration: 1.5,
 				ease: 'power2.out',
 			},
 			'>'
 		);
+};
+
+export const exitVoicesAnimation = (tl: gsap.core.Timeline) => {
+	tl.to('#voices-line1', { opacity: 0, duration: 1, ease: 'none' }, 'shrink+=10');
+
+	tl.to('#voices-line2', { opacity: 0, duration: 1, ease: 'none' }, 'shrink+=10');
 };

@@ -1,0 +1,25 @@
+import gsap from 'gsap';
+
+export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile: boolean) => {
+	const lines = [
+		'#desc-line1',
+		'#desc-line2',
+		'#desc-line3',
+		'#desc-line4',
+		'#desc-line5',
+		'#desc-line6',
+	];
+	const BASE_TIME = isMobile ? 13 : 12; // 第一行的开始时间
+	const INTERVAL = 0.5; // 每行之间的间隔
+
+	gsap.set(lines, { visibility: 'hidden' });
+
+	lines.forEach((line, index) => {
+		tl.fromTo(
+			line,
+			{ visibility: 'hidden', scale: 0.9, rotateX: -80, transformOrigin: '50% 50%' },
+			{ visibility: 'visible', scale: 1, rotateX: 0, duration: 2.5, ease: 'power2.out' },
+			`shrink+=${BASE_TIME + index * INTERVAL}` // ✨ 11.5, 12, 12.5, 13...
+		);
+	});
+};

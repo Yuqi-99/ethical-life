@@ -14,7 +14,7 @@ export const initVoicesAnimation = (tl: gsap.core.Timeline) => {
 			opacity: 1,
 			scale: 1,
 			y: 0,
-			duration: 2.5,
+			duration: 3,
 			ease: 'power2.out',
 		},
 		'shrink+=6'
@@ -33,7 +33,7 @@ export const initVoicesAnimation = (tl: gsap.core.Timeline) => {
 				scale: 1,
 				y: 0,
 				rotateX: 50, // 立起来
-				duration: 2.5,
+				duration: 3,
 				ease: 'power2.out',
 			},
 			'shrink+=6.5'

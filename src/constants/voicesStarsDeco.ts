@@ -63,8 +63,8 @@ export const getStarDecoConfig = (isMobile: boolean): StarConfig[] => [
 	{
 		id: 4,
 		src: '/images/gummy-4-big.webp',
-		size: 200,
-		top: isMobile ? 500 : 450,
+		size: isMobile ? 130 : 200,
+		top: isMobile ? 350 : 450,
 		right: isMobile ? 35 : 56,
 		depth: 20,
 		scrollSpeed: 0.8,
@@ -76,7 +76,7 @@ export const getStarDecoConfig = (isMobile: boolean): StarConfig[] => [
 	{
 		id: 5,
 		src: '/images/gummy-2-big.webp',
-		size: 180,
+		size: isMobile ? 120 : 180,
 		top: 600,
 		right: isMobile ? 140 : 200,
 		depth: 20,
@@ -101,4 +101,3 @@ export const getStarDecoConfig = (isMobile: boolean): StarConfig[] => [
 		isLeft: false,
 	},
 ];
-

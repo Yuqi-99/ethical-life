@@ -17,11 +17,21 @@ export const VoicesFloatingStars = () => {
 	const isTablet = useMediaQuery('(max-width: 930px)');
 	const STARS_CONFIG = getStarDecoConfig(isMobile || isTablet);
 
+	const STARS = () => {
+		if (isMobile) {
+			return [STARS_CONFIG[2], STARS_CONFIG[3], STARS_CONFIG[4], STARS_CONFIG[5]];
+		} else if (isTablet) {
+			return STARS_CONFIG;
+		} else {
+			return STARS_CONFIG;
+		}
+	};
+
 	/* ---------- Internal animations removed to avoid conflict with main timeline ---------- */
 
 	return (
 		<div id='voices-stars' className='parallax-stars'>
-			{STARS_CONFIG.map((star, i) => {
+			{STARS().map((star, i) => {
 				return (
 					<div
 						key={star.id}

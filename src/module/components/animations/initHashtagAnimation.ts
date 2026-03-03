@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import type { RefObject } from 'react';
 
-export const initHashtagAnimation = (tl: gsap.core.Timeline) => {
+export const initHashtagAnimation = (tl: gsap.core.Timeline, isMobile: boolean) => {
 	const lines = gsap.utils.toArray<HTMLElement>('.hashtag-line');
 
 	lines.forEach((line) => {
@@ -15,26 +15,27 @@ export const initHashtagAnimation = (tl: gsap.core.Timeline) => {
 				duration: 0.5,
 				ease: 'none',
 			},
-			'shrink+=11'
+			isMobile ? 'shrink+=12' : 'shrink+=11'
 		);
 	});
 };
 
-export const exitHashtagAnimation = (tl: gsap.core.Timeline) => {
+export const exitHashtagAnimation = (tl: gsap.core.Timeline, isMobile: boolean) => {
 	tl.to(
 		'#hasgtag-section',
 		{ opacity: 0, scale: 0.8, duration: 0.5, ease: 'none' },
-		'shrink+=11.7'
+		isMobile ? 'shrink+=12.7' : 'shrink+=11.7'
 	);
 };
 
 export const addExitBackgroundAnimation = (
 	tl: gsap.core.Timeline,
-	containerRef: RefObject<HTMLElement>
+	containerRef: RefObject<HTMLElement>,
+	isMobile: boolean
 ) => {
 	tl.to(
 		containerRef.current,
 		{ backgroundColor: '#DDF244', opacity: 0.8, duration: 1.5, ease: 'none' },
-		'shrink+=11.7'
+		isMobile ? 'shrink+=12.7' : 'shrink+=11.7'
 	);
 };

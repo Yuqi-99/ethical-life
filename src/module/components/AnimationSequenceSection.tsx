@@ -21,6 +21,8 @@ import {
 	initHashtagAnimation,
 } from './animations/initHashtagAnimation';
 import { HashtagSection } from './HashtagSection';
+import { SecondDescriptionSection } from './SecondDescriptionSection';
+import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -107,7 +109,7 @@ export const AnimationequenceSection = () => {
 				{ frame: 0 },
 				{
 					frame: loadedImages.length - 1,
-					duration: 4, // Increased from 2 to 4 for smoother image transitions
+					duration: 3,
 					ease: 'none',
 					onUpdate: () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);
@@ -171,9 +173,12 @@ export const AnimationequenceSection = () => {
 			exitVoicesAnimation(tl);
 
 			// 11. Hashtag section
-			initHashtagAnimation(tl);
-			exitHashtagAnimation(tl);
-			addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>);
+			initHashtagAnimation(tl, isMobile);
+			exitHashtagAnimation(tl, isMobile);
+			addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>, isMobile);
+
+			// 12. Second description section
+			initSecondDescriptionAnimation(tl, isMobile);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -220,6 +225,9 @@ export const AnimationequenceSection = () => {
 
 			{/* 第四个section(Hashtag) */}
 			<HashtagSection />
+
+			{/* 第五个section(第二个decription描述) */}
+			<SecondDescriptionSection />
 
 			{/* ✨ 扩产for scroll */}
 			<div className='relative z-20 w-full'>

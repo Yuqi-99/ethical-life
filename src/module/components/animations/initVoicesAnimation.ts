@@ -53,7 +53,7 @@ export const initVoicesAnimation = (tl: gsap.core.Timeline) => {
 };
 
 export const exitVoicesAnimation = (tl: gsap.core.Timeline) => {
-	tl.to('#voices-line1', { opacity: 0, duration: 1, ease: 'none' }, 'shrink+=10');
+	tl.to('#voices-line1', { opacity: 0, duration: 3, ease: 'none' }, 'shrink+=10');
 
-	tl.to('#voices-line2', { opacity: 0, duration: 1, ease: 'none' }, 'shrink+=10');
+	tl.to('#voices-line2', { opacity: 0, duration: 3, ease: 'none' }, 'shrink+=10');
 };

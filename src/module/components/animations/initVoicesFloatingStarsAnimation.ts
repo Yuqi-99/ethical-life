@@ -14,12 +14,12 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 			opacity: 1,
 			y: -800,
 			rotation: (i) => starsConfig[i]?.rotation || 0,
-			duration: isMobile ? 3 : 1.5,
+			duration: 5,
 			ease: 'none',
 			scrub: 1.5,
 			// stagger: 0.1,
 		},
-		isMobile ? 'shrink+=8.5' : 'shrink+=9'
+		isMobile ? 'shrink+=8' : 'shrink+=8.5'
 	);
 
 	tl.fromTo(
@@ -33,10 +33,10 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 			opacity: 1,
 			y: -800,
 			rotation: (i) => starsConfig[i]?.rotation || 0,
-			duration: isMobile ? 3 : 1.5,
+			duration: 3,
 			ease: 'none',
 			scrub: 1.5,
 		},
-		isMobile ? 'shrink+=11.5' : 'shrink+=11'
+		isMobile ? 'shrink+=17' : 'shrink+=16'
 	);
 };

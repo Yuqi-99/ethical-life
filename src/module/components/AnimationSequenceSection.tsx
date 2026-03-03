@@ -14,14 +14,10 @@ import { initVoicesCardsAnimation } from './animations/initVoicesCardsAnimation'
 import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatingStarsAnimation';
 import { DescriptionSection } from './DescriptionSection';
 import { FloatingStars } from './FloatingStars';
-import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
-import {
-	addExitBackgroundAnimation,
-	exitHashtagAnimation,
-	initHashtagAnimation,
-} from './animations/initHashtagAnimation';
 import { HashtagSection } from './HashtagSection';
 import { SecondDescriptionSection } from './SecondDescriptionSection';
+import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
+import { addExitBackgroundAnimation, exitHashtagAnimation, initHashtagAnimation } from './animations/initHashtagAnimation';
 import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -77,9 +73,9 @@ export const AnimationequenceSection = () => {
 					id: 'image-sequence',
 					trigger: containerRef.current, // 以整个长容器为触发器
 					start: 'top top',
-					end: '+=1200',
-					// end: 'bottom bottom', // 滚到容器底部才结束
-					scrub: 1.5,
+					// end: '+=3800',
+					end: 'bottom bottom', // 滚到容器底部才结束
+					scrub: 2.5,
 					invalidateOnRefresh: true,
 				},
 			});
@@ -96,8 +92,8 @@ export const AnimationequenceSection = () => {
 					scrollTrigger: {
 						trigger: containerRef.current,
 						start: 'top top',
-						end: '+=200', // 在前 200px 滚动内完成
-						scrub: 1, // 平滑跟随滚动
+						end: '+=400', // 在前 600px 滚动内完成
+						scrub: 2, // 平滑跟随滚动
 						invalidateOnRefresh: true,
 					},
 				}
@@ -231,6 +227,8 @@ export const AnimationequenceSection = () => {
 
 			{/* ✨ 扩产for scroll */}
 			<div className='relative z-20 w-full'>
+				<div className='h-screen w-full' />
+				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />
 			</div>

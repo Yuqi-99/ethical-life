@@ -9,7 +9,7 @@ export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile:
 		'#desc-line5',
 		'#desc-line6',
 	];
-	const BASE_TIME = isMobile ? 13 : 12; // 第一行的开始时间
+	const BASE_TIME = isMobile ? 18 : 17; // 第一行的开始时间
 	const INTERVAL = 0.5; // 每行之间的间隔
 
 	gsap.set(lines, { visibility: 'hidden' });

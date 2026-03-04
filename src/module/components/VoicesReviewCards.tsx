@@ -51,6 +51,7 @@ export const VoicesReviewCards = () => {
 							className={cn(
 								'voice-card absolute flex h-[50dvh] w-[30dvh] flex-col justify-between border border-black/5 p-0 sm:h-[70dvh] sm:w-[35dvw] lg:w-[25dvw]',
 								item.review && 'p-8',
+								item.video && 'cursor-pointer',
 								index % 2 === 0 ? 'bg-white' : 'bg-yellow-main'
 							)}
 							style={{

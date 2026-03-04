@@ -87,7 +87,7 @@ export const FloatingStars = () => {
 				ease: 'none',
 				scrollTrigger: {
 					start: 'top top',
-					end: '+=600', // 在前 600px 滚动内完成
+					end: '+=450', // 在前 600px 滚动内完成
 					scrub: 1.5,
 					invalidateOnRefresh: true, // ✨ 刷新时重新计算
 				},

@@ -17,7 +17,11 @@ import { FloatingStars } from './FloatingStars';
 import { HashtagSection } from './HashtagSection';
 import { SecondDescriptionSection } from './SecondDescriptionSection';
 import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
-import { addExitBackgroundAnimation, exitHashtagAnimation, initHashtagAnimation } from './animations/initHashtagAnimation';
+import {
+	addExitBackgroundAnimation,
+	exitHashtagAnimation,
+	initHashtagAnimation,
+} from './animations/initHashtagAnimation';
 import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -92,7 +96,7 @@ export const AnimationequenceSection = () => {
 					scrollTrigger: {
 						trigger: containerRef.current,
 						start: 'top top',
-						end: '+=400', // 在前 600px 滚动内完成
+						end: '+=300', // 在前 600px 滚动内完成
 						scrub: 2, // 平滑跟随滚动
 						invalidateOnRefresh: true,
 					},
@@ -226,7 +230,7 @@ export const AnimationequenceSection = () => {
 			<SecondDescriptionSection />
 
 			{/* ✨ 扩产for scroll */}
-			<div className='relative z-20 w-full'>
+			<div className='pointer-events-none relative z-20 w-full'>
 				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />

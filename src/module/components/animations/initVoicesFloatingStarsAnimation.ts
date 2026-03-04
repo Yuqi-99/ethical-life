@@ -6,11 +6,13 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 	tl.fromTo(
 		'#voices-stars .star',
 		{
+			visibility: 'hidden',
 			opacity: 1,
 			y: 500,
 			rotation: (i) => (starsConfig[i]?.rotation || 0) * 0.4,
 		},
 		{
+			visibility: 'visible',
 			opacity: 1,
 			y: -800,
 			rotation: (i) => starsConfig[i]?.rotation || 0,
@@ -25,11 +27,13 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 	tl.fromTo(
 		'#voices-stars .star',
 		{
+			visibility: 'hidden',
 			opacity: 1,
 			y: 500,
 			rotation: (i) => (starsConfig[i]?.rotation || 0) * 0.4,
 		},
 		{
+			visibility: 'visible',
 			opacity: 1,
 			y: -800,
 			rotation: (i) => starsConfig[i]?.rotation || 0,

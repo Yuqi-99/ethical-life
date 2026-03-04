@@ -44,9 +44,9 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 			const tl = gsap.timeline({
 				scrollTrigger: {
 					trigger: containerRef.current,
-					start: 'top 12%',
+					start: 'top 8%',
 					// end: 'bottom 20%',
-					end: '+=600',
+					end: '+=450',
 					scrub: true,
 					invalidateOnRefresh: true, // ✨ 确保刷新时重新计算坐标
 				},

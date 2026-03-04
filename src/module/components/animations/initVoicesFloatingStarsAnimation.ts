@@ -8,7 +8,7 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 		{
 			visibility: 'hidden',
 			opacity: 1,
-			y: 500,
+			y: '100vh',
 			rotation: (i) => (starsConfig[i]?.rotation || 0) * 0.4,
 		},
 		{
@@ -29,7 +29,7 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 		{
 			visibility: 'hidden',
 			opacity: 1,
-			y: 500,
+			y: '100vh',
 			rotation: (i) => (starsConfig[i]?.rotation || 0) * 0.4,
 		},
 		{

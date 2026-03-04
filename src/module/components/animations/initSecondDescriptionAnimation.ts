@@ -19,7 +19,7 @@ export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile:
 			line,
 			{ visibility: 'hidden', scale: 0.9, rotateX: -80, transformOrigin: '50% 50%' },
 			{ visibility: 'visible', scale: 1, rotateX: 0, duration: 2.5, ease: 'power2.out' },
-			`shrink+=${BASE_TIME + index * INTERVAL}` // ✨ 11.5, 12, 12.5, 13...
+			`shrink+=${BASE_TIME + index * INTERVAL}`
 		);
 	});
 

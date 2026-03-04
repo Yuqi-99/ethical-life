@@ -23,6 +23,8 @@ import {
 	initHashtagAnimation,
 } from './animations/initHashtagAnimation';
 import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
+import { PurchaseSuggestionSection } from './PurchaseSuggestionSection';
+import { initPurchaseSuggestionAnimation } from './animations/initPurchaseSuggestionAnimation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -180,6 +182,9 @@ export const AnimationequenceSection = () => {
 			// 12. Second description section (description出现 + 背景变换)
 			initSecondDescriptionAnimation(tl, isMobile);
 
+			// 13. Puchase suggestion section
+			initPurchaseSuggestionAnimation(tl);
+
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
 				if (tl.scrollTrigger) {
@@ -216,18 +221,21 @@ export const AnimationequenceSection = () => {
 				</div>
 			</div>
 
-			{/* 第二个section （文字） */}
+			{/* 第二个section（文字） */}
 			{/* ✨ 文字层：fixed 固定在屏幕中间 */}
 			<DescriptionSection />
 
 			{/* 第三个section（产品评论） */}
 			<VoiceOfEthicalLife />
 
-			{/* 第四个section(Hashtag) */}
+			{/* 第四个section (Hashtag) */}
 			<HashtagSection />
 
-			{/* 第五个section(第二个decription描述) */}
+			{/* 第五个section (第二个decription描述) */}
 			<SecondDescriptionSection />
+
+			{/* 第六个section (purchase plan) */}
+			<PurchaseSuggestionSection />
 
 			{/* ✨ 扩产for scroll */}
 			<div className='pointer-events-none relative z-20 w-full'>

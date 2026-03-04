@@ -20,7 +20,7 @@ export const SecondDescriptionSection = () => {
 			/>
 			<div
 				id='description-section-2'
-				className='pointer-events-none fixed inset-0 z-50 flex h-screen flex-col items-center justify-center overflow-hidden px-6 text-center'
+				className='pointer-events-none fixed inset-0 flex h-screen flex-col items-center justify-center overflow-hidden px-6 text-center'
 			>
 				{DECS_2.map((word, i) => (
 					<div

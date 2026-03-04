@@ -32,13 +32,18 @@ export const AnimationequenceSection = () => {
 	const isMobile = useMediaQuery('(max-width: 768px)');
 	const containerRef = useRef<HTMLElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const canvasRef2 = useRef<HTMLCanvasElement>(null);
 	const [loadedImages, setLoadedImages] = useState<HTMLImageElement[]>();
+	const [loadedImages2, setLoadedImages2] = useState<HTMLImageElement[]>();
 	const currentScale = isMobile ? 0.9 : 1;
 
 	// ✨ Use a ref to track the current frame index across re-renders and resize events
 	const frameProxy = useRef({ frame: 0 });
+	const frameProxy2 = useRef({ frame: 0 });
+	const lastFrameDrawn1 = useRef(-1);
+	const lastFrameDrawn2 = useRef(-1);
 
-	// 1. 初始化加载图片
+	// 1. 初始化加载图片 (Section 1)
 	useEffect(() => {
 		if (!canvasRef.current || loadedImages) return;
 
@@ -63,12 +68,38 @@ export const AnimationequenceSection = () => {
 		};
 
 		initialSetup();
-	}, [loadedImages]);
+	}, [loadedImages, isMobile]);
+
+	// 1.1 初始化加载图片 (Purchase Suggestion Section) 最后瓶子的图片
+	useEffect(() => {
+		if (!canvasRef2.current || loadedImages2) return;
+
+		const initialSetup = async () => {
+			canvasRef2.current!.width = 1920;
+			canvasRef2.current!.height = 1080;
+
+			const startFrame = 49;
+			const totalFrames = 422; // 470 - 49 + 1
+			const imageSrcs = Array.from({ length: totalFrames }, (_, i) => {
+				const frameNumber = (startFrame + i).toString().padStart(5, '0');
+				return `/images/s2_frames/S2_${frameNumber}.webp`;
+			});
+
+			const images = await loadImagesAndDrawFirstFrame({
+				canvas: canvasRef2.current!,
+				imageSrcs,
+				isMobile: isMobile,
+			});
+			setLoadedImages2(images);
+		};
+
+		initialSetup();
+	}, [loadedImages2, isMobile]);
 
 	// 2. GSAP 核心动画
 	useGSAP(
 		() => {
-			if (!loadedImages || !containerRef.current || !canvasRef.current) return;
+			if (!loadedImages || !loadedImages2 || !containerRef.current || !canvasRef.current) return;
 
 			const context = canvasRef.current.getContext('2d', { alpha: true });
 			if (!context) return;
@@ -115,6 +146,9 @@ export const AnimationequenceSection = () => {
 					ease: 'none',
 					onUpdate: () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);
+						if (nextFrame === lastFrameDrawn1.current) return;
+						lastFrameDrawn1.current = nextFrame;
+
 						const nextImage = loadedImages[nextFrame];
 						if (nextImage) {
 							updateCanvasImage(context, canvasRef.current!, nextImage, currentScale);
@@ -183,19 +217,49 @@ export const AnimationequenceSection = () => {
 			initSecondDescriptionAnimation(tl, isMobile);
 
 			// 13. Puchase suggestion section
-			initPurchaseSuggestionAnimation(tl);
+			initPurchaseSuggestionAnimation(
+				tl,
+				loadedImages2,
+				frameProxy2,
+				lastFrameDrawn2,
+				canvasRef2,
+				currentScale
+			);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
 				if (tl.scrollTrigger) {
 					tl.scrollTrigger.refresh(); // 强制重新计算进度
 					const currentProgress = tl.scrollTrigger.progress;
-					// 即使 progress 为 0 也同步，确保状态一致
+
+					// Sync Bottle 1 (Master Timeline Progress 0 to 1)
+					// Handle frame calculation based on timeline progress
+					// We iterate through children to find the specific frameProxy animations if needed,
+					// but since it starts at 0, master progress is okay for Bottle 1.
 					frameProxy.current.frame = currentProgress * (loadedImages.length - 1);
 					const syncFrame = Math.floor(frameProxy.current.frame);
 					const syncImage = loadedImages[syncFrame];
 					if (syncImage) {
 						updateCanvasImage(context, canvasRef.current!, syncImage, currentScale);
+					}
+
+					// Sync Bottle 2
+					if (loadedImages2 && canvasRef2.current) {
+						const context2 = canvasRef2.current.getContext('2d', { alpha: true });
+						if (context2) {
+							// For Bottle 2, we need to find its progress in the timeline.
+							// However, a simple way is to seek(tl.duration() * currentProgress)
+							// and then update the canvas from the updated frameProxy.
+
+							// Seek to current progress to update all frame proxies in the timeline
+							tl.progress(currentProgress);
+
+							const syncFrame2 = Math.floor(frameProxy2.current.frame);
+							const syncImage2 = loadedImages2[syncFrame2];
+							if (syncImage2) {
+								updateCanvasImage(context2, canvasRef2.current!, syncImage2, currentScale);
+							}
+						}
 					}
 				}
 			};
@@ -203,7 +267,7 @@ export const AnimationequenceSection = () => {
 			// 1. 立即同步
 			syncInitialFrame();
 		},
-		{ dependencies: [loadedImages] }
+		{ dependencies: [loadedImages, loadedImages2] }
 	);
 
 	return (
@@ -217,7 +281,7 @@ export const AnimationequenceSection = () => {
 					id='animation-wrapper'
 					className='flex h-full w-full items-center justify-center transition-transform'
 				>
-					<canvas ref={canvasRef} className='h-full w-full object-cover' />
+					<canvas ref={canvasRef} className='h-full w-full object-cover will-change-transform' />
 				</div>
 			</div>
 
@@ -235,7 +299,7 @@ export const AnimationequenceSection = () => {
 			<SecondDescriptionSection />
 
 			{/* 第六个section (purchase plan) */}
-			<PurchaseSuggestionSection />
+			<PurchaseSuggestionSection canvasRef={canvasRef2} />
 
 			{/* ✨ 扩产for scroll */}
 			<div className='pointer-events-none relative z-20 w-full'>

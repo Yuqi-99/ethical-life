@@ -15,15 +15,24 @@ export const loadImagesAndDrawFirstFrame = async ({
 	const currentScale = isMobile ? 0.9 : 1;
 
 	return new Promise<HTMLImageElement[]>((resolve, reject) => {
-		const onImageLoad = (index: number, img: HTMLImageElement) => {
-			// Draw the first frame ASAP
-			if (index === 0) {
-				const context = canvas.getContext('2d', { alpha: true });
-				if (!context) return;
-				updateCanvasImage(context, canvas, img, currentScale);
+		const onImageLoad = async (index: number, img: HTMLImageElement) => {
+			try {
+				// ✨ Pre-decode the image before resolving to ensure smooth animation
+				// This forces the browser to prepare the GPU texture ahead of time.
+				await img.decode();
+
+				// Draw the first frame ASAP
+				if (index === 0) {
+					const context = canvas.getContext('2d', { alpha: true });
+					if (!context) return;
+					updateCanvasImage(context, canvas, img, currentScale);
+				}
+			} catch (e) {
+				console.warn(`Failed to decode image at index ${index}`, e);
 			}
+
 			loadedCount++;
-			const hasLoadedAll = loadedCount === imageSrcs.length - 1;
+			const hasLoadedAll = loadedCount === imageSrcs.length;
 			if (hasLoadedAll) resolve(images);
 		};
 
@@ -31,7 +40,6 @@ export const loadImagesAndDrawFirstFrame = async ({
 		const maxRetries = 3;
 
 		const onImageError = (i: number, img: HTMLImageElement) => {
-			// Try reloading this image a couple of times. If it fails then reject.
 			if (retries[i] < maxRetries) {
 				console.warn(`Image ${i} failed to load. Retrying... ${retries[i]}`);
 				img.src = `${imageSrcs[i]}?r=${retries[i]}`;
@@ -41,7 +49,7 @@ export const loadImagesAndDrawFirstFrame = async ({
 			}
 		};
 
-		for (let i = 0; i < imageSrcs.length - 1; i++) {
+		for (let i = 0; i < imageSrcs.length; i++) {
 			const img = new Image();
 			img.src = imageSrcs[i];
 			img.addEventListener('load', () => onImageLoad(i, img));

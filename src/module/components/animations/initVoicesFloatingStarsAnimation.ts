@@ -33,7 +33,7 @@ export const initVoicesFloatingStarsAnimation = (tl: gsap.core.Timeline, isMobil
 			opacity: 1,
 			y: -800,
 			rotation: (i) => starsConfig[i]?.rotation || 0,
-			duration: 3,
+			duration: 5,
 			ease: 'none',
 			scrub: 1.5,
 		},

@@ -49,7 +49,7 @@ export const VoicesReviewCards = () => {
 						<div
 							key={index}
 							className={cn(
-								'voice-card absolute flex h-[70dvh] w-[40dvh] flex-col justify-between border border-black/5 p-0 sm:w-[35dvw] lg:w-[25dvw]',
+								'voice-card absolute flex h-[50dvh] w-[30dvh] flex-col justify-between border border-black/5 p-0 sm:h-[70dvh] sm:w-[35dvw] lg:w-[25dvw]',
 								item.review && 'p-8',
 								index % 2 === 0 ? 'bg-white' : 'bg-yellow-main'
 							)}

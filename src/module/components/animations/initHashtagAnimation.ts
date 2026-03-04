@@ -15,7 +15,7 @@ export const initHashtagAnimation = (tl: gsap.core.Timeline, isMobile: boolean) 
 				duration: 3,
 				ease: 'none',
 			},
-			isMobile ? 'shrink+=14' : 'shrink+=13'
+			isMobile ? 'shrink+=15' : 'shrink+=13'
 		);
 	});
 };
@@ -35,7 +35,7 @@ export const addExitBackgroundAnimation = (
 ) => {
 	tl.to(
 		containerRef.current,
-		{ backgroundColor: '#DDF244', opacity: 0.8, duration: 3, ease: 'none' },
+		{ backgroundColor: '#DDF244', opacity: 0.85, duration: 3, ease: 'none' },
 		isMobile ? 'shrink+=17' : 'shrink+=16'
 	);
 };

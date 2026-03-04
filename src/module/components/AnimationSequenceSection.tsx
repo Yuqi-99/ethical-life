@@ -173,7 +173,7 @@ export const AnimationequenceSection = () => {
 			exitHashtagAnimation(tl, isMobile);
 			addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>, isMobile);
 
-			// 12. Second description section
+			// 12. Second description section (description出现 + 背景变换)
 			initSecondDescriptionAnimation(tl, isMobile);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧

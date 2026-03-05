@@ -42,7 +42,7 @@ export const PurchaseSuggestionSection = ({
 			</div>
 
 			{/* lg:w-[521px] */}
-			<div className='z-20 mb-10 flex w-full self-end lg:fixed lg:top-10 lg:w-lg'>
+			<div className='z-20 mb-10 flex w-full self-end lg:fixed lg:top-14 lg:right-10 lg:w-lg'>
 				<PurchaseCard />
 			</div>
 		</div>

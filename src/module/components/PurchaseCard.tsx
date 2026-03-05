@@ -9,9 +9,9 @@ export const PurchaseCard = () => {
 	const [count, setCount] = useState(1);
 
 	return (
-		<div className='top-12 z-10 h-full w-full rounded-lg bg-white p-8 pb-20 lg:h-screen lg:overflow-y-scroll'>
+		<div className='z-10 h-full w-full rounded-lg bg-white p-4 pb-10 md:p-8 lg:h-[calc(100vh-80px)] lg:overflow-y-auto lg:shadow-xl'>
 			<div className='flex flex-col items-start justify-center gap-y-3'>
-				<p className='text-blue-text text-5xl font-semibold'>Multi for all</p>
+				<p className='text-blue-text text-3xl font-semibold md:text-5xl'>Multi for all</p>
 
 				<p className='text-xl font-bold'>VEGAN GUMMIES</p>
 
@@ -24,7 +24,7 @@ export const PurchaseCard = () => {
 
 				<Divider className='mt-2 border-slate-100' />
 
-				<p className='mb-6 text-start text-2xl font-medium'>
+				<p className='mb-6 text-start text-lg font-medium md:text-2xl'>
 					With your purchase, you support homeless food banks and animal farm sanctuaries. Thank you
 					for making a difference!
 				</p>
@@ -39,14 +39,14 @@ export const PurchaseCard = () => {
 
 					<div className='flex flex-col justify-between gap-y-1'>
 						<button
-							className='active:bg-blue-light rounded-lg border border-solid border-slate-200 p-2 active:scale-95'
+							className='active:bg-blue-light rounded-lg border border-solid border-slate-200 p-1 active:scale-95 sm:p-2'
 							onClickCapture={() => setCount(count + 1)}
 						>
 							<FaPlus />
 						</button>
 
 						<button
-							className='active:bg-blue-light rounded-lg border border-solid border-slate-200 p-2 active:scale-95'
+							className='active:bg-blue-light rounded-lg border border-solid border-slate-200 p-1 active:scale-95 sm:p-2'
 							onClickCapture={() => {
 								if (count > 1) {
 									setCount(count - 1);
@@ -57,13 +57,13 @@ export const PurchaseCard = () => {
 						</button>
 					</div>
 
-					<button className='bg-yellow-main flex-1 rounded-lg px-5 py-2 text-lg font-bold uppercase'>
+					<button className='bg-yellow-main flex-1 rounded-lg px-5 py-2 text-sm font-bold uppercase md:text-lg'>
 						Add to cart
 					</button>
 				</div>
 
-				<div className='flex w-full items-center justify-center'>
-					<p className='font-semibold'>FREE DELIVERY-LIMITED TIME ONLY</p>
+				<div className='mt-2 flex w-full items-center justify-center'>
+					<p className='text-sm font-semibold md:text-base'>FREE DELIVERY-LIMITED TIME ONLY</p>
 				</div>
 			</div>
 		</div>

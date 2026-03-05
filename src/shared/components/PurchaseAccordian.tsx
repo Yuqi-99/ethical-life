@@ -53,31 +53,35 @@ export const PurchaseAccordion = () => {
 							className='flex w-full items-center justify-between px-2 py-3 text-left text-slate-800'
 						>
 							<div className='flex items-center'>
-								<div className='mr-4 inline-flex items-center'>
+								<div className='mr-2 inline-flex items-center md:mr-4'>
 									<div className='relative flex items-center'>
 										<input
 											type='radio'
 											name='purchase-plan'
 											checked={isOpen}
 											onChange={() => toggleAccordion(index)}
-											className='peer checked:border-blue-text size-7 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all'
+											className='peer checked:border-blue-text size-5 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all md:size-7'
 											id={`radio-${index}`}
 										/>
 										{/* 核心修改：选中时的中心圆点颜色改为蓝色 */}
-										<span className='bg-blue-text absolute top-1/2 left-1/2 size-4 -translate-x-1/2 -translate-y-1/2 transform rounded-full opacity-0 transition-opacity duration-200 peer-checked:opacity-100'></span>
+										<span className='bg-blue-text absolute top-1/2 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2 transform rounded-full opacity-0 transition-opacity duration-200 peer-checked:opacity-100 md:size-4'></span>
 									</div>
 								</div>
 
 								<div className='flex flex-col'>
-									<span className='text-lg font-bold transition-colors'>{item.title}</span>
-									<span className='text-sm font-normal text-slate-500'>{item.titleDesc}</span>
+									<span className='font-bold transition-colors md:text-lg'>{item.title}</span>
+									<span className='text-xs font-normal text-slate-500 md:text-sm'>
+										{item.titleDesc}
+									</span>
 								</div>
 							</div>
 
 							<div className='flex flex-col items-end'>
-								<p className='font-bold'>{item.price}</p>
+								<p className='text-sm font-bold md:text-base'>{item.price}</p>
 								{item.priceOriginal && (
-									<p className='text-sm text-slate-400 line-through'>{item.priceOriginal}</p>
+									<p className='text-xs text-slate-400 line-through md:text-sm'>
+										{item.priceOriginal}
+									</p>
 								)}
 							</div>
 						</button>
@@ -92,10 +96,13 @@ export const PurchaseAccordion = () => {
 						>
 							<Divider className='mb-4 border border-slate-200' />
 
-							<div className='flex w-full flex-col items-start pb-4 pl-11'>
+							<div className='flex w-full flex-col items-start pb-4 md:pl-11'>
 								{item.content?.map((contentText, i) => (
-									<div key={i} className='mb-1 flex items-center text-sm leading-relaxed'>
-										<TiTick className='text-blue-text mr-1 size-4' />
+									<div
+										key={i}
+										className='mb-1 flex items-center text-start text-xs leading-relaxed md:text-sm'
+									>
+										<TiTick className='text-blue-text mr-1 size-3 min-w-3 md:size-4 md:min-w-4' />
 										{contentText}
 									</div>
 								))}

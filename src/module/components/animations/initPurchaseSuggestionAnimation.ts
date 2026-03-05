@@ -14,11 +14,9 @@ export const initPurchaseSuggestionAnimation = (
 	tl.fromTo(
 		'#purchase-suggestion-section',
 		{
-			autoAlpha: 0,
-			y: 100, // Reduced from 100vh to avoid stickiness conflicts
+			y: '100vh',
 		},
 		{
-			autoAlpha: 1,
 			y: 0,
 			duration: 2,
 			ease: 'power2.out',
@@ -60,7 +58,17 @@ export const initPurchaseSuggestionAnimation = (
 		'shrink+=23'
 	);
 
-	// Add bottle animation to the main timeline
+	// Add bottle fade-in after grass appearance
+	tl.fromTo(
+		'#purchase-bottle-wrapper',
+		// visibility:hidden
+		{ visibility: 'hidden' },
+		// visibility:visible
+		{ visibility: 'visible', duration: 1.5, ease: 'power2.out' },
+		'shrink+=23'
+	);
+
+	// Add bottle rotation animation to the main timeline
 	if (loadedImages && canvasRef.current && frameProxy.current) {
 		const context = canvasRef.current.getContext('2d', { alpha: true });
 		if (context) {
@@ -69,7 +77,7 @@ export const initPurchaseSuggestionAnimation = (
 				{ frame: 0 },
 				{
 					frame: loadedImages.length - 1,
-					duration: 6, // Increased duration for smoother rotation
+					duration: 10, // Increased duration for smoother rotation
 					ease: 'none',
 					onUpdate: () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);
@@ -82,7 +90,7 @@ export const initPurchaseSuggestionAnimation = (
 						}
 					},
 				},
-				'>'
+				'shrink+=23.5'
 			);
 		}
 	}

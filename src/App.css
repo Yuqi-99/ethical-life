@@ -9,6 +9,8 @@ body,
 
 :root {
 	--blue-main: #3f69e2;
+	--blue-text: #4949e9;
+	--blue-light: #f6f8ff;
 	--yellow-main: #dcf343;
 	--yellow-main-rgb: 220, 243, 67; /* RGB 值 */
 	--bg-light: #fbfbfd;
@@ -17,6 +19,8 @@ body,
 
 @theme inline {
 	--color-blue-main: var(--blue-main);
+	--color-blue-text: var(--blue-text);
+	--color-blue-light: var(--blue-light);
 	--color-yellow-main: var(--yellow-main);
 	--color-yellow-main-rgb: var(--yellow-main-rgb);
 	--color-bg-light: var(--bg-light);
@@ -30,9 +34,9 @@ body,
 .bg-white-gradient {
 	background-image: linear-gradient(
 		to bottom,
-		rgba(255, 255, 255, 0.2) 0%,
-		rgba(255, 255, 255, 0.8) 8%,
-		rgba(255, 255, 255, 1) 15%
+		rgba(235, 240, 252, 0.2) 0%,
+		rgba(235, 240, 252, 0.8) 5%,
+		rgba(235, 240, 252, 1) 10%
 	);
 }
 
@@ -75,4 +79,14 @@ body,
 
 .perspective-2000 {
 	perspective: 2000px;
+}
+
+.accordion-content {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 0.3s;
+}
+
+.accordion-content.open {
+	grid-template-rows: 1fr;
 }

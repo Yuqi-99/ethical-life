@@ -25,6 +25,9 @@ import {
 import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
 import { PurchaseSuggestionSection } from './PurchaseSuggestionSection';
 import { initPurchaseSuggestionAnimation } from './animations/initPurchaseSuggestionAnimation';
+import { exitPurchaseAnimation } from './animations/exitPurchaseAnimation';
+import { exitSecondDescriptionAnimation } from './animations/exitSecondDescriptionAnimation';
+import { Footer } from './Footer';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -215,6 +218,7 @@ export const AnimationequenceSection = () => {
 
 			// 12. Second description section (description出现 + 背景变换)
 			initSecondDescriptionAnimation(tl, isMobile);
+			exitSecondDescriptionAnimation(tl, containerRef as RefObject<HTMLElement>);
 
 			// 13. Puchase suggestion section
 			initPurchaseSuggestionAnimation(
@@ -225,6 +229,7 @@ export const AnimationequenceSection = () => {
 				canvasRef2,
 				currentScale
 			);
+			exitPurchaseAnimation(tl, containerRef as RefObject<HTMLElement>);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -300,6 +305,8 @@ export const AnimationequenceSection = () => {
 
 			{/* 第六个section (purchase plan) */}
 			<PurchaseSuggestionSection canvasRef={canvasRef2} />
+
+			<Footer />
 
 			{/* ✨ 扩产for scroll */}
 			<div className='pointer-events-none relative z-20 w-full'>

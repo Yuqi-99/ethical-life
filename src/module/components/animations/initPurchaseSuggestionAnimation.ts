@@ -47,7 +47,7 @@ export const initPurchaseSuggestionAnimation = (
 		'#grass-deco',
 		{
 			autoAlpha: 0,
-			y: 100,
+			y: '100vh',
 		},
 		{
 			autoAlpha: 1,
@@ -77,7 +77,7 @@ export const initPurchaseSuggestionAnimation = (
 				{ frame: 0 },
 				{
 					frame: loadedImages.length - 1,
-					duration: 10, // Increased duration for smoother rotation
+					duration: 14, // Increased duration for smoother rotation
 					ease: 'none',
 					onUpdate: () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);

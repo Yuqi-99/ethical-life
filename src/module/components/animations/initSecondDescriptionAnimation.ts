@@ -23,6 +23,10 @@ export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile:
 		);
 	});
 
+	lines.forEach((line) => {
+		tl.to(line, { visibility: 'hidden', duration: 2.5, ease: 'power2.out' }, 'shrink+=24');
+	});
+
 	tl.to(
 		'#hasgtag-background',
 		{ opacity: 0.1, duration: 1, ease: 'none' },

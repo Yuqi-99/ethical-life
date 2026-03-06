@@ -17,9 +17,9 @@ export const initPurchaseSuggestionAnimation = (
 			y: '100vh',
 		},
 		{
-			y: 0,
-			duration: 2,
-			ease: 'power2.out',
+			y: -80,
+			duration: 3,
+			ease: 'ease',
 		},
 		'shrink+=22'
 	);
@@ -94,4 +94,22 @@ export const initPurchaseSuggestionAnimation = (
 			);
 		}
 	}
+
+	// purchase card slide-in animation
+	tl.fromTo(
+		'#purchase-card',
+		{
+			x: '100vw',
+			rotation: 35,
+			visibility: 'hidden',
+		},
+		{
+			x: 0,
+			visibility: 'visible',
+			rotation: 0,
+			duration: 5,
+			ease: 'ease',
+		},
+		'shrink+=25'
+	);
 };

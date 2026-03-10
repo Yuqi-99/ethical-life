@@ -3,7 +3,8 @@ import type { RefObject } from 'react';
 
 export const exitPurchaseAnimation = (
 	tl: gsap.core.Timeline,
-	containerRef: RefObject<HTMLElement>
+	containerRef: RefObject<HTMLElement>,
+	isDesktop: boolean
 ) => {
 	// exit white gradient background animation, change bg color
 	tl.to(
@@ -14,13 +15,13 @@ export const exitPurchaseAnimation = (
 			duration: 3,
 			ease: 'ease',
 		},
-		'shrink+=34'
+		isDesktop ? 'shrink+=34' : 'shrink+=30'
 	);
 
 	tl.to(
 		containerRef.current,
 		{ backgroundColor: '#f6f8ff', opacity: 1, duration: 2, ease: 'none' },
-		'shrink+=34'
+		isDesktop ? 'shrink+=34' : 'shrink+=30'
 	);
 
 	// exit text animation
@@ -36,7 +37,7 @@ export const exitPurchaseAnimation = (
 				duration: 1,
 				ease: 'none',
 			},
-			'shrink+=32.5'
+			isDesktop ? 'shrink+=32.5' : 'shrink+=28.5'
 		);
 	});
 
@@ -49,19 +50,19 @@ export const exitPurchaseAnimation = (
 			duration: 5, // Slightly longer for flow
 			ease: 'power2.out',
 		},
-		'shrink+=34'
+		isDesktop ? 'shrink+=34' : 'shrink+=30'
 	);
 
 	// exit card slide-in animation
-	tl.to(
-		'#purchase-card',
-		{
-			y: '-20vh',
-			opacity: 0,
-			scale: 0.5,
-			duration: 3,
-			ease: 'ease',
-		},
-		'shrink+=34'
-	);
+	// tl.to(
+	// 	'#purchase-card',
+	// 	{
+	// 		y: '-20vh',
+	// 		opacity: 0,
+	// 		scale: 0.5,
+	// 		duration: 3,
+	// 		ease: 'ease',
+	// 	},
+	// 	'shrink+=34'
+	// );
 };

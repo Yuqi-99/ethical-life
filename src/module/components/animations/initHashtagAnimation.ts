@@ -15,7 +15,7 @@ export const initHashtagAnimation = (tl: gsap.core.Timeline, isMobile: boolean) 
 				duration: 3,
 				ease: 'none',
 			},
-			isMobile ? 'shrink+=15' : 'shrink+=13'
+			isMobile ? 'shrink+=16' : 'shrink+=13'
 		);
 	});
 };
@@ -24,7 +24,7 @@ export const exitHashtagAnimation = (tl: gsap.core.Timeline, isMobile: boolean) 
 	tl.to(
 		'#hasgtag-section',
 		{ opacity: 0, scale: 0.8, duration: 0.5, ease: 'none' },
-		isMobile ? 'shrink+=18' : 'shrink+=17'
+		isMobile ? 'shrink+=19' : 'shrink+=17'
 	);
 };
 

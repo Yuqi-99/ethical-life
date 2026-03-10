@@ -8,17 +8,20 @@ export const initPurchaseSuggestionAnimation = (
 	frameProxy: RefObject<{ frame: number }>,
 	lastFrameDrawn: RefObject<number>,
 	canvasRef: RefObject<HTMLCanvasElement | null>,
-	currentScale: number
+	currentScale: number,
+	isDesktop: boolean
 ) => {
 	// white gradient background animation
 	tl.fromTo(
 		'#purchase-suggestion-section',
 		{
 			y: '100vh',
+			opacity: 1,
 		},
 		{
 			y: -80,
-			duration: 3,
+			opacity: 1,
+			duration:7,
 			ease: 'ease',
 		},
 		'shrink+=22'
@@ -35,7 +38,7 @@ export const initPurchaseSuggestionAnimation = (
 			{
 				opacity: 0.1,
 				stagger: { each: 0.1, from: 'start' },
-				duration: 1,
+				duration: isDesktop ? 1 : 0,
 				ease: 'none',
 			},
 			'shrink+=23'
@@ -52,7 +55,7 @@ export const initPurchaseSuggestionAnimation = (
 		{
 			autoAlpha: 1,
 			y: 0,
-			duration: 3, // Slightly longer for flow
+			duration: isDesktop ? 3 : 0, // Slightly longer for flow
 			ease: 'power2.out',
 		},
 		'shrink+=23'
@@ -64,7 +67,7 @@ export const initPurchaseSuggestionAnimation = (
 		// visibility:hidden
 		{ visibility: 'hidden' },
 		// visibility:visible
-		{ visibility: 'visible', duration: 1.5, ease: 'power2.out' },
+		{ visibility: 'visible', duration: isDesktop ? 1.5 : 0, ease: 'power2.out' },
 		'shrink+=23'
 	);
 
@@ -77,13 +80,12 @@ export const initPurchaseSuggestionAnimation = (
 				{ frame: 0 },
 				{
 					frame: loadedImages.length - 1,
-					duration: 14, // Increased duration for smoother rotation
+					duration: isDesktop ? 14 : 0, // Increased duration for smoother rotation
 					ease: 'none',
 					onUpdate: () => {
 						const nextFrame = Math.floor(frameProxy.current.frame);
 						if (nextFrame === lastFrameDrawn.current) return;
 						lastFrameDrawn.current = nextFrame;
-
 						const nextImage = loadedImages[nextFrame];
 						if (nextImage) {
 							updateCanvasImage(context, canvasRef.current!, nextImage, currentScale);

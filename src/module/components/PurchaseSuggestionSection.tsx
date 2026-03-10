@@ -1,17 +1,20 @@
 import type { RefObject } from 'react';
 import { PurchaseCard } from './PurchaseCard';
+import { useMediaQuery } from '../../utils/useMediaQuery';
 
 export const PurchaseSuggestionSection = ({
 	canvasRef,
 }: {
 	canvasRef: RefObject<HTMLCanvasElement | null>;
 }) => {
+	const isDekstop = useMediaQuery('(min-width: 1024px)');
+
 	return (
 		<>
 			<div id='purchase-suggestion-section' className='bg-white-gradient sticky top-0 h-24' />
 			<div
 				id='purchase-suggestion-section'
-				className='sticky top-22 flex h-full min-h-screen flex-col items-center justify-center overflow-hidden bg-[#EBF0FC] px-6 py-20 text-center'
+				className='sticky top-22 flex h-full min-h-screen flex-col items-center justify-center overflow-y-scroll bg-[#EBF0FC] px-6 py-20 text-center lg:overflow-hidden'
 			>
 				{/* section content - Ensuring it is at z-10 above the bottle */}
 				<div className='hidden flex-col self-start lg:flex'>
@@ -45,9 +48,9 @@ export const PurchaseSuggestionSection = ({
 
 				{/* lg:w-[521px] */}
 				<div
-					id='purchase-card'
-					className='z-20 mb-10 flex w-full self-end lg:fixed lg:top-14 lg:right-10 lg:w-lg'
-					style={{ visibility: 'hidden' }}
+					id={isDekstop ? 'purchase-card' : 'mobile-purchase-card'}
+					className='z-20 mb-10 flex self-center sm:w-2/3 lg:fixed lg:top-14 lg:right-10 lg:w-lg lg:self-end'
+					style={{ visibility: isDekstop ? 'hidden' : 'visible' }}
 				>
 					<PurchaseCard />
 				</div>

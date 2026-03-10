@@ -9,7 +9,7 @@ export const PurchaseCard = () => {
 	const [count, setCount] = useState(1);
 
 	return (
-		<div className='z-10 h-full w-full rounded-lg bg-white p-4 pb-10 md:p-8 lg:h-[calc(100vh-80px)] lg:overflow-y-auto lg:shadow-xl'>
+		<div className='z-10 h-full w-full rounded-lg bg-white p-4 pb-10 md:p-8 lg:h-[calc(100vh-80px)] overflow-y-auto lg:shadow-xl'>
 			<div className='flex flex-col items-start justify-center gap-y-3'>
 				<p className='text-blue-text text-3xl font-semibold md:text-5xl'>Multi for all</p>
 

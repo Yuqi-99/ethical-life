@@ -9,7 +9,7 @@ export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile:
 		'#desc-line5',
 		'#desc-line6',
 	];
-	const BASE_TIME = isMobile ? 18 : 17; // 第一行的开始时间
+	const BASE_TIME = isMobile ? 19 : 17; // 第一行的开始时间
 	const INTERVAL = 0.6; // 每行之间的间隔
 
 	gsap.set(lines, { visibility: 'hidden' });
@@ -30,6 +30,6 @@ export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile:
 	tl.to(
 		'#hasgtag-background',
 		{ opacity: 0.1, duration: 1, ease: 'none' },
-		isMobile ? 'shrink+=17' : 'shrink+=16'
+		isMobile ? 'shrink+=19' : 'shrink+=16'
 	);
 };

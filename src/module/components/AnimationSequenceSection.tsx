@@ -9,30 +9,30 @@ import { AnimatedEthicalLifeLogo } from './AnimatedEthicalLifeLogo';
 import { addCardImageAnimation } from './animations/addCardImageAnimation';
 import { addExitAnimation } from './animations/addExitAnimation';
 import { addTextRevealAnimation } from './animations/addTextRevealAnimation';
+import { exitPurchaseAnimation } from './animations/exitPurchaseAnimation';
+import { exitSecondDescriptionAnimation } from './animations/exitSecondDescriptionAnimation';
+import {
+	addExitBackgroundAnimation,
+	exitHashtagAnimation,
+	initHashtagAnimation,
+} from './animations/initHashtagAnimation';
+import { initPurchaseSuggestionAnimation } from './animations/initPurchaseSuggestionAnimation';
+import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
 import { exitVoicesAnimation, initVoicesAnimation } from './animations/initVoicesAnimation';
 import { initVoicesCardsAnimation } from './animations/initVoicesCardsAnimation';
 import { initVoicesFloatingStarsAnimation } from './animations/initVoicesFloatingStarsAnimation';
 import { DescriptionSection } from './DescriptionSection';
 import { FloatingStars } from './FloatingStars';
 import { HashtagSection } from './HashtagSection';
+import { PurchaseSuggestionSection } from './PurchaseSuggestionSection';
 import { SecondDescriptionSection } from './SecondDescriptionSection';
 import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
-import {
-	addExitBackgroundAnimation,
-	exitHashtagAnimation,
-	initHashtagAnimation,
-} from './animations/initHashtagAnimation';
-import { initSecondDescriptionAnimation } from './animations/initSecondDescriptionAnimation';
-import { PurchaseSuggestionSection } from './PurchaseSuggestionSection';
-import { initPurchaseSuggestionAnimation } from './animations/initPurchaseSuggestionAnimation';
-import { exitPurchaseAnimation } from './animations/exitPurchaseAnimation';
-import { exitSecondDescriptionAnimation } from './animations/exitSecondDescriptionAnimation';
-import { Footer } from './Footer';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export const AnimationequenceSection = () => {
+export const AnimationSequenceSection = () => {
 	const isMobile = useMediaQuery('(max-width: 768px)');
+	const isDesktop = useMediaQuery('(min-width: 1024px)');
 	const containerRef = useRef<HTMLElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const canvasRef2 = useRef<HTMLCanvasElement>(null);
@@ -227,9 +227,10 @@ export const AnimationequenceSection = () => {
 				frameProxy2,
 				lastFrameDrawn2,
 				canvasRef2,
-				currentScale
+				currentScale,
+				isDesktop
 			);
-			exitPurchaseAnimation(tl, containerRef as RefObject<HTMLElement>);
+			exitPurchaseAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -306,14 +307,18 @@ export const AnimationequenceSection = () => {
 			{/* 第六个section (purchase plan) */}
 			<PurchaseSuggestionSection canvasRef={canvasRef2} />
 
-			<Footer />
+			{/* <Footer /> */}
 
 			{/* ✨ 扩产for scroll */}
 			<div className='pointer-events-none relative z-20 w-full'>
 				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />
-				<div className='h-screen w-full' />
-				<div className='h-screen w-full' />
+				{!isMobile && (
+					<>
+						<div className='h-screen w-full' />
+						<div className='h-screen w-full' />
+					</>
+				)}
 			</div>
 		</section>
 	);
@@ -329,8 +334,8 @@ export const HomeSection = () => {
 				<AnimatedEthicalLifeLogo className='w-full' />
 			</div>
 			{/* 动画瓶子 */}
-			<div className='absolute inset-0 top-0 z-10 w-full max-w-360'>
-				<AnimationequenceSection />
+			<div className='relative w-full max-w-360'>
+				<AnimationSequenceSection />
 			</div>
 
 			{/* Subtitle */}

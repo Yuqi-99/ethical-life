@@ -54,15 +54,32 @@ export const exitPurchaseAnimation = (
 	);
 
 	// exit card slide-in animation
-	// tl.to(
-	// 	'#purchase-card',
-	// 	{
-	// 		y: '-20vh',
-	// 		opacity: 0,
-	// 		scale: 0.5,
-	// 		duration: 3,
-	// 		ease: 'ease',
-	// 	},
-	// 	'shrink+=34'
-	// );
+	tl.to(
+		'#purchase-card',
+		{
+			y: '-20vh',
+			opacity: 0,
+			scale: 0.5,
+			duration: 3,
+			ease: 'ease',
+		},
+		'shrink+=34'
+	);
+
+	// Move bottle to bottom center and fix it there
+	tl.to(
+		'#purchase-bottle-wrapper',
+		{
+			position: 'fixed',
+			left: '50%',
+			xPercent: -50,
+			top: 'auto',
+			bottom: 0,
+			scale: 1.2,
+			yPercent: 25,
+			duration: 5,
+			ease: 'power2.inOut',
+		},
+		'shrink+=34'
+	);
 };

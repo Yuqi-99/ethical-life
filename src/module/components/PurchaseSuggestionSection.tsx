@@ -41,7 +41,10 @@ export const PurchaseSuggestionSection = ({
 					/>
 
 					{/* Bottle Animation Canvas - Ensuring it is at z-0 behind the text */}
-					<div className='pointer-events-none absolute inset-0 z-10 flex w-2/3 items-center justify-start overflow-hidden'>
+					<div
+						id='purchase-bottle-wrapper'
+						className='pointer-events-none absolute inset-0 z-10 flex w-2/3 items-center justify-start overflow-hidden'
+					>
 						<canvas ref={canvasRef} className='h-full w-full object-cover will-change-transform' />
 					</div>
 				</div>

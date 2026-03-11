@@ -21,7 +21,7 @@ export const initPurchaseSuggestionAnimation = (
 		{
 			y: -80,
 			opacity: 1,
-			duration:7,
+			duration: 7,
 			ease: 'ease',
 		},
 		'shrink+=22'
@@ -64,9 +64,7 @@ export const initPurchaseSuggestionAnimation = (
 	// Add bottle fade-in after grass appearance
 	tl.fromTo(
 		'#purchase-bottle-wrapper',
-		// visibility:hidden
 		{ visibility: 'hidden' },
-		// visibility:visible
 		{ visibility: 'visible', duration: isDesktop ? 1.5 : 0, ease: 'power2.out' },
 		'shrink+=23'
 	);

@@ -11,20 +11,35 @@ export const initPurchaseSuggestionAnimation = (
 	currentScale: number,
 	isDesktop: boolean
 ) => {
-	// white gradient background animation
 	tl.fromTo(
 		'#purchase-suggestion-section',
+		{
+			visibility: 'hidden',
+			y: '100vh',
+		},
+		{
+			visibility: 'visible',
+			y: 0,
+			opacity: 1,
+			duration: 7,
+			ease: 'ease',
+		},
+		isDesktop ? 'shrink+=22' : 'shrink+=24'
+	);
+	// white gradient background animation
+	tl.fromTo(
+		'#purchase-suggestion-gradient',
 		{
 			y: '100vh',
 			opacity: 1,
 		},
 		{
-			y: -80,
+			y: 0,
 			opacity: 1,
 			duration: 7,
 			ease: 'ease',
 		},
-		'shrink+=22'
+		isDesktop ? 'shrink+=22' : 'shrink+=24'
 	);
 
 	// text animation

@@ -12,7 +12,8 @@ body,
 	--blue-text: #4949e9;
 	--blue-light: #f6f8ff;
 	--yellow-main: #dcf343;
-	--yellow-main-rgb: 220, 243, 67; /* RGB 值 */
+	--yellow-main-rgb: 220, 243, 67;
+	/* RGB 值 */
 	--bg-light: #fbfbfd;
 	--bg-drawer: #f0f4fc;
 }
@@ -32,22 +33,18 @@ body,
 }
 
 .bg-white-gradient {
-	background-image: linear-gradient(
-		to bottom,
-		rgba(235, 240, 252, 0.2) 0%,
-		rgba(235, 240, 252, 0.8) 50%,
-		rgba(235, 240, 252, 1) 100%
-	);
+	background-image: linear-gradient(to bottom,
+			rgba(235, 240, 252, 0.2) 0%,
+			rgba(235, 240, 252, 0.8) 50%,
+			rgba(235, 240, 252, 1) 100%);
 }
 
 .radial-gradient {
-	background: radial-gradient(
-		circle at center,
-		var(--yellow-main) 0%,
-		rgba(var(--yellow-main-rgb), 0.8) 7%,
-		rgba(var(--yellow-main-rgb), 0.4) 20%,
-		rgba(var(--yellow-main-rgb), 0) 40%
-	);
+	background: radial-gradient(circle at center,
+			var(--yellow-main) 0%,
+			rgba(var(--yellow-main-rgb), 0.8) 7%,
+			rgba(var(--yellow-main-rgb), 0.4) 20%,
+			rgba(var(--yellow-main-rgb), 0) 40%);
 }
 
 .menu-opener {

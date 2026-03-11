@@ -11,10 +11,10 @@ export const PurchaseSuggestionSection = ({
 
 	return (
 		<>
-			<div id='purchase-suggestion-section' className='bg-white-gradient sticky top-0 h-24' />
+			<div id='purchase-suggestion-section' className='bg-white-gradient sticky -top-22 h-24' />
 			<div
-				id='purchase-suggestion-section'
-				className='sticky top-22 flex h-full min-h-screen flex-col items-center justify-center overflow-y-scroll bg-[#EBF0FC] px-6 py-20 text-center lg:overflow-hidden'
+				id='purchase-suggestion-gradient'
+				className='sticky top-0 flex h-full min-h-screen flex-col items-center justify-center overflow-y-scroll bg-[#EBF0FC] px-6 py-20 text-center lg:overflow-hidden'
 			>
 				{/* section content - Ensuring it is at z-10 above the bottle */}
 				<div className='hidden flex-col self-start lg:flex'>

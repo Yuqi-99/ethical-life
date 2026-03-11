@@ -27,6 +27,8 @@ import { HashtagSection } from './HashtagSection';
 import { PurchaseSuggestionSection } from './PurchaseSuggestionSection';
 import { SecondDescriptionSection } from './SecondDescriptionSection';
 import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
+import { Footer } from './Footer';
+import { initFooterAnimation } from './animations/InitFooterAnimation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -217,8 +219,8 @@ export const AnimationSequenceSection = () => {
 			addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>, isMobile);
 
 			// 12. Second description section (description出现 + 背景变换)
-			initSecondDescriptionAnimation(tl, isMobile);
-			exitSecondDescriptionAnimation(tl, containerRef as RefObject<HTMLElement>);
+			initSecondDescriptionAnimation(tl, isMobile, isDesktop);
+			exitSecondDescriptionAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
 
 			// 13. Puchase suggestion section
 			initPurchaseSuggestionAnimation(
@@ -231,6 +233,9 @@ export const AnimationSequenceSection = () => {
 				isDesktop
 			);
 			exitPurchaseAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
+
+			// 14. Footer section
+			initFooterAnimation(tl, isDesktop);
 
 			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
 			const syncInitialFrame = () => {
@@ -307,7 +312,7 @@ export const AnimationSequenceSection = () => {
 			{/* 第六个section (purchase plan) */}
 			<PurchaseSuggestionSection canvasRef={canvasRef2} />
 
-			{/* <Footer /> */}
+			<Footer />
 
 			{/* ✨ 扩产for scroll */}
 			<div className='pointer-events-none relative z-20 w-full'>

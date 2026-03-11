@@ -1,6 +1,10 @@
 import gsap from 'gsap';
 
-export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile: boolean) => {
+export const initSecondDescriptionAnimation = (
+	tl: gsap.core.Timeline,
+	isMobile: boolean,
+	isDesktop: boolean
+) => {
 	const lines = [
 		'#desc-line1',
 		'#desc-line2',
@@ -24,7 +28,11 @@ export const initSecondDescriptionAnimation = (tl: gsap.core.Timeline, isMobile:
 	});
 
 	lines.forEach((line) => {
-		tl.to(line, { visibility: 'hidden', duration: 2.5, ease: 'power2.out' }, 'shrink+=24');
+		tl.to(
+			line,
+			{ visibility: 'hidden', duration: 2.5, ease: 'power2.out' },
+			isDesktop ? 'shrink+=24' : 'shrink+=28'
+		);
 	});
 
 	tl.to(

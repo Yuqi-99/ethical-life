@@ -8,9 +8,10 @@ export const exitPurchaseAnimation = (
 ) => {
 	// exit white gradient background animation, change bg color
 	tl.to(
-		'#purchase-suggestion-section',
+		'#purchase-suggestion-gradient',
 		{
-			backgroundColor: '#f6f8ff',
+			// y: 0,
+			backgroundColor: '#F0F4FC',
 			opacity: 1,
 			duration: 3,
 			ease: 'ease',
@@ -20,7 +21,7 @@ export const exitPurchaseAnimation = (
 
 	tl.to(
 		containerRef.current,
-		{ backgroundColor: '#f6f8ff', opacity: 1, duration: 2, ease: 'none' },
+		{ backgroundColor: '#F0F4FC', opacity: 1, duration: 2, ease: 'none' },
 		isDesktop ? 'shrink+=34' : 'shrink+=30'
 	);
 
@@ -50,20 +51,20 @@ export const exitPurchaseAnimation = (
 			duration: 5, // Slightly longer for flow
 			ease: 'power2.out',
 		},
-		isDesktop ? 'shrink+=34' : 'shrink+=30'
+		isDesktop ? 'shrink+=36' : 'shrink+=30'
 	);
 
 	// exit card slide-in animation
 	tl.to(
 		'#purchase-card',
 		{
-			y: '-20vh',
+			y: '-50vh',
 			opacity: 0,
-			scale: 0.5,
+			scale: 0.8,
 			duration: 3,
 			ease: 'ease',
 		},
-		'shrink+=34'
+		'shrink+=36'
 	);
 
 	// Move bottle to bottom center and fix it there

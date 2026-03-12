@@ -61,10 +61,10 @@ export const exitPurchaseAnimation = (
 			y: '-50vh',
 			opacity: 0,
 			scale: 0.8,
-			duration: 3,
+			duration: 2,
 			ease: 'ease',
 		},
-		'shrink+=36'
+		'shrink+=35'
 	);
 
 	// Move bottle to bottom center and fix it there
@@ -77,7 +77,7 @@ export const exitPurchaseAnimation = (
 				xPercent: -50,
 				top: 'auto',
 				bottom: 0,
-				scale: 1.4,
+				scale: 1.3,
 				yPercent: 25,
 				duration: 5,
 				ease: 'power2.inOut',

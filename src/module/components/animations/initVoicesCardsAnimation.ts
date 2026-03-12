@@ -50,7 +50,6 @@ export const initVoicesCardsAnimation = (tl: gsap.core.Timeline) => {
 				visibility: 'visible',
 				duration: DURATION,
 				ease: 'sine.inOut',
-				scrub: 2,
 				// ease: 'power1.inOut',
 				keyframes: generateArcKeyframes(20),
 			},

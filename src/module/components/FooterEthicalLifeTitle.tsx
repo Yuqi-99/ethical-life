@@ -3,7 +3,7 @@ export const FooterEthicalLifeTitle = () => {
 		<svg xmlns='http://www.w3.org/2000/svg' className='vw-100' viewBox='0 0 1595.223 255.726'>
 			<g
 				anim-stagger=''
-				className='footerpathAnim5'
+				className='footerpathAnim'
 				data-name='Group 215'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='-0.001953125 62.3857421875'
@@ -25,7 +25,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim4'
+				className='footerpathAnim'
 				data-name='Group 216'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='228.17701721191406 24.481998443603516'
@@ -47,7 +47,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim3'
+				className='footerpathAnim'
 				data-name='Group 217'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='398.03900146484375 0'
@@ -69,7 +69,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim2'
+				className='footerpathAnim'
 				data-name='Group 218'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='554.56689453125 0.1181640625'
@@ -91,7 +91,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim1'
+				className='footerpathAnim'
 				data-name='Group 219'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='660.0380859375 62.354000091552734'
@@ -113,7 +113,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim1'
+				className='footerpathAnim'
 				data-name='Group 220'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='839.3310546875 62.35300827026367'
@@ -135,7 +135,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim2'
+				className='footerpathAnim'
 				data-name='Group 221'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='1026.7900390625 0'
@@ -157,7 +157,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim3'
+				className='footerpathAnim'
 				data-name='Group 222'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='1174.2099609375 0'
@@ -179,7 +179,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim4'
+				className='footerpathAnim'
 				data-name='Group 223'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='1246.748046875 0.15234375'
@@ -201,7 +201,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim4'
+				className='footerpathAnim'
 				data-name='Group 224'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='1300.72998046875 0.000002808868885040283'
@@ -223,7 +223,7 @@ export const FooterEthicalLifeTitle = () => {
 			</g>
 			<g
 				anim-stagger=''
-				className='footerpathAnim5'
+				className='footerpathAnim'
 				data-name='Group 225'
 				transform='matrix(1,0,0,1,0.002,0)'
 				data-svg-origin='1418.679931640625 62.3540153503418'

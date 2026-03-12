@@ -1,3 +1,5 @@
+import gsap from 'gsap';
+
 export const initFooterAnimation = (tl: gsap.core.Timeline, isDesktop: boolean) => {
 	if (isDesktop) {
 		tl.fromTo(
@@ -10,21 +12,6 @@ export const initFooterAnimation = (tl: gsap.core.Timeline, isDesktop: boolean) 
 				ease: 'none',
 			},
 			'shrink+=38'
-		);
-	} else {
-		tl.fromTo(
-			'#footer-mobile',
-			{
-				// y: '100vh',
-				opacity: 1,
-			},
-			{
-				// y: 0,
-				opacity: 1,
-				duration: 7,
-				ease: 'ease',
-			},
-			'>'
 		);
 	}
 
@@ -50,6 +37,45 @@ export const initFooterAnimation = (tl: gsap.core.Timeline, isDesktop: boolean) 
 			duration: 3,
 			ease: 'none',
 		},
-		'shrink+=38'
+		'shrink+=36'
 	);
+
+	if (isDesktop) {
+		const chars = gsap.utils.toArray<HTMLElement>('.footerpathAnim');
+
+		gsap.set(chars, { y: 100, opacity: 0 });
+		gsap.set('.footer-text', { y: 100, opacity: 0 });
+
+		tl.fromTo(
+			chars,
+			{ y: 100, opacity: 0 },
+			{
+				y: 0,
+				opacity: 1,
+				duration: 2,
+				ease: 'power3.inOut',
+				stagger: {
+					each: 0.1, // ✨ 每个字母间隔 0.05，从左到右依次出现
+					from: 'start',
+				},
+			},
+			'shrink+=37'
+		);
+
+		tl.fromTo(
+			'.footer-text',
+			{ y: 100, opacity: 0 },
+			{
+				y: 0,
+				opacity: 1,
+				duration: 2,
+				ease: 'power3.inOut',
+				stagger: {
+					each: 0.1, // ✨ 每个字母间隔 0.05，从左到右依次出现
+					from: 'start',
+				},
+			},
+			'shrink+=37'
+		);
+	}
 };

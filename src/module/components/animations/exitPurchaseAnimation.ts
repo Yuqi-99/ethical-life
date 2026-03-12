@@ -68,19 +68,21 @@ export const exitPurchaseAnimation = (
 	);
 
 	// Move bottle to bottom center and fix it there
-	tl.to(
-		'#purchase-bottle-wrapper',
-		{
-			position: 'fixed',
-			left: '50%',
-			xPercent: -50,
-			top: 'auto',
-			bottom: 0,
-			scale: 1.2,
-			yPercent: 25,
-			duration: 5,
-			ease: 'power2.inOut',
-		},
-		'shrink+=34'
-	);
+	if (isDesktop) {
+		tl.to(
+			'#purchase-bottle-wrapper',
+			{
+				position: 'fixed',
+				left: '50%',
+				xPercent: -50,
+				top: 'auto',
+				bottom: 0,
+				scale: 1.4,
+				yPercent: 25,
+				duration: 5,
+				ease: 'power2.inOut',
+			},
+			'shrink+=34'
+		);
+	}
 };

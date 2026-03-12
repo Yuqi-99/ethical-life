@@ -33,18 +33,42 @@ body,
 }
 
 .bg-white-gradient {
-	background-image: linear-gradient(to bottom,
-			rgba(235, 240, 252, 0.2) 0%,
-			rgba(235, 240, 252, 0.8) 50%,
-			rgba(235, 240, 252, 1) 100%);
+	background-image: linear-gradient(
+		to bottom,
+		rgba(240, 245, 250, 0.2) 0%,
+		rgba(240, 245, 250, 0.8) 50%,
+		rgba(240, 245, 250, 1) 100%
+	);
 }
 
 .radial-gradient {
-	background: radial-gradient(circle at center,
-			var(--yellow-main) 0%,
-			rgba(var(--yellow-main-rgb), 0.8) 7%,
-			rgba(var(--yellow-main-rgb), 0.4) 20%,
-			rgba(var(--yellow-main-rgb), 0) 40%);
+	background: radial-gradient(
+		circle at center,
+		var(--yellow-main) 0%,
+		rgba(var(--yellow-main-rgb), 0.8) 7%,
+		rgba(var(--yellow-main-rgb), 0.4) 20%,
+		rgba(var(--yellow-main-rgb), 0) 40%
+	);
+}
+
+.bottom-radial-gradient {
+	background: radial-gradient(
+		circle at bottom center,
+		var(--yellow-main) 0%,
+		rgba(var(--yellow-main-rgb), 0.8) 10%,
+		rgba(var(--yellow-main-rgb), 0.4) 20%,
+		rgba(var(--yellow-main-rgb), 0) 40%
+	);
+}
+
+.bottom-radial-gradient-2 {
+	background: radial-gradient(
+		circle at bottom center,
+		var(--yellow-main) 0%,
+		rgba(var(--yellow-main-rgb), 0.8) 10%,
+		rgba(var(--yellow-main-rgb), 0.4) 20%,
+		rgba(var(--yellow-main-rgb), 0) 40%
+	);
 }
 
 .menu-opener {

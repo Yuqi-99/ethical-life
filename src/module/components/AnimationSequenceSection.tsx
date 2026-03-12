@@ -312,7 +312,7 @@ export const AnimationSequenceSection = () => {
 			{/* 第六个section (purchase plan) */}
 			<PurchaseSuggestionSection canvasRef={canvasRef2} />
 
-			<Footer />
+			{isDesktop && <Footer />}
 
 			{/* ✨ 扩产for scroll */}
 			<div className='pointer-events-none relative z-20 w-full'>

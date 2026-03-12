@@ -8,7 +8,7 @@ export const PurchaseSuggestionSection = ({
 }: {
 	canvasRef: RefObject<HTMLCanvasElement | null>;
 }) => {
-	const isDekstop = useMediaQuery('(min-width: 1024px)');
+	const isDesktop = useMediaQuery('(min-width: 1024px)');
 
 	return (
 		<>
@@ -53,13 +53,13 @@ export const PurchaseSuggestionSection = ({
 
 				{/* lg:w-[521px] */}
 				<div
-					id={isDekstop ? 'purchase-card' : 'mobile-purchase-card'}
+					id={isDesktop ? 'purchase-card' : 'purchase-card-mobile'}
 					className='z-20 mb-10 flex self-center px-6 sm:w-3/4 lg:fixed lg:top-14 lg:right-10 lg:w-lg lg:self-end'
-					style={{ visibility: isDekstop ? 'hidden' : 'visible' }}
+					style={{ visibility: isDesktop ? 'hidden' : 'visible' }}
 				>
 					<PurchaseCard />
 				</div>
-				{!isDekstop && <Footer />}
+				{!isDesktop && <Footer />}
 			</div>
 		</>
 	);

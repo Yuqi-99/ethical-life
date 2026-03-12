@@ -16,20 +16,12 @@ export const loadImagesAndDrawFirstFrame = async ({
 
 	return new Promise<HTMLImageElement[]>((resolve, reject) => {
 		const onImageLoad = async (index: number, img: HTMLImageElement) => {
-			try {
-				// ✨ Pre-decode the image before resolving to ensure smooth animation
-				// This forces the browser to prepare the GPU texture ahead of time.
-				await img.decode();
-
 				// Draw the first frame ASAP
 				if (index === 0) {
 					const context = canvas.getContext('2d', { alpha: true });
 					if (!context) return;
 					updateCanvasImage(context, canvas, img, currentScale);
 				}
-			} catch (e) {
-				console.warn(`Failed to decode image at index ${index}`, e);
-			}
 
 			loadedCount++;
 			const hasLoadedAll = loadedCount === imageSrcs.length;

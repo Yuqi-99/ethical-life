@@ -16,7 +16,7 @@ export const initFooterAnimation = (tl: gsap.core.Timeline, isDesktop: boolean) 
 			'#footer-mobile',
 			{
 				// y: '100vh',
-				opcaity: 1,
+				opacity: 1,
 			},
 			{
 				// y: 0,

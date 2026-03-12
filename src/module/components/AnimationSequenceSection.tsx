@@ -318,12 +318,12 @@ export const AnimationSequenceSection = () => {
 			<div className='pointer-events-none relative z-20 w-full'>
 				<div className='h-screen w-full' />
 				<div className='h-screen w-full' />
-				{!isMobile && (
-					<>
-						<div className='h-screen w-full' />
-						<div className='h-screen w-full' />
-					</>
-				)}
+				{/* {!isMobile && (
+					<> */}
+				<div className='h-screen w-full' />
+				<div className='h-screen w-full' />
+				{/* </>
+				)} */}
 			</div>
 		</section>
 	);

@@ -4,10 +4,12 @@ export const loadImagesAndDrawFirstFrame = async ({
 	canvas,
 	imageSrcs,
 	isMobile,
+	onProgress,
 }: {
 	canvas: HTMLCanvasElement;
 	imageSrcs: string[];
 	isMobile: boolean;
+	onProgress?: () => void;
 }): Promise<HTMLImageElement[]> => {
 	const images: HTMLImageElement[] = [];
 	let loadedCount = 0;
@@ -24,6 +26,7 @@ export const loadImagesAndDrawFirstFrame = async ({
 				}
 
 			loadedCount++;
+			onProgress?.();
 			const hasLoadedAll = loadedCount === imageSrcs.length;
 			if (hasLoadedAll) resolve(images);
 		};
@@ -37,6 +40,7 @@ export const loadImagesAndDrawFirstFrame = async ({
 				img.src = `${imageSrcs[i]}?r=${retries[i]}`;
 				retries[i]++;
 			} else {
+				onProgress?.();
 				reject();
 			}
 		};

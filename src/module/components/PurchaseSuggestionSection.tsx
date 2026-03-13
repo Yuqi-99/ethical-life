@@ -46,7 +46,7 @@ export const PurchaseSuggestionSection = ({
 						id='purchase-bottle-wrapper'
 						className='pointer-events-none absolute inset-0 z-10 flex w-2/3 items-center justify-start overflow-hidden'
 					>
-						<div className='bottom-radial-gradient absolute inset-0 h-full w-full -translate-y-26 scale-80' />
+						<div className='bottom-radial-gradient absolute inset-0 h-full w-full -translate-y-10 scale-80' />
 						<canvas ref={canvasRef} className='h-full w-full object-cover will-change-transform' />
 					</div>
 				</div>

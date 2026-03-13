@@ -30,6 +30,7 @@ body,
 	--z-index-modal-overlay: 100;
 	--z-index-modal: 200;
 	--z-index-modal-content: 300;
+	--z-index-loading: 3000;
 }
 
 .bg-white-gradient {

@@ -29,6 +29,7 @@ import { SecondDescriptionSection } from './SecondDescriptionSection';
 import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
 import { Footer } from './Footer';
 import { initFooterAnimation } from './animations/InitFooterAnimation';
+import { useLoading } from '../../context/LoadingContext';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -40,6 +41,7 @@ export const AnimationSequenceSection = () => {
 	const canvasRef2 = useRef<HTMLCanvasElement>(null);
 	const [loadedImages, setLoadedImages] = useState<HTMLImageElement[]>();
 	const [loadedImages2, setLoadedImages2] = useState<HTMLImageElement[]>();
+	const { setTotalAssets, reportAssetLoaded, finishLoading } = useLoading();
 	const currentScale = isMobile ? 0.9 : 1;
 
 	// ✨ Use a ref to track the current frame index across re-renders and resize events
@@ -64,16 +66,19 @@ export const AnimationSequenceSection = () => {
 				return `/images/s1_frames/S1_${frameNumber}.webp`;
 			});
 
+			setTotalAssets(imageSrcs.length);
+
 			const images = await loadImagesAndDrawFirstFrame({
 				canvas: canvasRef.current!,
 				imageSrcs,
 				isMobile: isMobile,
+				onProgress: reportAssetLoaded,
 			});
 			setLoadedImages(images);
 		};
 
 		initialSetup();
-	}, [loadedImages, isMobile]);
+	}, [loadedImages, isMobile, setTotalAssets, reportAssetLoaded]);
 
 	// 1.1 初始化加载图片 (Purchase Suggestion Section) 最后瓶子的图片
 	useEffect(() => {
@@ -90,16 +95,26 @@ export const AnimationSequenceSection = () => {
 				return `/images/s2_frames/S2_${frameNumber}.webp`;
 			});
 
+			setTotalAssets(imageSrcs.length);
+
 			const images = await loadImagesAndDrawFirstFrame({
 				canvas: canvasRef2.current!,
 				imageSrcs,
 				isMobile: isMobile,
+				onProgress: reportAssetLoaded,
 			});
 			setLoadedImages2(images);
 		};
 
 		initialSetup();
-	}, [loadedImages2, isMobile]);
+	}, [loadedImages2, isMobile, setTotalAssets, reportAssetLoaded]);
+
+	// 1.2 结束加载标志
+	useEffect(() => {
+		if (loadedImages && loadedImages2) {
+			finishLoading();
+		}
+	}, [loadedImages, loadedImages2, finishLoading]);
 
 	// 2. GSAP 核心动画
 	useGSAP(

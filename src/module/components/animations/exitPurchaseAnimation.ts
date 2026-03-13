@@ -10,7 +10,6 @@ export const exitPurchaseAnimation = (
 	tl.to(
 		'#purchase-suggestion-gradient',
 		{
-			// y: 0,
 			backgroundColor: '#F0F4FC',
 			opacity: 1,
 			duration: 3,

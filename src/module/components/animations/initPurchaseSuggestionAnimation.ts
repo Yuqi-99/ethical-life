@@ -26,6 +26,7 @@ export const initPurchaseSuggestionAnimation = (
 		},
 		isDesktop ? 'shrink+=22' : 'shrink+=24'
 	);
+
 	// white gradient background animation
 	tl.fromTo(
 		'#purchase-suggestion-gradient',
@@ -61,20 +62,22 @@ export const initPurchaseSuggestionAnimation = (
 	});
 
 	// grass deco animation
-	tl.fromTo(
-		'#grass-deco',
-		{
-			autoAlpha: 0,
-			y: '100vh',
-		},
-		{
-			autoAlpha: 1,
-			y: 0,
-			duration: isDesktop ? 3 : 0, // Slightly longer for flow
-			ease: 'power2.out',
-		},
-		'shrink+=23'
-	);
+	if (isDesktop) {
+		tl.fromTo(
+			'#grass-deco',
+			{
+				autoAlpha: 0,
+				y: '100vh',
+			},
+			{
+				autoAlpha: 1,
+				y: 0,
+				duration: 3,
+				ease: 'power2.out',
+			},
+			'shrink+=23'
+		);
+	}
 
 	// Add bottle fade-in after grass appearance
 	tl.fromTo(

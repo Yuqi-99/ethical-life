@@ -19,6 +19,7 @@ export const Footer = () => {
 				'sticky top-0 bottom-0 flex h-full min-h-screen w-full flex-col items-center justify-around',
 				isDekstop ? 'px-10' : 'bottom-radial-gradient-2 px-6'
 			)}
+			style={{ visibility: 'hidden' }}
 		>
 			<div className='mt-8 flex h-full w-full items-start justify-center'>
 				<FooterEthicalLifeTitle />

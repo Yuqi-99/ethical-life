@@ -5,30 +5,39 @@ export const loadImagesAndDrawFirstFrame = async ({
 	imageSrcs,
 	isMobile,
 	onProgress,
+	minCriticalFrames = 30, // Default to 30 frames for immediate display
 }: {
 	canvas: HTMLCanvasElement;
 	imageSrcs: string[];
 	isMobile: boolean;
 	onProgress?: () => void;
+	minCriticalFrames?: number;
 }): Promise<HTMLImageElement[]> => {
 	const images: HTMLImageElement[] = [];
 	let loadedCount = 0;
+	let resolved = false;
 	// 桌面端通常瓶子不需要占满全屏，可以设小一点；移动端可以设大一点
 	const currentScale = isMobile ? 0.9 : 1;
 
 	return new Promise<HTMLImageElement[]>((resolve, reject) => {
 		const onImageLoad = async (index: number, img: HTMLImageElement) => {
-				// Draw the first frame ASAP
-				if (index === 0) {
-					const context = canvas.getContext('2d', { alpha: true });
-					if (!context) return;
-					updateCanvasImage(context, canvas, img, currentScale);
-				}
+			// Draw the first frame ASAP
+			if (index === 0) {
+				const context = canvas.getContext('2d', { alpha: true });
+				if (!context) return;
+				updateCanvasImage(context, canvas, img, currentScale);
+			}
 
 			loadedCount++;
 			onProgress?.();
-			const hasLoadedAll = loadedCount === imageSrcs.length;
-			if (hasLoadedAll) resolve(images);
+
+			// Resolve if we have reached the minimum critical frames
+			// or if we have loaded all frames (in case minCriticalFrames > total)
+			const isCriticalReady = loadedCount >= Math.min(minCriticalFrames, imageSrcs.length);
+			if (isCriticalReady && !resolved) {
+				resolved = true;
+				resolve(images);
+			}
 		};
 
 		const retries: { [imgIndex: number]: number } = {};

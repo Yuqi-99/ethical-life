@@ -3,7 +3,7 @@ export const HashtagSection = () => {
 		<>
 			<div
 				id='hasgtag-section'
-				className='pointer-events-none fixed inset-0 -z-10 flex items-center justify-start'
+				className='pointer-events-none fixed inset-0 -z-10 flex w-full max-w-360 items-center justify-start place-self-center'
 			>
 				<p className='hashtag-line text-3xl font-medium sm:text-4xl lg:text-5xl'>
 					{'#VitaminForEveryone #DailyMultivitamin'.split(' ').map((word, i) => (

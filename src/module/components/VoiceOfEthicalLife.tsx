@@ -4,7 +4,7 @@ import { VoicesReviewCards } from './VoicesReviewCards';
 export const VoiceOfEthicalLife = () => {
 	return (
 		<>
-			<div className='fixed inset-0 flex h-screen items-center justify-center overflow-hidden'>
+			<div className='fixed inset-0 flex h-screen w-full max-w-360 items-center justify-center place-self-center overflow-hidden'>
 				<div className='perspective-1000 text-center leading-none'>
 					<div
 						id='voices-line1'

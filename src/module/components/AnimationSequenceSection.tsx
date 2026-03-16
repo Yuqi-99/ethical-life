@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -125,177 +126,201 @@ export const AnimationSequenceSection = () => {
 			const context = canvasRef.current.getContext('2d', { alpha: true });
 			if (!context) return;
 
-			// 创建主时间轴
-			const tl = gsap.timeline({
-				scrollTrigger: {
-					id: 'image-sequence',
-					trigger: containerRef.current, // 以整个长容器为触发器
-					start: 'top top',
-					// end: '+=3800',
-					end: 'bottom bottom', // 滚到容器底部才结束
-					scrub: 2.5,
-					invalidateOnRefresh: true,
+			const mm = gsap.matchMedia();
+
+			mm.add(
+				{
+					isDesktop: '(min-width: 1024px)',
+					isMobile: '(max-width: 1023px)',
 				},
-			});
+				(gsapContext) => {
+					const { isDesktop, isMobile } = gsapContext.conditions as {
+						isDesktop: boolean;
+						isMobile: boolean;
+					};
 
-			// 0. 先处理 Subtitle 的消失 (在序列帧开始的同时或之前)
-			gsap.fromTo(
-				'.subtitle',
-				{ scale: 1, opacity: 1 },
-				{
-					scale: 0.4, // 缩小到 40%
-					opacity: 0, // 完全透明
-					y: 0,
-					ease: 'expo.inOut',
-					scrollTrigger: {
-						trigger: containerRef.current,
-						start: 'top top',
-						end: '+=300', // 在前 600px 滚动内完成
-						scrub: 2, // 平滑跟随滚动
-						invalidateOnRefresh: true,
-					},
-				}
-			);
+					// 创建主时间轴
+					const tl = gsap.timeline({
+						scrollTrigger: {
+							id: 'image-sequence',
+							trigger: containerRef.current, // 以整个长容器为触发器
+							start: 'top top',
+							// end: '+=3800',
+							end: 'bottom bottom', // 滚到容器底部才结束
+							scrub: 2.5,
+							invalidateOnRefresh: true,
+						},
+					});
 
-			// 1. Image sequence animation
-			tl.fromTo(
-				frameProxy.current,
-				{ frame: 0 },
-				{
-					frame: loadedImages.length - 1,
-					duration: 3,
-					ease: 'none',
-					onUpdate: () => {
-						const nextFrame = Math.floor(frameProxy.current.frame);
-						if (nextFrame === lastFrameDrawn1.current) return;
-						lastFrameDrawn1.current = nextFrame;
-
-						const nextImage = loadedImages[nextFrame];
-						if (nextImage) {
-							updateCanvasImage(context, canvasRef.current!, nextImage, currentScale);
+					// 0. 先处理 Subtitle 的消失 (在序列帧开始的同时或之前)
+					gsap.fromTo(
+						'.subtitle',
+						{ scale: 1, opacity: 1 },
+						{
+							scale: 0.4, // 缩小到 40%
+							opacity: 0, // 完全透明
+							y: 0,
+							ease: 'expo.inOut',
+							scrollTrigger: {
+								trigger: containerRef.current,
+								start: 'top top',
+								end: '+=300', // 在前 600px 滚动内完成
+								scrub: 2, // 平滑跟随滚动
+								invalidateOnRefresh: true,
+							},
 						}
-					},
-				},
-				0
-			);
+					);
 
-			// 2. Shrink + Opacity + Background Color
-			// 我们创建一个 'shrink' 标签来对齐多个动作
-			tl.add('shrink');
+					// 1. Image sequence animation
+					tl.fromTo(
+						frameProxy.current,
+						{ frame: 0 },
+						{
+							frame: loadedImages.length - 1,
+							duration: 3,
+							ease: 'none',
+							onUpdate: () => {
+								const nextFrame = Math.floor(frameProxy.current.frame);
+								if (nextFrame === lastFrameDrawn1.current) return;
+								lastFrameDrawn1.current = nextFrame;
 
-			// --- 动画步骤 2: 瓶子缩小并变淡 (当文字出现时) ---
-			// 使用 'label' 或者相对位置，比如在序列帧播放到 60% 的时候开始缩小
-			tl.fromTo(
-				'#animation-wrapper',
-				{ scale: 1, opacity: 1 },
-				{
-					scale: 0.7,
-					opacity: 0.3,
-					y: 0,
-					duration: 0.3,
-				},
-				'shrink'
-			);
+								const nextImage = loadedImages[nextFrame];
+								if (nextImage) {
+									updateCanvasImage(context, canvasRef.current!, nextImage, currentScale);
+								}
+							},
+						},
+						0
+					);
 
-			// --- 动画步骤 3: 背景色切换（浅到深） ---
-			tl.fromTo(
-				containerRef.current,
-				{ backgroundColor: 'transparent' },
-				{
-					backgroundColor: '#DDF244',
-					duration: 3,
-					ease: 'none',
-				},
-				'shrink'
-			);
+					// 2. Shrink + Opacity + Background Color
+					// 我们创建一个 'shrink' 标签来对齐多个动作
+					tl.add('shrink');
 
-			// 3. Reveal text
-			// 在 useGSAP 中修改文字动画逻辑：
-			addTextRevealAnimation(tl);
+					// --- 动画步骤 2: 瓶子缩小并变淡 (当文字出现时) ---
+					// 使用 'label' 或者相对位置，比如在序列帧播放到 60% 的时候开始缩小
+					tl.fromTo(
+						'#animation-wrapper',
+						{ scale: 1, opacity: 1 },
+						{
+							scale: 0.7,
+							opacity: 0.3,
+							y: 0,
+							duration: 0.3,
+						},
+						'shrink'
+					);
 
-			// 4. 图片展开动画
-			addCardImageAnimation(tl);
+					// --- 动画步骤 3: 背景色切换（浅到深） ---
+					tl.fromTo(
+						containerRef.current,
+						{ backgroundColor: 'transparent' },
+						{
+							backgroundColor: '#DDF244',
+							duration: 3,
+							ease: 'none',
+						},
+						'shrink'
+					);
 
-			// 5. 瓶子, 文字和图片缩小动画
-			// 6. 背景再次变换（深到浅）
-			addExitAnimation(tl, containerRef as RefObject<HTMLElement>);
+					// 3. Reveal text
+					// 在 useGSAP 中修改文字动画逻辑：
+					addTextRevealAnimation(tl);
 
-			// 7. 产品评论（voices section）
-			initVoicesAnimation(tl);
-			// 8. 产品评论（voices section）星星飘起
-			initVoicesFloatingStarsAnimation(tl, isMobile);
-			// 9. 产品评论（voices section）卡片弧线出现
-			initVoicesCardsAnimation(tl);
-			// 10. 产品评论（voices section）文字逐渐消失
-			exitVoicesAnimation(tl);
+					// 4. 图片展开动画
+					addCardImageAnimation(tl);
 
-			// 11. Hashtag section
-			initHashtagAnimation(tl, isMobile);
-			exitHashtagAnimation(tl, isMobile);
-			addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>, isMobile);
+					// 5. 瓶子, 文字 and 图片缩小动画
+					// 6. 背景再次变换（深到浅）
+					addExitAnimation(tl, containerRef as RefObject<HTMLElement>);
 
-			// 12. Second description section (description出现 + 背景变换)
-			initSecondDescriptionAnimation(tl, isMobile, isDesktop);
-			exitSecondDescriptionAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
+					// 7. 产品评论（voices section）
+					initVoicesAnimation(tl);
+					// 8. 产品评论（voices section）星星飘起
+					initVoicesFloatingStarsAnimation(tl, isMobile);
+					// 9. 产品评论（voices section）卡片弧线出现
+					initVoicesCardsAnimation(tl);
+					// 10. 产品评论（voices section）文字逐渐消失
+					exitVoicesAnimation(tl);
 
-			// 13. Puchase suggestion section
-			initPurchaseSuggestionAnimation(
-				tl,
-				loadedImages2,
-				frameProxy2,
-				lastFrameDrawn2,
-				canvasRef2,
-				currentScale,
-				isDesktop
-			);
-			exitPurchaseAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
+					// 11. Hashtag section
+					initHashtagAnimation(tl, isMobile);
+					exitHashtagAnimation(tl, isMobile);
+					addExitBackgroundAnimation(tl, containerRef as RefObject<HTMLElement>, isMobile);
 
-			// 14. Footer section
-			initFooterAnimation(tl, isDesktop);
+					// 12. Second description section (description出现 + 背景变换)
+					initSecondDescriptionAnimation(tl, isMobile, isDesktop);
+					exitSecondDescriptionAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
 
-			// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
-			const syncInitialFrame = () => {
-				if (tl.scrollTrigger) {
-					tl.scrollTrigger.refresh(); // 强制重新计算进度
-					const currentProgress = tl.scrollTrigger.progress;
+					// 13. Puchase suggestion section
+					initPurchaseSuggestionAnimation(
+						tl,
+						loadedImages2,
+						frameProxy2,
+						lastFrameDrawn2,
+						canvasRef2,
+						currentScale,
+						isDesktop
+					);
+					exitPurchaseAnimation(tl, containerRef as RefObject<HTMLElement>, isDesktop);
 
-					// Sync Bottle 1 (Master Timeline Progress 0 to 1)
-					// Handle frame calculation based on timeline progress
-					// We iterate through children to find the specific frameProxy animations if needed,
-					// but since it starts at 0, master progress is okay for Bottle 1.
-					frameProxy.current.frame = currentProgress * (loadedImages.length - 1);
-					const syncFrame = Math.floor(frameProxy.current.frame);
-					const syncImage = loadedImages[syncFrame];
-					if (syncImage) {
-						updateCanvasImage(context, canvasRef.current!, syncImage, currentScale);
-					}
+					// 14. Footer section
+					initFooterAnimation(tl, isDesktop);
 
-					// Sync Bottle 2
-					if (loadedImages2 && canvasRef2.current) {
-						const context2 = canvasRef2.current.getContext('2d', { alpha: true });
-						if (context2) {
-							// For Bottle 2, we need to find its progress in the timeline.
-							// However, a simple way is to seek(tl.duration() * currentProgress)
-							// and then update the canvas from the updated frameProxy.
+					// ✨ 手动同步初始状态，防止中途刷新时图片停留在第一帧
+					const syncInitialFrame = () => {
+						if (tl.scrollTrigger) {
+							tl.scrollTrigger.refresh(); // 强制重新计算进度
+							const currentProgress = tl.scrollTrigger.progress;
 
-							// Seek to current progress to update all frame proxies in the timeline
-							tl.progress(currentProgress);
+							// Sync Bottle 1 (Master Timeline Progress 0 to 1)
+							frameProxy.current.frame = currentProgress * (loadedImages.length - 1);
+							const syncFrame = Math.floor(frameProxy.current.frame);
+							const syncImage = loadedImages[syncFrame];
+							if (syncImage) {
+								updateCanvasImage(context, canvasRef.current!, syncImage, currentScale);
+							}
 
-							const syncFrame2 = Math.floor(frameProxy2.current.frame);
-							const syncImage2 = loadedImages2[syncFrame2];
-							if (syncImage2) {
-								updateCanvasImage(context2, canvasRef2.current!, syncImage2, currentScale);
+							// Sync Bottle 2
+							if (loadedImages2 && canvasRef2.current) {
+								const context2 = canvasRef2.current.getContext('2d', { alpha: true });
+								if (context2) {
+									tl.progress(currentProgress);
+
+									const syncFrame2 = Math.floor(frameProxy2.current.frame);
+									const syncImage2 = loadedImages2[syncFrame2];
+									if (syncImage2) {
+										updateCanvasImage(
+											context2,
+											canvasRef2.current!,
+											syncImage2,
+											currentScale
+										);
+									}
+								}
 							}
 						}
-					}
-				}
-			};
+					};
 
-			// 1. 立即同步
-			syncInitialFrame();
+					// 1. 立即同步
+					syncInitialFrame();
+				}
+			);
+
+			return () => mm.revert();
 		},
 		{ dependencies: [loadedImages, loadedImages2] }
 	);
+
+	useEffect(() => {
+		const handleResize = () => {
+			scrollTo(0, 0);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	});
 
 	return (
 		<section ref={containerRef} className='relative w-full'>

@@ -114,20 +114,40 @@ export const initPurchaseSuggestionAnimation = (
 	}
 
 	// purchase card slide-in animation
-	tl.fromTo(
-		'#purchase-card',
-		{
-			x: '100vw',
-			rotation: 35,
-			visibility: 'hidden',
-		},
-		{
-			x: 0,
-			visibility: 'visible',
-			rotation: 0,
-			duration: 5,
-			ease: 'ease',
-		},
-		'shrink+=25'
-	);
+	if (isDesktop) {
+		tl.fromTo(
+			'#purchase-card',
+			{
+				x: '100vw',
+				rotation: 35,
+				visibility: 'hidden',
+			},
+			{
+				x: 0,
+				visibility: 'visible',
+				rotation: 0,
+				duration: 5,
+				ease: 'ease',
+			},
+			'shrink+=25'
+		);
+	} else {
+		// ✨ Mobile explicit entry
+		tl.fromTo(
+			'#purchase-card',
+			{
+				y: 100,
+				opacity: 0,
+				visibility: 'hidden',
+			},
+			{
+				y: 0,
+				opacity: 1,
+				visibility: 'visible',
+				duration: 3,
+				ease: 'none',
+			},
+			'shrink+=25'
+		);
+	}
 };

@@ -11,13 +11,13 @@ const SOCIALS = [
 ];
 
 export const Footer = () => {
-	const isDekstop = useMediaQuery('(min-width: 1024px)');
+	const isDesktop = useMediaQuery('(min-width: 1024px)');
 	return (
 		<div
-			id={isDekstop ? 'footer' : 'footer-mobile'}
+			id='footer-container'
 			className={cn(
-				'sticky top-0 bottom-0 flex h-full min-h-screen w-full flex-col items-center justify-around',
-				isDekstop ? 'px-10' : 'bottom-radial-gradient-2 px-6'
+				'footer-section sticky top-0 bottom-0 flex h-full min-h-screen w-full flex-col items-center justify-around',
+				isDesktop ? 'px-10' : 'bottom-radial-gradient-2 px-6'
 			)}
 			style={{ visibility: 'hidden' }}
 		>

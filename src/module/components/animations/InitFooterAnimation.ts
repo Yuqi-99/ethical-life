@@ -1,18 +1,16 @@
 import gsap from 'gsap';
 
 export const initFooterAnimation = (tl: gsap.core.Timeline, isDesktop: boolean) => {
-	if (isDesktop) {
-		tl.fromTo(
-			'#footer',
-			{ visibility: 'hidden' },
-			{
-				visibility: 'visible',
-				duration: 3,
-				ease: 'none',
-			},
-			'shrink+=38'
-		);
-	}
+	tl.fromTo(
+		'.footer-section',
+		{ visibility: 'hidden' },
+		{
+			visibility: 'visible',
+			duration: 3,
+			ease: 'none',
+		},
+		'shrink+=38'
+	);
 
 	tl.fromTo(
 		'.bottom-radial-gradient',

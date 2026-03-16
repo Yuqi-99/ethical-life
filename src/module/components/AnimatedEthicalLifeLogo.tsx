@@ -62,11 +62,11 @@ export const AnimatedEthicalLifeLogo = ({ className }: AnimatedEthicalLifeLogoPr
 					},
 					{
 						y: isMobile ? -800 : -500,
-						opacity: 0.2,
-						duration: 2, // 增加duration让动画更长
+						opacity: 0,
+						duration: 3, // 增加duration让动画更长
 						ease: 'power2.out',
 					},
-					i === 0 ? 0 : '-=1.8' // 第一个从0开始，后面的重叠1.8秒（关键！）
+					i === 0 ? 0 : '-=2.8' // 第一个从0开始，后面的重叠1.8秒（关键！）
 				);
 			}
 		},

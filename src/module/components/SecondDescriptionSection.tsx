@@ -27,7 +27,7 @@ export const SecondDescriptionSection = () => {
 						key={i}
 						id={`desc-line${i + 1}`}
 						className={cn(
-							'block text-2xl font-bold sm:text-4xl md:text-[44px] lg:text-6xl',
+							'block text-3xl font-bold sm:text-4xl md:text-[44px] lg:text-6xl',
 							i !== 0 && 'text-white'
 						)}
 						style={{ visibility: 'hidden' }}

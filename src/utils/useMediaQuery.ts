@@ -12,7 +12,11 @@ export const useMediaQuery = (query: string) => {
 		const media = window.matchMedia(query);
 		const listener = () => setMatches(media.matches);
 		media.addEventListener('change', listener);
-		return () => media.removeEventListener('change', listener);
+		media.addEventListener('resize', listener);
+		return () => {
+			media.removeEventListener('change', listener);
+			window.removeEventListener('resize', listener);
+		};
 	}, [query]);
 
 	return matches;

@@ -41,8 +41,8 @@ export const FloatingStars = () => {
 			const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
 			starRefs.current.forEach((_, i) => {
-				xSetters.current[i](x * STARS()[i].depth * responsive.depth);
-				ySetters.current[i](y * STARS()[i].depth * responsive.depth);
+				xSetters.current[i](x * STARS()[i]?.depth * responsive.depth);
+				ySetters.current[i](y * STARS()[i]?.depth * responsive.depth);
 			});
 		};
 
@@ -56,7 +56,7 @@ export const FloatingStars = () => {
 
 		starRefs.current.forEach((el, i) => {
 			const tween = gsap.to(el, {
-				y: `+=${STARS()[i].idleOffset}`,
+				y: `+=${STARS()[i]?.idleOffset}`,
 				duration: 3 + i * 0.6,
 				repeat: -1,
 				yoyo: true,
@@ -70,8 +70,14 @@ export const FloatingStars = () => {
 
 	/* ---------- Scroll Motion（飘走 + 翻滚） ---------- */
 	useEffect(() => {
+		const currentStars = STARS();
+
 		starRefs.current.forEach((el, i) => {
-			const { rotation } = STARS()[i];
+			// const { rotation } = STARS()[i];
+			const starConfig = currentStars[i];
+			if (!el || !starConfig) return;
+
+			const { rotation } = starConfig;
 
 			// ✨ 明确设置初始状态，防止刷新时位置偏移
 			gsap.set(el, {

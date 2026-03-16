@@ -17,6 +17,7 @@ export const VoicesFloatingStars = () => {
 	const isTablet = useMediaQuery('(max-width: 930px)');
 	const STARS_CONFIG = getStarDecoConfig(isMobile || isTablet);
 
+
 	const STARS = () => {
 		if (isMobile) {
 			return [STARS_CONFIG[2], STARS_CONFIG[3], STARS_CONFIG[4], STARS_CONFIG[5]];

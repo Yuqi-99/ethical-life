@@ -53,7 +53,8 @@ export const PurchaseSuggestionSection = ({
 
 				{/* lg:w-[521px] */}
 				<div
-					id={isDesktop ? 'purchase-card' : 'purchase-card-mobile'}
+					// id={isDesktop ? 'purchase-card' : 'purchase-card-mobile'}
+					id='purchase-card'
 					className='z-20 mb-10 flex self-center px-6 sm:w-3/4 lg:fixed lg:top-14 lg:right-10 lg:w-lg lg:self-end'
 					style={{ visibility: isDesktop ? 'hidden' : 'visible' }}
 				>

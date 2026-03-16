@@ -94,9 +94,9 @@ export const LoadingScreen: React.FC = () => {
 			className='z-loading fixed inset-0 flex flex-col items-center justify-center overflow-hidden bg-[#DDF244]'
 		>
 			{/* Logo at Top */}
-			<div className='absolute top-0 flex w-full justify-center px-4'>
-				<div className='bg-yellow-main flex h-12 items-center justify-center justify-self-center rounded-b-xl px-4 lg:h-17.5'>
-					<img src='/images/assets/logo.svg' alt='logo' className='w-40 min-w-28 sm:min-w-30' />
+			<div className='absolute top-0 flex w-full justify-center'>
+				<div className='bg-yellow-main flex h-12 items-center justify-center justify-self-center rounded-b-xl px-4 sm:h-14 lg:h-17.5'>
+					<img src='/images/assets/logo.svg' alt='logo' className='min-w-28 sm:min-w-30 lg:w-40' />
 				</div>
 			</div>
 

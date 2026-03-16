@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { Modal } from './modal/Modal';
 import { IoClose } from 'react-icons/io5';
+import { useLoading } from '../../context/LoadingContext';
 
 type TPromotion = {
 	open: boolean;
@@ -8,11 +9,16 @@ type TPromotion = {
 };
 
 export const PromotionModal = ({ open, onClose }: TPromotion) => {
+	const { isFirstVisit, markFirstVisitComplete } = useLoading();
+
+	if (!isFirstVisit) return null;
+
 	return createPortal(
 		<Modal
 			opened={open}
 			onClose={() => {
 				onClose();
+				markFirstVisitComplete();
 			}}
 			className='w-full bg-transparent sm:w-3/4 lg:w-2/3'
 			blur
@@ -23,6 +29,7 @@ export const PromotionModal = ({ open, onClose }: TPromotion) => {
 						className='absolute top-5 right-5 flex size-5 cursor-pointer text-gray-950 lg:hidden'
 						onClickCapture={() => {
 							onClose();
+							markFirstVisitComplete();
 						}}
 					/>
 					<img src='/images/popup_image.png' alt='deco' className='h-full w-full object-cover' />
@@ -32,6 +39,7 @@ export const PromotionModal = ({ open, onClose }: TPromotion) => {
 						className='absolute top-5 right-5 hidden size-5 cursor-pointer text-gray-950 lg:flex'
 						onClickCapture={() => {
 							onClose();
+							markFirstVisitComplete();
 						}}
 					/>
 					<img
@@ -64,6 +72,7 @@ export const PromotionModal = ({ open, onClose }: TPromotion) => {
 							className='w-full cursor-pointer px-4 py-2 font-medium text-gray-950 transition delay-150 duration-300 ease-in-out hover:scale-110 lg:font-bold'
 							onClick={() => {
 								onClose();
+								markFirstVisitComplete();
 							}}
 						>
 							No thanks.

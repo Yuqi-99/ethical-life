@@ -112,7 +112,7 @@ export const FloatingStars = () => {
 	}, [responsive]);
 
 	return (
-		<div className='parallax-stars'>
+		<div className='parallax-stars overflow-hidden'>
 			{STARS().map((star, i) => {
 				return (
 					<div

@@ -67,7 +67,7 @@ export const VoicesReviewCards = () => {
 						>
 							{item.review && (
 								<div className='flex flex-1 items-start justify-center'>
-									<p className='text-start text-xl leading-8 font-medium italic md:text-2xl lg:text-[28px]'>
+									<p className='text-start text-xl leading-5 font-medium italic md:text-2xl md:leading-8 lg:text-[28px]'>
 										{item.review}
 									</p>
 								</div>

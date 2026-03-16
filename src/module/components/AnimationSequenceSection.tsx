@@ -30,6 +30,7 @@ import { VoiceOfEthicalLife } from './VoiceOfEthicalLife';
 import { Footer } from './Footer';
 import { initFooterAnimation } from './animations/InitFooterAnimation';
 import { useLoading } from '../../context/LoadingContext';
+import { PromotionModal } from './PromotionModal';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -341,6 +342,19 @@ export const AnimationSequenceSection = () => {
 };
 
 export const HomeSection = () => {
+	const { isLoading } = useLoading();
+	const [openPromotionModal, setOpenPromotionModal] = useState(false);
+
+	useEffect(() => {
+		const handleEffect = () => {
+			if (!isLoading) {
+				setOpenPromotionModal(true);
+			}
+		};
+
+		handleEffect(); // Call the callback function immediately
+	}, [isLoading]);
+
 	return (
 		<>
 			{/* 背景亮光 */}
@@ -361,6 +375,8 @@ export const HomeSection = () => {
 			</div>
 
 			<FloatingStars />
+
+			<PromotionModal open={openPromotionModal} onClose={() => setOpenPromotionModal(false)} />
 		</>
 	);
 };

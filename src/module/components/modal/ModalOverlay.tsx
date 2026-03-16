@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { cn } from '../../../utils/cn';
 type TModalOverlayProps = {
 	opened?: boolean;
+	blur?: boolean;
 	onClose: () => void;
 };
 
-export const ModalOverlay = ({ opened, onClose }: TModalOverlayProps) => {
+export const ModalOverlay = ({ opened, blur, onClose }: TModalOverlayProps) => {
 	const ref = useRef<HTMLDivElement | null>(null);
 
 	// disable modal overlay scroll contexts when modal is open
@@ -29,7 +31,10 @@ export const ModalOverlay = ({ opened, onClose }: TModalOverlayProps) => {
 	return (
 		<div
 			ref={ref}
-			className='z-modal-overlay fixed top-0 left-1/2 h-dvh w-screen max-w-[inherit] min-w-[inherit] -translate-x-1/2 bg-black/50'
+			className={cn(
+				'z-modal-overlay fixed top-0 left-1/2 h-dvh w-screen max-w-[inherit] min-w-[inherit] -translate-x-1/2',
+				blur ? 'backdrop-blur-sm' : 'bg-black/50'
+			)}
 			onClick={onClose}
 			onKeyDown={(e) => {
 				if (e.key === 'Escape') {

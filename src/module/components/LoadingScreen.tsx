@@ -64,8 +64,19 @@ export const LoadingScreen: React.FC = () => {
 	useEffect(() => {
 		if (!isLoading) {
 			gsap.to(screenRef.current, {
-				scale: 3, // 放大
 				opacity: 0.9, // 同时淡出
+				duration: 0.8,
+				ease: 'power2.in',
+				onComplete: () => {
+					if (screenRef.current) {
+						screenRef.current.style.display = 'none';
+					}
+				},
+			});
+
+			gsap.to('#loading-content', {
+				scale: 2, // 放大
+				opacity: 0.1, // 同时淡出
 				duration: 0.8,
 				ease: 'power2.in',
 				onComplete: () => {
@@ -83,16 +94,17 @@ export const LoadingScreen: React.FC = () => {
 			className='z-loading fixed inset-0 flex flex-col items-center justify-center overflow-hidden bg-[#DDF244]'
 		>
 			{/* Logo at Top */}
-			<div className='absolute top-12 flex w-full justify-center px-4'>
-				<img
-					src='/images/assets/ethical-life-title.svg'
-					alt='Ethical Life'
-					className='h-8 md:h-10'
-				/>
+			<div className='absolute top-0 flex w-full justify-center px-4'>
+				<div className='bg-yellow-main flex h-12 items-center justify-center justify-self-center rounded-b-xl px-4 lg:h-17.5'>
+					<img src='/images/assets/logo.svg' alt='logo' className='w-40 min-w-28 sm:min-w-30' />
+				</div>
 			</div>
 
 			{/* Center Content */}
-			<div className='relative flex h-90 w-[90%] items-center justify-center md:h-112.5 lg:w-2/3'>
+			<div
+				id='loading-content'
+				className='relative flex h-90 w-[90%] items-center justify-center md:h-112.5 lg:w-2/3'
+			>
 				{/* Rotating Circular Text */}
 				<div className='pointer-events-none absolute h-full w-full'>
 					<img

@@ -68,13 +68,16 @@ export const AnimationSequenceSection = () => {
 				return `/images/s1_frames/S1_${frameNumber}.webp`;
 			});
 
-			setTotalAssets(imageSrcs.length);
+			// Only report critical frames to the total assets to speed up progress bar
+			const criticalFramesCount = 50;
+			setTotalAssets(criticalFramesCount);
 
 			const images = await loadImagesAndDrawFirstFrame({
 				canvas: canvasRef.current!,
 				imageSrcs,
 				isMobile: isMobile,
 				onProgress: reportAssetLoaded,
+				minCriticalFrames: criticalFramesCount,
 			});
 			setLoadedImages(images);
 		};
@@ -83,8 +86,9 @@ export const AnimationSequenceSection = () => {
 	}, [loadedImages, isMobile, setTotalAssets, reportAssetLoaded]);
 
 	// 1.1 初始化加载图片 (Purchase Suggestion Section) 最后瓶子的图片
+	// ✨ Lazy load Sequence 2: Only start loading after Sequence 1 critical frames are ready
 	useEffect(() => {
-		if (!canvasRef2.current || loadedImages2) return;
+		if (!canvasRef2.current || loadedImages2 || !loadedImages) return;
 
 		const initialSetup = async () => {
 			canvasRef2.current!.width = 1920;
@@ -97,26 +101,28 @@ export const AnimationSequenceSection = () => {
 				return `/images/s2_frames/S2_${frameNumber}.webp`;
 			});
 
-			setTotalAssets(imageSrcs.length);
+			// We don't call setTotalAssets here to avoid resetting the loading progress
+			// This sequence loads silently in the background
 
 			const images = await loadImagesAndDrawFirstFrame({
 				canvas: canvasRef2.current!,
 				imageSrcs,
 				isMobile: isMobile,
-				onProgress: reportAssetLoaded,
+				// No onProgress/minCriticalFrames needed for background loading
+				minCriticalFrames: 20, // Still resolve a bit early to allow drawing first frame ASAP
 			});
 			setLoadedImages2(images);
 		};
 
 		initialSetup();
-	}, [loadedImages2, isMobile, setTotalAssets, reportAssetLoaded]);
+	}, [loadedImages2, loadedImages, isMobile]);
 
 	// 1.2 结束加载标志
 	useEffect(() => {
-		if (loadedImages && loadedImages2) {
+		if (loadedImages) {
 			finishLoading();
 		}
-	}, [loadedImages, loadedImages2, finishLoading]);
+	}, [loadedImages, finishLoading]);
 
 	// 2. GSAP 核心动画
 	useGSAP(
